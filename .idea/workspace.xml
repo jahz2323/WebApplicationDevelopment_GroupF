@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4d34f4f-fc38-461f-9df2-b19c86c3d1fc" name="Changes" comment="Project Setup">
-      <change afterPath="$PROJECT_DIR$/Homepage/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/StaticPages/Homepage.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/StaticPages/styles/Homepage/cover.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ACMEMC_WebApplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ACMEMC_WebApplication/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ACMEMC_WebApplication/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ACMEMC_WebApplication/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="c4d34f4f-fc38-461f-9df2-b19c86c3d1fc" name="Changes" comment="Started Development on Homepage.html, just the static stuff no js implemented at the moment," />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,7 +129,7 @@
       <workItem from="1742492168210" duration="366000" />
       <workItem from="1742492547800" duration="14893000" />
       <workItem from="1742551182011" duration="2281000" />
-      <workItem from="1742553512969" duration="3346000" />
+      <workItem from="1742553512969" duration="3648000" />
     </task>
     <task id="LOCAL-00001" summary="Project Setup">
       <option name="closed" value="true" />
@@ -145,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742325657391</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Started Development on Homepage.html, just the static stuff no js implemented at the moment,">
+      <option name="closed" value="true" />
+      <created>1742557217444</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742557217444</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +188,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project Setup" />
+    <MESSAGE value="Started Development on Homepage.html, just the static stuff no js implemented at the moment," />
+    <option name="LAST_COMMIT_MESSAGE" value="Started Development on Homepage.html, just the static stuff no js implemented at the moment," />
   </component>
 </project>
