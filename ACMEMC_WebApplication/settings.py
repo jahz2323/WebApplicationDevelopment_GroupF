@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Bootstrap dependency
+    "bootstrap5",
+    # Chartjs dependency 
+    'chartjs'
 ]
 
 MIDDLEWARE = [
