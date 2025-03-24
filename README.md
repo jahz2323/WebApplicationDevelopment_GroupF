@@ -19,7 +19,8 @@ Initalizing project
 ```
 Creating virtual env , im using {environment} 
 ```bash
-  python -m venv environment  
+  python -m venv environment
+  environment\Scripts\activate
 ```
 Install Django 
 ```bash
