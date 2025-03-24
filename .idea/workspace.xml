@@ -4,28 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4d34f4f-fc38-461f-9df2-b19c86c3d1fc" name="Changes" comment="Started Development on Homepage.html, just the static stuff no js implemented at the moment,">
-      <change afterPath="$PROJECT_DIR$/Homepage/static/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Homepage/static/js/Cards.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ACMEMC_WebApplication.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/68010a85-42d8-4b06-b3f3-e21d0595bc97.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/68010a85-42d8-4b06-b3f3-e21d0595bc97/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_2025_11_54_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_2025_11_54__Changes_.xml" beforeDir="false" />
+    <list default="true" id="c4d34f4f-fc38-461f-9df2-b19c86c3d1fc" name="Changes" comment="Added static management directories , common and app level static">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/common/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/common/navbar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ACMEMC_WebApplication/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ACMEMC_WebApplication/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dashboard/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Homepage/static/js/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/Homepage/static/js/Cards.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/StaticPages/Homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/StaticPages/Homepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/StaticPages/public/media/HomepageCoverImage.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/StaticPages/styles/Homepage/cover.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,9 +31,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="Dockerfile" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -85,7 +78,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "JahzBranch",
+    "git-widget-placeholder": "#2 on JahzBranch",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/jahziel belmonte/WebstormProjects/WebAppDev_ENN1037/Assignment_1_WebApp",
     "list.type.of.created.stylesheet": "CSS",
@@ -158,7 +151,8 @@
       <workItem from="1742551182011" duration="2281000" />
       <workItem from="1742553512969" duration="3648000" />
       <workItem from="1742810341366" duration="349000" />
-      <workItem from="1742810707239" duration="11665000" />
+      <workItem from="1742810707239" duration="17074000" />
+      <workItem from="1742828935722" duration="1115000" />
     </task>
     <task id="LOCAL-00001" summary="Project Setup">
       <option name="closed" value="true" />
@@ -176,7 +170,23 @@
       <option name="project" value="LOCAL" />
       <updated>1742557217444</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added static management directories , common and app level static">
+      <option name="closed" value="true" />
+      <created>1742822885011</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742822885011</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Incorrect Jquery imports changing now -">
+      <option name="closed" value="true" />
+      <created>1742824721854</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742824721854</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +228,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
     <MESSAGE value="Started Development on Homepage.html, just the static stuff no js implemented at the moment," />
-    <option name="LAST_COMMIT_MESSAGE" value="Started Development on Homepage.html, just the static stuff no js implemented at the moment," />
+    <MESSAGE value="Added static management directories , common and app level static" />
+    <MESSAGE value="Incorrect Jquery imports changing now -" />
+    <option name="LAST_COMMIT_MESSAGE" value="Incorrect Jquery imports changing now -" />
   </component>
 </project>
