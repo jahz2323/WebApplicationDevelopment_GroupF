@@ -1,2 +1,26 @@
 __pycache__/
-.pyc
+*.py[cod]
+*$py.class
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+*.swp
+.idea_modules/
+
+# VS Code
+.vscode/
+
+venv/
+env/
+ENV/
+*.venv/
