@@ -1,0 +1,40 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link rel="stylesheet" href="{% static 'css/Services.css' %}">
+</head>
+
+<body>
+{% include 'common/navbar.html' %}
+
+<main>
+    <section class="service">
+        <h2>Machine Status Monitoring</h2>
+        <p>Keep track of your machines' operational status with real-time updates.</p>
+    </section>
+    <section class="service">
+        <h2>Fault Reporting</h2>
+        <p>Technicians can report faults and log issues for repair personnel to address.</p>
+    </section>
+    <section class="service">
+        <h2>Repair Management</h2>
+        <p>Repair teams can update fault reports, log repairs, and resolve issues efficiently.</p>
+    </section>
+    <section class="service">
+        <h2>Manager Dashboard</h2>
+        <p>Managers can oversee machine statuses, assign technicians, and generate reports.</p>
+    </section>
+</main>
+{% include 'common/footer.html' %}
+</body>
+</html>
+
+
