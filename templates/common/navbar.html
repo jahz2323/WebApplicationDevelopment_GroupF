@@ -1,3 +1,10 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<header>
 <div class="container-fluid align-text-center text-bg-light bg-dark">
     <header class="d-flex flex-wrap justify-content-center justify-content-md-between py-3 mb-4 border-bottom border-bottom-light ">
         <div class="col-xl-2 ">
@@ -79,3 +86,4 @@
 
     </header>
 </div>
+</header>

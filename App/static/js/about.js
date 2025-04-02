@@ -1,5 +1,6 @@
 // Simple carousel functionality
 document.addEventListener('DOMContentLoaded', function() {
+
     const prev = document.querySelector('.prev');
     const next = document.querySelector('.next');
     const testimonials = document.querySelectorAll('.testimonial');
