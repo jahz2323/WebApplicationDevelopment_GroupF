@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'App',
     # Bootstrap dependency
     'django_bootstrap5',
     # Chartjs dependency 
