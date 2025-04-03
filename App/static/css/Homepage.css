@@ -1,3 +1,16 @@
+
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #333333;
+}
+body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+
 .card.shadow-sm  {
 
 }
