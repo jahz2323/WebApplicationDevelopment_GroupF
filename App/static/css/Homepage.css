@@ -1,26 +1,129 @@
 
 :root {
-    --primary-color: #0066cc;
-    --secondary-color: #1a1a1a;
-    --text-color: #ffffff;
-    --accent-color: #333333;
+    --gap: 5px;
+    --font: 'Montserrat', sans-serif;
 }
+
 body {
     background-color: var(--secondary-color);
     color: var(--text-color);
+    height: 300vh;
+    margin: 0;
+}
+
+/* Main container sets the scrollable area */
+.main-scroll-container {
+    position: relative;
+    height: 6000px;
+}
+/* Fixed canvas container */
+#threejs-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* Content sections positioned absolutely */
+.content-sections {
+    position: absolute;
+    width: 100%;
+}
+
+/* Position each content panel at scroll points */
+.content-panel {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    right: 30%;
 }
 
 
-.card.shadow-sm  {
+#content-panel-1 {
+    top: 500px;
+}
+
+#content-panel-2 {
+    top: 2500px;
+}
+
+#content-panel-3 {
+    top: 5000px;
+}
+
+#three-canvas {
+    z-index: -1;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+
+.content-panel, hero-panel {
+    width: 80%;
+    border-radius: 10px;
+    margin-bottom: var(--gap);
+}
+
+.content-panel {
+    height: auto;
+}
+
+.hero-panel {
+    height: auto;
+}
+
+.hero-panel h1 {
+    font-family: var(--font), sans-serif;
+    font-size: 2.5em;
+}
+
+#about-view{
+    z-index: 2;
+    width: 100%;
+    position: relative;
+    background: var(--secondary-color);
+    max-width : 100%;
+}
+.fw-bold, .pb-2{
+    font-weight: 700;
+    color: var(--text-color)
+}
+.col.d-flex.flex-column.align-items-start.gap-2 p{
+    color:var(--text-color)
+}
+.card{
+    background: var(--primary-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 50%;
+}
+.card-body{
+    background: var(--accent-color);
+    border-radius: 10px;
+    padding: 20px;
 
 }
-.card.shadow-sm:hover{
+.card.shadow-sm {
 
 }
+
+.card.shadow-sm:hover {
+
+}
+
 .card-title {
     color: white;
 }
-.card.card-body p{
 
+.card.card-body p {
 
 }

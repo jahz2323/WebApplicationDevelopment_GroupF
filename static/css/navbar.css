@@ -1,24 +1,53 @@
 /* Custom CSS to override/modify Bootstrap */
+:root {
+    --primary-color: #ffffff;
+    --secondary-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #333333;
+    --link-hover-color: rgba(97, 246, 219, 0.94);
+}
 
+/* Navbar container */
+.custom-container {
+    padding: 0 1rem;
+}
+
+/* Navbar base styles */
+.navbar {
+    padding: 0.5rem 0;
+}
+
+/* Logo container */
+.logo-container {
+    width: 200px;
+    height: 50px;
+}
+
+/* Navigation links */
+.navbar-nav {
+    gap: 1rem;
+}
 
 .nav {
-    gap: 1rem;
+    gap: 2rem;
     margin: 0;
 }
-.nav-link{
-    color: #fff !important;
-    text-decoration: none !important;
+
+.nav-link {
+    color: var(--text-color) !important;
     font-weight: 500 !important;
     font-size: 18px !important;
     position: relative;
     padding: 0.5rem 0 !important;
     transition: all 0.3s ease;
 }
-.nav-link:hover{
-    color: #4dabf7 !important;
+
+.nav-link:hover {
+    color: var(--link-hover-color) !important;
     text-decoration: none !important;
 }
-.nav-link::after{
+
+.nav-link::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -29,6 +58,63 @@
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
-.nav-link::after:hover{
+
+.nav-link::after:hover {
     transform: scaleX(1);
+}
+
+.nav-item {
+    margin-left: 1rem;
+}
+
+.input-group {
+    width: auto; /*Allows the form to grow as needed */
+}
+
+/* Search form */
+.input-group {
+    min-width: 250px;
+}
+
+.search-btn {
+    background-color: var(--secondary-color) !important;
+    min-width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-btn:hover {
+    background-color: var(--link-hover-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+    background-color: var(--link-hover-color);
+    color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+    }
+
+    .input-group {
+        min-width: 200px;
+        margin: 0.5rem 0;
+    }
 }

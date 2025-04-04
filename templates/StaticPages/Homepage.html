@@ -1,38 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
-    {% load django_bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
     {% load static %}
-
     <link rel="stylesheet" href="{% static 'css/Homepage.css' %}">
-    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 <body>
 {% include 'common/navbar.html' %}
+<!-- Three.js Canvas and Scrollable Content -->
+<div class="main-scroll-container">
+  <div id="threejs-container">
+    <canvas id="three-canvas"></canvas>
+  </div>
 
-<!-- Three js showcase here first view  -->
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column bg-dark text-light">
-    <main class="px-3">
-        <h1>Our innovation</h1>
-        <p class="lead">ACME Manufacturing Corp develops state of the art </p>
-        <div class="col" id="threejs-container" style="width: 100%; height: 500px;">
-
-
-        </div>
-    </main>
+  <div class="content-sections">
+    <div class="content-panel" id="content-panel-1">
+      <h1>B8300 Engine</h1>
+      <p>Our Flagship Engine.</p>
+    </div>
+    <div class="content-panel" id="content-panel-2">
+      <h1>C3160 Engine</h1>
+      <p>Our Most-power efficient and cost-effective solution.</p>
+    </div>
+    <div class="content-panel" id="content-panel-3">
+      <h1>B8300mk2 Engine</h1>
+      <p>Our Latest Innovation yet</p>
+    </div>
+  </div>
 </div>
 
-<div class="container px-1 py-5 ">
+
+<div class="container px-1 py-5  " id="about-view">
     <!-- about 2nd view -->
     <h2 class="pb-2 border-bottom align-center"> Continuing to provide cutting-edge processors</h2>
     <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-20 py-5">
         <div class="col d-flex flex-column align-items-start gap-2">
-            <h2 class="fw-bold text-body-emphasis">Since 2020, ACME leads the market in processor advancements with our
+            <h2 class="fw-bold">Since 2020, ACME leads the market in processor
+                advancements with our
                 team of innovative engineers</h2>
-            <p>
+            <p >
                 Our team of visionary engineers has consistently pushed the boundaries of what's possible, developing
                 cutting-edge technologies that have redefined performance, efficiency, and reliability. Through
                 relentless research and development, we've introduced groundbreaking solutions that cater to the
@@ -93,7 +103,161 @@
 {% include 'common/footer.html' %}
 
 <script src="{% static 'js/Cards.js' %}"></script>
+<script type="module">
+import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
+import {OBJLoader} from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/loaders/OBJLoader.js';
 
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Get the container and canvas
+    const container = document.getElementById('threejs-container');
+    const canvas = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xFFFFCC, 2);
+    directionalLight.position.set(0, 10, 0);
+    scene.add(directionalLight);
+    const camera = new THREE.PerspectiveCamera(
+        40,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
+    camera.position.z = 0;
+    camera.lookAt(1, 0, -2);
+    // 4. Initialize renderer
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        canvas: canvas,
+        alpha: true
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x444444);
+
+    const floorplane = new THREE.PlaneGeometry(100, 100);
+    const floorTexture = new THREE.TextureLoader().load(
+        "{% static 'media/objFiles/textures/Metal055A_1K-JPG_Color.jpg' %}"
+    );
+    const floorMaterial = new THREE.MeshPhongMaterial({
+        color: 0x222222,
+        map: floorTexture,
+        shininess: 20,
+    });
+    const floor = new THREE.Mesh(floorplane, floorMaterial);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -1;
+    scene.add(floor);
+
+
+    try {
+        const engine1 = await loadOBJModel("{% static 'media/objFiles/B8300.obj' %}");
+        const engine2 = await loadOBJModel("{% static 'media/objFiles/C3160.obj' %}");
+        const engine3 = await loadOBJModel("{% static 'media/objFiles/B8300mk2.obj' %}");
+
+        //Center and scale models
+        [engine1, engine2, engine3].forEach(engine => {
+            const box = new THREE.Box3().setFromObject(engine);
+            const center = box.getCenter(new THREE.Vector3());
+            engine.position.sub(center);
+            engine.scale.set(3, 3, 3); // Start with smaller scale
+            engine.rotateY(Math.PI / 2);
+        });
+
+        const carousel = new THREE.Group();
+        engine1.position.set(-4, 0, -1);
+        engine2.position.set(5 * Math.cos(Math.PI/3), -0.5, 5 * Math.sin(Math.PI/3));
+        engine3.position.set(-4 * Math.cos(2*Math.PI/3), -0.5, -4 * Math.sin(2*Math.PI/3));
+
+        engine1.rotation.y = (Math.PI / 2);
+        engine2.scale.set(0.001, 0.001, 0.001);
+        engine3.scale.set(0.002, 0.002, 0.002);
+
+        carousel.add(engine1);
+        carousel.add(engine2);
+        carousel.add(engine3);
+
+        scene.add(carousel);
+
+        //offset 100 since navbar
+        let targetScrollPosition = 10;
+        let currentScrollPosition = 100;
+        const scrollSections = 3; // Number of objects
+        const canvasHeight = container.clientHeight;
+        const sectionHeight = canvasHeight/3;
+
+
+        const contentPanels = [
+            document.getElementById('content-panel-1'),
+            document.getElementById('content-panel-2'),
+            document.getElementById('content-panel-3')
+        ];
+
+        function animate() {
+            requestAnimationFrame(animate);
+            carousel.rotation.y = window.scrollY / 1000;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('scroll', () => {
+            targetScrollPosition = window.scrollY;
+            //check if at content panel
+            directionalLight.position.z += Math.cos(2*Math.PI) * 100;
+            directionalLight.position.x += Math.sin(2*Math.PI) * 100;
+            console.log('Current Scroll Position:', targetScrollPosition);
+        });
+    } catch (error) {
+        console.error('Error loading model:', error);
+    }
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+});
+
+
+function loadOBJModel(path) {
+    return new Promise((resolve, reject) => {
+        const loader = new OBJLoader();
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load(
+            "{% static 'media/objFiles/textures/Metal055A_1K-JPG_Roughness.jpg' %}",
+            (texture) => {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(1, 1);
+            }
+        );
+        loader.load(
+            path,
+            (object) => {
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x262626,
+                    shininess: 500,
+                    map: texture,
+                    side: THREE.DoubleSide,
+                    specular: 0x111111,
+                    emissive: 0x000000,
+                });
+
+                object.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = material;
+                        child.material.wireframe = false;
+                    }
+                });
+                resolve(object);
+            },
+            undefined,
+            (error) => {
+                reject(error);
+            }
+        );
+    });
+}
+</script>
 {% block content %}
 {% endblock %}
 </body>
