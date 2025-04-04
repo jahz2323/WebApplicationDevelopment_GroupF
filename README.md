@@ -33,8 +33,7 @@ had done manually [Without Docker](#without-docker)
 
 1. It installs every dependencies in the file [requirement.txt](requirements.txt).
 2. It creates all group roles and assign their permissions.
-3. It loads the sample datas in the folder [fixtures](App/fixtures).
-
+3. It loads the sample data in the folder [fixtures](App/fixtures).
 NB. **_"admin"_** user password is **_"admin"_**, every other sample users has **_"project123"_**
 
 ### Without Docker
