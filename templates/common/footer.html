@@ -1,13 +1,10 @@
 {% load static %}
-{% load django_bootstrap5 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 <footer>
     <div class="container">
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="./media/SiggraphConf.jpg" alt="Factory Tracking System" style="height: 30px;">
+                <img src="{% static 'media/ACMELogo.png' %}" alt="Factory Tracking System" style="height: 100px;">
                 <div class="social-icons">
                     <a href="#">f</a>
                     <a href="#">in</a>
@@ -16,16 +13,8 @@
             </div>
             <div class="footer-links">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-                <ul>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
+
+                    <li><a href="#" class="nav-link px-2">Contact</a></li>
                 </ul>
             </div>
         </div>

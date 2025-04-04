@@ -24,3 +24,8 @@ venv/
 env/
 ENV/
 *.venv/
+
+
+static/*
+!storage/.gitkeep
+project-export.zip
