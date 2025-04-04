@@ -1,0 +1,47 @@
+[
+  {
+    "model": "App.collection",
+    "pk": 1,
+    "fields": {
+      "name": "Assembly Line A",
+      "slug": "assembly-line-a",
+      "description": "Primary assembly line for manufacturing products in Plant 1"
+    }
+  },
+  {
+    "model": "App.collection",
+    "pk": 2,
+    "fields": {
+      "name": "Assembly Line B",
+      "slug": "assembly-line-b",
+      "description": "Secondary assembly line for manufacturing products in Plant 1"
+    }
+  },
+  {
+    "model": "App.collection",
+    "pk": 3,
+    "fields": {
+      "name": "Packaging Line",
+      "slug": "packaging-line",
+      "description": "Main packaging line for final product preparation"
+    }
+  },
+  {
+    "model": "App.collection",
+    "pk": 4,
+    "fields": {
+      "name": "Quality Control",
+      "slug": "quality-control",
+      "description": "Quality control and testing machinery"
+    }
+  },
+  {
+    "model": "App.collection",
+    "pk": 5,
+    "fields": {
+      "name": "Utility Systems",
+      "slug": "utility-systems",
+      "description": "Support systems including HVAC, electrical, and hydraulic machinery"
+    }
+  }
+]
