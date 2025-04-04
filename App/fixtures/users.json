@@ -1,0 +1,140 @@
+[
+  {
+       "model": "auth.user",
+       "pk": 1,
+       "fields": {
+              "password": "pbkdf2_sha256$1000000$5wc0mZ5BLvIUfnM530LkXw$MQ003peXYemXhYRouXGO8VkLKCo5sgAygHOAcO2aR6o=",
+              "last_login": "2025-04-04T20:40:33.351Z",
+              "is_superuser": true,
+              "username": "admin",
+              "first_name": "",
+              "last_name": "",
+              "email": "admin@localhost.com",
+              "is_staff": true,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:40:25.577Z",
+              "groups": [],
+              "user_permissions": []
+       }
+  },
+  {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$e9xBzmFJi9snwrZGcVf8j6$LnqWzBqfFoljjJmhvFIZcGfHMoExHeKUQNgk93GlgTc=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "tech1",
+              "first_name": "Tech",
+              "last_name": "One",
+              "email": "tech1@example.com",
+              "is_staff": false,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:26:01Z",
+              "groups": [
+                    1
+              ],
+              "user_permissions": []
+        }
+  },
+  {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$z45lmBDC5DXjfqhPHfNuSu$bscu23Ih66rhmBx2objghn7A2UVcgoZkERFTRybrZFI=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "tech2",
+              "first_name": "Tech",
+              "last_name": "Two",
+              "email": "tech2@example.com",
+              "is_staff": false,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:29:35Z",
+              "groups": [
+                    1
+              ],
+              "user_permissions": []
+        }
+  },
+  {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$RuYDAEH8k7WSb9Y53LYpoZ$C/qf2pA7YX58yQ8eojKJYEagI0I905yihqeXEnekJ70=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "manager1",
+              "first_name": "Manager",
+              "last_name": "One",
+              "email": "manager1@example.com",
+              "is_staff": true,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:30:31Z",
+              "groups": [
+                    3
+              ],
+              "user_permissions": []
+        }
+  },
+  {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$6G0vAFiiCR9GM9vvgy7SsZ$hqIPqDcxk0T0cfaMCccWsBWxjudSW4rUCy1WzUF31ss=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "manager2",
+              "first_name": "Manager",
+              "last_name": "Two",
+              "email": "manager2@example.com",
+              "is_staff": true,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:31:36Z",
+              "groups": [
+                    3
+              ],
+              "user_permissions": []
+        }
+  },
+  {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$IODr0T3aMSL3EhS8Q7opVm$V49TbgYpGui8nsvUO6sDFUs0rnKw2M/bOspgcsnfmjc=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "repair1",
+              "first_name": "Repair",
+              "last_name": "One",
+              "email": "repair1@example.com",
+              "is_staff": false,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:33:11Z",
+              "groups": [
+                    2
+              ],
+              "user_permissions": []
+        }
+  },
+  {
+        "model": "auth.user",
+        "pk": 7,
+        "fields": {
+              "password": "pbkdf2_sha256$1000000$CtfF3WfhBsK5zNgRI8120T$ieDi4ysCTKS0MVn/YBLd1M53HAkuwcbvioNKbUw+FzY=",
+              "last_login": null,
+              "is_superuser": false,
+              "username": "repair2",
+              "first_name": "Repair",
+              "last_name": "Two",
+              "email": "repair2@example.com",
+              "is_staff": false,
+              "is_active": true,
+              "date_joined": "2025-04-04T20:34:09Z",
+              "groups": [
+                    2
+              ],
+              "user_permissions": []
+        }
+  }
+]
