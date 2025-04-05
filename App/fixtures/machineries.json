@@ -1,0 +1,152 @@
+[
+  {
+    "model": "App.machinery",
+    "pk": 1,
+    "fields": {
+      "name": "Conveyor Belt 1",
+      "description": "Main conveyor belt for Assembly Line A",
+      "status": "OK",
+      "importance": 9,
+      "collections": [1],
+      "assigned_technicians": [2, 3],
+      "assigned_repair": [],
+      "created_at": "2025-01-15T10:00:00Z",
+      "updated_at": "2025-04-01T09:30:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 2,
+    "fields": {
+      "name": "Robotic Arm A1",
+      "description": "Primary robotic arm for Assembly Line A",
+      "status": "WARNING",
+      "importance": 10,
+      "collections": [1],
+      "assigned_technicians": [2],
+      "assigned_repair": [],
+      "created_at": "2025-01-15T10:30:00Z",
+      "updated_at": "2025-04-02T14:15:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 3,
+    "fields": {
+      "name": "Robotic Arm A2",
+      "description": "Secondary robotic arm for Assembly Line A",
+      "status": "OK",
+      "importance": 8,
+      "collections": [1],
+      "assigned_technicians": [3],
+      "assigned_repair": [],
+      "created_at": "2025-01-15T11:00:00Z",
+      "updated_at": "2025-03-25T09:45:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 4,
+    "fields": {
+      "name": "Conveyor Belt 2",
+      "description": "Main conveyor belt for Assembly Line B",
+      "status": "FAULT",
+      "importance": 9,
+      "collections": [2],
+      "assigned_technicians": [2, 3],
+      "assigned_repair": [6],
+      "created_at": "2025-01-20T09:00:00Z",
+      "updated_at": "2025-04-03T11:30:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 5,
+    "fields": {
+      "name": "Robotic Arm B1",
+      "description": "Primary robotic arm for Assembly Line B",
+      "status": "OK",
+      "importance": 10,
+      "collections": [2],
+      "assigned_technicians": [3],
+      "assigned_repair": [],
+      "created_at": "2025-01-20T09:30:00Z",
+      "updated_at": "2025-03-28T13:45:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 6,
+    "fields": {
+      "name": "Packaging Machine 1",
+      "description": "Main packaging machine for final product preparation",
+      "status": "WARNING",
+      "importance": 8,
+      "collections": [3],
+      "assigned_technicians": [2, 3],
+      "assigned_repair": [],
+      "created_at": "2025-01-25T10:00:00Z",
+      "updated_at": "2025-04-01T15:30:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 7,
+    "fields": {
+      "name": "Quality Scanner",
+      "description": "Optical quality control scanner",
+      "status": "OK",
+      "importance": 7,
+      "collections": [4],
+      "assigned_technicians": [2],
+      "assigned_repair": [],
+      "created_at": "2025-01-30T14:00:00Z",
+      "updated_at": "2025-03-20T10:15:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 8,
+    "fields": {
+      "name": "HVAC Unit 1",
+      "description": "Main HVAC unit for production floor",
+      "status": "OK",
+      "importance": 6,
+      "collections": [5],
+      "assigned_technicians": [2],
+      "assigned_repair": [],
+      "created_at": "2025-02-05T09:00:00Z",
+      "updated_at": "2025-03-15T11:30:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 9,
+    "fields": {
+      "name": "Hydraulic Press",
+      "description": "Main hydraulic press for component forming",
+      "status": "FAULT",
+      "importance": 9,
+      "collections": [1, 2],
+      "assigned_technicians": [2, 3],
+      "assigned_repair": [6, 7],
+      "created_at": "2025-02-10T11:00:00Z",
+      "updated_at": "2025-04-04T08:45:00Z"
+    }
+  },
+  {
+    "model": "App.machinery",
+    "pk": 10,
+    "fields": {
+      "name": "Electrical Generator",
+      "description": "Backup electrical generator",
+      "status": "OK",
+      "importance": 10,
+      "collections": [5],
+      "assigned_technicians": [2],
+      "assigned_repair": [],
+      "created_at": "2025-02-15T13:00:00Z",
+      "updated_at": "2025-03-10T14:30:00Z"
+    }
+  }
+]

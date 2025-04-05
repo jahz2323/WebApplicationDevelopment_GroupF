@@ -1,0 +1,174 @@
+[
+  {
+    "model": "App.machineryfault",
+    "pk": 1,
+    "fields": {
+      "machinery": 4,
+      "title": "Belt alignment failure",
+      "details": "Main conveyor belt has shifted 2cm to the right causing product jams.",
+      "created_by": 3,
+      "created_at": "2025-04-03T10:30:00Z",
+      "resolved": false,
+      "resolved_at": null,
+      "resolved_by": null
+    }
+  },
+  {
+    "model": "App.machineryfault",
+    "pk": 2,
+    "fields": {
+      "machinery": 9,
+      "title": "Hydraulic fluid leak",
+      "details": "Significant hydraulic fluid leak detected from the main pressure valve. Pressure dropping below operational levels.",
+      "created_by": 2,
+      "created_at": "2025-04-04T08:15:00Z",
+      "resolved": false,
+      "resolved_at": null,
+      "resolved_by": null
+    }
+  },
+  {
+    "model": "App.machineryfault",
+    "pk": 3,
+    "fields": {
+      "machinery": 2,
+      "title": "Control board malfunction",
+      "details": "Intermittent control board failures causing arm to stop mid-operation.",
+      "created_by": 2,
+      "created_at": "2025-03-15T13:45:00Z",
+      "resolved": true,
+      "resolved_at": "2025-03-18T11:30:00Z",
+      "resolved_by": 7
+    }
+  },
+  {
+    "model": "App.machinerywarning",
+    "pk": 1,
+    "fields": {
+      "machinery": 2,
+      "text": "Unusual noise coming from joint actuator",
+      "created_by": 2,
+      "created_at": "2025-04-01T09:45:00Z"
+    }
+  },
+  {
+    "model": "App.machinerywarning",
+    "pk": 2,
+    "fields": {
+      "machinery": 2,
+      "text": "Calibration slightly off by 0.5mm",
+      "created_by": 2,
+      "created_at": "2025-04-02T11:30:00Z"
+    }
+  },
+  {
+    "model": "App.machinerywarning",
+    "pk": 3,
+    "fields": {
+      "machinery": 6,
+      "text": "Film seal temperature fluctuating",
+      "created_by": 3,
+      "created_at": "2025-04-01T14:15:00Z"
+    }
+  },
+  {
+    "model": "App.faultimage",
+    "pk": 1,
+    "fields": {
+      "fault": 1,
+      "image": "fault_images/conveyor_misalignment.jpg",
+      "uploaded_by": 3,
+      "uploaded_at": "2025-04-03T10:35:00Z"
+    }
+  },
+  {
+    "model": "App.faultimage",
+    "pk": 2,
+    "fields": {
+      "fault": 1,
+      "image": "fault_images/conveyor_jam.jpg",
+      "uploaded_by": 3,
+      "uploaded_at": "2025-04-03T10:40:00Z"
+    }
+  },
+  {
+    "model": "App.faultimage",
+    "pk": 3,
+    "fields": {
+      "fault": 2,
+      "image": "fault_images/hydraulic_leak.jpg",
+      "uploaded_by": 2,
+      "uploaded_at": "2025-04-04T08:20:00Z"
+    }
+  },
+  {
+    "model": "App.faultimage",
+    "pk": 4,
+    "fields": {
+      "fault": 3,
+      "image": "fault_images/control_board.jpg",
+      "uploaded_by": 2,
+      "uploaded_at": "2025-03-15T13:50:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 1,
+    "fields": {
+      "fault": 1,
+      "user": 3,
+      "text": "I noticed the belt misalignment during the morning shift. Tried manual realignment but it keeps shifting back to misaligned position.",
+      "created_at": "2025-04-03T10:45:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 2,
+    "fields": {
+      "fault": 1,
+      "user": 3,
+      "text": "I'll be there at 13:00 to check the belt tensioners and track guides. Please shut down the line 15 minutes before I arrive.",
+      "created_at": "2025-04-03T11:30:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 3,
+    "fields": {
+      "fault": 2,
+      "user": 2,
+      "text": "The leak appears to be coming from the main pressure valve. I've placed containment under it but we need to replace the valve ASAP.",
+      "created_at": "2025-04-04T08:25:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 4,
+    "fields": {
+      "fault": 2,
+      "user": 2,
+      "text": "I've ordered the replacement valve. It should arrive by tomorrow morning. Please keep monitoring the pressure levels.",
+      "created_at": "2025-04-04T09:15:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 5,
+    "fields": {
+      "fault": 3,
+      "user": 2,
+      "text": "After inspection, I found that the control board was overheating due to a failed cooling fan. Replaced the fan and board is now functioning correctly.",
+      "created_at": "2025-03-18T11:20:00Z"
+    }
+  },
+  {
+    "model": "App.faultcomment",
+    "pk": 6,
+    "fields": {
+      "fault": 3,
+      "user": 2,
+      "text": "The arm is now operating normally. Thanks for the quick repair.",
+      "created_at": "2025-03-18T14:30:00Z"
+    }
+  }
+]
