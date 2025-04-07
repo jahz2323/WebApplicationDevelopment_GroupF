@@ -19,8 +19,7 @@ from django.http import HttpResponse, JsonResponse
 #JsonResponse
 
 def PerformanceChart(request):
-    machinery = Machinery.objects.all()
-    Machinery_id = machinery.id
+    Machinery_id = Machinery.objects.all().values("id")
     response = [
         {
             "id" : Machinery_id,

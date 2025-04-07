@@ -10,6 +10,7 @@ $(document).ready(function () {
             success: function (response) {
                 Machinery = response;
                 console("Machinery ID", Machinery.id)
+
             },
             error: function (error) {
                 alert("Cannot fetch data")

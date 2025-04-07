@@ -1,4 +1,5 @@
 // Simple carousel functionality
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const prev = document.querySelector('.prev');
