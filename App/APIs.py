@@ -34,9 +34,9 @@ def PerformanceChart(request):
 """
 def FaultyCheck(x):
     if x == "FAULT":
-        return true
+        return True
     else:
-        return false
+        return False
 
 def FaultyMachines(request):
     Faulty_Machinery = Machinery.objects.all().filter(FaultyCheck, Machinery.status)

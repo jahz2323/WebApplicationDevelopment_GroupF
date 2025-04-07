@@ -6,5 +6,5 @@ urlpatterns = [
     path("Dashboard/", views.Dashboard, name="Dashboard"),
     path("About/", views.About, name="About"),
     path("Services/", views.Services, name="Services"),
-    path("PerformanceChart/", views.PerformanceChart, name="PerformanceChart"),
+    path("Dashboard/PerformanceChart/", views.PerformanceChart, name="PerformanceChart"),
 ]
