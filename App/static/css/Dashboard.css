@@ -89,6 +89,7 @@ body {
 
 #main-content {
     min-height: calc(100vh - 100px);
+    right: 20px;
     clear: both;
 }
 
@@ -104,7 +105,7 @@ body {
 
 #left-menu.small-left-menu li.has-sub ul {
     position: fixed;
-    width: 280px;
+    width: 100px;
     z-index: 123;
     height: 0;
     left: 69px;
@@ -131,7 +132,7 @@ body {
     #left-menu li.has-sub::after {
         position: absolute;
         top: 10px;
-        right: 10px;
+        right: 2px;
         cursor: pointer;
         transform: rotate(0deg);
         -webkit-transition: all 0.3s ease;

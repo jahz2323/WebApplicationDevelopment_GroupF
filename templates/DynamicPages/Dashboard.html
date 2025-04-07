@@ -88,9 +88,8 @@
 
 <div id="left-menu">
     <ul>
-
-
         <li class="has-sub border-bottom">
+            {# if user is manager #}
             {#            {% if User.is_superuser %}#}
             {#                <a href="{% url 'UserManagement' %}">#}
             {#                    <span>User Management</span>#}
@@ -128,8 +127,34 @@
 
 <div id="main-content">
     <div id="container">
-        <div class="row">
+        <div class="row mx-auto border-bottom d-flex">
+            <div class="col" >
+                {# Container for ChartJS #}
+                <div class="container bg-light" id="chartjs-canvas">
+                    <h2>Machine Performance</h2>
+                    <canvas>
 
+                    </canvas>
+                </div>
+            </div>
+            <div class="col">
+                {# Container Legend for ChartJs #}
+                <div class="dropdown" id="legend">
+                    <h2>Legend</h2>
+                    {# for items in machinery_fault objects #}
+                    {# display id in items as label, list, different color for each #}
+                </div>
+            </div>
+        </div>
+        <div class="row mx-auto ">
+            <div class="col">
+                 <h2>Common Faulty Machinery</h2>
+                {# Container for most common fault Machinery #}
+            </div>
+            <div class="col">
+                <h2>Machine Faults</h2>
+                {# Container Scrollable for machinery summary #}
+            </div>
         </div>
     </div>
 </div>
