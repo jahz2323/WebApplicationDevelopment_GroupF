@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader, Context
-
-
+from App.models import *
+from .APIs import PerformanceChart
 # Create your views here.
 
 def App(request):

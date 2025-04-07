@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # Bootstrap dependency
     'django_bootstrap5',
     # Chartjs dependency 
-    'chartjs'
+    'chartjs',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
