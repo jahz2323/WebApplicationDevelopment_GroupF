@@ -1,5 +1,9 @@
- Web-Application-Development
+from django.contrib.auth.decorators import permission_required
+from django.db.models.expressions import result
+from App.models import Machinery
+from rest_framework.decorators import permission_classes
 
+Web-Application-Development
 Factory Machinery Status & Repair Tracking 
 System
 
@@ -66,3 +70,18 @@ NB. **_"admin"_** user password is **_"admin"_**, every other sample users has *
 
 #### Open and Navigate to 
 http://127.0.0.1:8000
+
+# Create functions with permissions
+
+Because all the groups and permissions are already set, you'll just have to check in the [setup_groups.py](App/management/commands/setup_groups.py) which of the permission you want to be required for the function 
+
+then create the function like this:
+
+if the permission code is "view_machinery"
+
+```python
+    @permission_required(App.view_machinery)
+    def any_fct(any_args):
+        your_fct_content
+        return your_result
+```

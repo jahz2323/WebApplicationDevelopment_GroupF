@@ -5,7 +5,10 @@ set -ex
 cd /app
 
 # Run any new database migrations
+python manage.py makemigrations App
 python manage.py migrate
+
+python manage.py setup_groups
 
 python manage.py loaddata App/fixtures/collections.json
 python manage.py loaddata App/fixtures/users.json
