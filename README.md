@@ -1,5 +1,9 @@
-from django.contrib.auth.decorators import permission_requiredfrom django.db.models.expressions import resultfrom App.models import Machineryfrom rest_framework.decorators import permission_classes Web-Application-Development
+from django.contrib.auth.decorators import permission_required
+from django.db.models.expressions import result
+from App.models import Machinery
+from rest_framework.decorators import permission_classes
 
+Web-Application-Development
 Factory Machinery Status & Repair Tracking 
 System
 
