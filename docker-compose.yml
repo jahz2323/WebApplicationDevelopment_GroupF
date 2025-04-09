@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   django:
     image: webapp-image:latest
@@ -10,7 +8,4 @@ services:
     volumes:
       - .:/app
     environment:
-      PYTHONPATH: "${PYTHONPATH}:/app"
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
       DATABASE_URL: "sqlite:////db.sqlite3"
