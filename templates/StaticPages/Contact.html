@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Contact Us</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <form onsubmit="return validateContactForm()">
+      <label style="color:black;">Name: <input type="text" id="name" required /></label><br />
+      <label  style="color:black;">Email: <input type="email" id="email" required /></label><br />
+      <label style="color:black;">Message:<br /><textarea id="message" required></textarea></label><br />
+      <button type="submit">Submit</button>
+    </form>
+    <p id="formResult"></p>
+  </main>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <footer>
+    <p>&copy; 2025 Factory Machinery Tracker</p>
+  </footer>
+  <script>
+    function validateContactForm() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) {
+        alert("All fields are required.");
+        return false;
+      }
+      document.getElementById("formResult").innerText = "Thank you for contacting us!";
+      return false;
+    }
+  </script>
+</body>
+</html>
