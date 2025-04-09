@@ -16,41 +16,44 @@ body {
     background-color: var(--secondary-color);
     border-bottom: 1px solid #e6ecf5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 0;
+    z-index: 10;
     max-height: 100px;
 }
+
 .nav-img {
     max-width: 100px;
     max-height: 50px;
 }
-.navbar{
+
+.navbar {
     width: 100%;
     padding: 0 1rem;
-    gap: 2rem  !important;
+    gap: 2rem !important;
 }
-.navbar-collapse{
+
+.navbar-collapse {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
 }
-#search-container{
-    width: 800px;
+
+#search-container {
+    width: 100%;
     max-width: 800px;
-    max-height: 50px;
-    margin : 0 auto;
+    margin: 0 auto;
 }
+
 .form-control:hover {
     box-shadow: none;
-    border-color: #4dabf7 !important ;
+    border-color: #4dabf7 !important;
     animation: ease 0.3s;
 }
+
 .form-control {
-    border: 3px solid #e6ecf5;
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem;
-    font-size: 16px;
-    color: var(--text-color);
+    background-color: var(--primary-color); /* white bg */
+    color: var(--secondary-color); /* dark text */
 }
+
 .btn {
     background-color: var(--secondary-color);
     color: var(--accent-color);
@@ -59,6 +62,7 @@ body {
     transition: all 0.3s ease;
     color: var(--text-color);
 }
+
 .btn:hover {
     background-color: var(--link-hover-color);
     color: var(--text-color);
@@ -67,7 +71,6 @@ body {
 #left-menu {
     position: fixed;
     top: 0;
-    left: 0;
     width: 150px;
     background-color: var(--primary-color);
     overflow-y: auto;
@@ -76,11 +79,16 @@ body {
     margin-top: 0px;
     -webkit-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out;
     overflow-x: hidden;
-    z-index: 2;
+    z-index: 20;
 }
-.has-sub{
+
+#left-menu:hover {
+    left: 0; /* Reveal the menu when hovering */
+}
+
+.has-sub {
     position: relative;
     text-align: start;
     font-size: 18px !important;
@@ -88,14 +96,11 @@ body {
 }
 
 #main-content {
+    transition: margin-left 0.3s ease-in-out;
     min-height: calc(100vh - 100px);
-    right: 20px;
+    margin-left: 150px;
+    left: 150px;
     clear: both;
-}
-
-#page-container.small-left-menu,
-#header .header-left.small-left-menu {
-    padding-left: 100px;
 }
 
 
@@ -108,7 +113,7 @@ body {
     width: 100px;
     z-index: 123;
     height: 0;
-    left: 69px;
+    left: 10px;
     padding-left: 15px;
 }
 
