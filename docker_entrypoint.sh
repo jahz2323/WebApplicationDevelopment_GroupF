@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ex
 
 # Move to application directory
 cd /app
