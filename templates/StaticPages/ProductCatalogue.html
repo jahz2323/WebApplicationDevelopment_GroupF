@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ACME Product Catalogue</title>
+    <link rel="stylesheet" href="{% static 'css/ProductCatalogue.css' %}"/>
+</head>
+<body>
+{% include 'common/navbar.html' %}
+
+<section class="filters" id="filterSection">
+</section>
+
+<section class="product-list" id="productList">
+    <!-- HYDRAULIC PRESS -->
+    <div
+            class="product-card"
+            data-type="hydraulic"
+            data-industry="automotive"
+            data-function="cutting"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/hydraulic-press-machine.png"
+                    alt="Hydraulic Press Model X"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Hydraulic Press Model X</h2>
+            <p class="product-description">
+                Ideal for automotive metal forming applications.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- CONVEYOR -->
+    <div
+            class="product-card"
+            data-type="conveyor"
+            data-industry="construction"
+            data-function="transporting"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/heavy-duty conveyor.png"
+                    alt="Heavy-Duty Conveyor"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Heavy-Duty Conveyor</h2>
+            <p class="product-description">
+                Efficient solution for transporting materials on-site.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- LASER CUTTING MACHINE -->
+    <div
+            class="product-card"
+            data-type="laser"
+            data-industry="automotive"
+            data-function="cutting"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/laser-cutting-machine.jpeg"
+                    alt="Laser Cutting Machine Pro"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Laser Cutting Machine Pro</h2>
+            <p class="product-description">
+                Precision cutting system for metal sheets in automotive
+                manufacturing.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- ROBOTIC ARM -->
+    <div
+            class="product-card"
+            data-type="robotic"
+            data-industry="electronics"
+            data-function="lifting"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/robotic-arm-model.jpeg"
+                    alt="Robotic Arm Model Z"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Robotic Arm Model Z</h2>
+            <p class="product-description">
+                Automated precision lifting for delicate electronic components.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- CEMENT MIXER -->
+    <div
+            class="product-card"
+            data-type="mixer"
+            data-industry="construction"
+            data-function="mixing"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/cement-mixer-mx200.jpeg"
+                    alt="Cement Mixer MX200"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Cement Mixer MX200</h2>
+            <p class="product-description">
+                Efficient high-capacity mixer for large-scale construction projects.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- FORKLIFT -->
+    <div
+            class="product-card"
+            data-type="lift"
+            data-industry="warehouse"
+            data-function="lifting"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/electric-forklift-ef100.jpeg"
+                    alt="Electric Forklift EF100"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Electric Forklift EF100</h2>
+            <p class="product-description">
+                Compact and eco-friendly forklift ideal for warehouse operations.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn"
+            >Brochure</a
+            >
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- CRANE SYSTEM -->
+    <div
+            class="product-card"
+            data-type="crane"
+            data-industry="construction"
+            data-function="lifting"
+    >
+        <div class="image-carousel">
+            <img src="static/media/ProductCatalogue/mini-crane-ct50.jpeg" alt="Mini Crane CT-50"/>
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Mini Crane CT-50</h2>
+            <p class="product-description">
+                Versatile crane system for compact construction environments.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+
+    <!-- INDUSTRIAL DRILL -->
+    <div
+            class="product-card"
+            data-type="drill"
+            data-industry="mining"
+            data-function="drilling"
+    >
+        <div class="image-carousel">
+            <img
+                    src="static/media/ProductCatalogue/industrial-drill-hd100.jpeg"
+                    alt="Industrial Drill HD100"
+            />
+        </div>
+        <div class="product-info">
+            <h2 class="product-name">Industrial Drill HD100</h2>
+            <p class="product-description">
+                Heavy-duty drill for mining and underground operations.
+            </p>
+        </div>
+        <div class="product-actions">
+            <a class="btn">Brochure</a>
+            <button class="btn quote">Request a Quote</button>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <h3 id="modalTitle"></h3>
+        <div style="width: 100%; justify-content: center; display: flex">
+            <img
+                    id="modalImage"
+                    alt=""
+                    style="
+              width: fit-content;
+              max-height: 300px;
+              object-fit: cover;
+              border-radius: 8px;
+              margin-bottom: 1rem;
+            "
+            />
+        </div>
+        <p id="modalDescription"></p>
+    </div>
+</div>
+
+{% include 'common/footer.html' %}
+
+<script src="{% static 'js/ProductCatalogue.js' %}"></script>
+</body>
+</html>

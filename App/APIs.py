@@ -20,12 +20,13 @@ from django.http import HttpResponse, JsonResponse
 
 def PerformanceChart(request):
     Machinery_id = Machinery.objects.all().values("id")
+    print(Machinery_id)
     response = [
         {
             "id" : Machinery_id,
         }
     ]
-    return JsonResponse(response[0], safe=False)
+    return JsonResponse(response[0], safe=True)
 
 """
     POST list of machines sorted by ID 

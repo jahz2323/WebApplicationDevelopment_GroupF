@@ -24,3 +24,11 @@ def Services(request):
     context = {}
 
     return render(request, "../templates/StaticPages/Services.html", context)
+
+def ProductCatalogue(request):
+    context = {}
+    return render(request, "../templates/StaticPages/ProductCatalogue.html", context)
+
+def Contact(request):
+    context = {}
+    return render(request, "../templates/StaticPages/Contact.html", context)
