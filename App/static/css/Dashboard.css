@@ -52,7 +52,7 @@ body {
 
 .form-control {
     background-color: var(--primary-color); /* white bg */
-    color: var(--text-color); /* dark text */
+    color: var(--text-color); 
 }
 
 .btn {

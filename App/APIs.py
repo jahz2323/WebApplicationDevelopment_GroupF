@@ -85,5 +85,3 @@ def calculate_downtime(created_at, now_time):
 
 def Add_Machinery(request):
     return None
-
-

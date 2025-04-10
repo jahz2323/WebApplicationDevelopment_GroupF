@@ -3,9 +3,11 @@ $(document).ready(function () {
      AJAX POST - GET MACHINERY, MachineryWarning
      # Authors  Jahziel
      */
+
     let names = [];
     let ticket_Date = [];
     let current_time = [];
+
     $('chartjs-canvas').ready(function () {
         $.ajax({
             type: 'GET',
@@ -95,6 +97,32 @@ $(document).ready(function () {
                 })
             },
         })
+        console.log("dataset", dataset);
+
+        // Chart
+        const ctx = document.getElementById('downtimechart').getContext('2d');
+        const FaultChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dataset[0],
+                datasets: [{
+                    label: 'Downtime Chart',
+                    data: dataset[1],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
     })
+
+
 })
 
