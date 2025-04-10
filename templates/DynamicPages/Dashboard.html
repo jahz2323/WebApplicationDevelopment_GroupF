@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/Dashboard.css' %}">
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'js/Dashboard.js' %}"></script>
+    <script src="{% static 'js/LeftMenu.js' %}"></script>
 </head>
 <body>
 <div class="nav sticky-top shadow gap-3">
@@ -99,12 +100,12 @@
             {#                    <span>User Profile</span>#}
             {#                </a>#}
             {#            {% endif %}#}
-            <a href="#">
+            <a href="{% url 'Dashboard' %}">
                 <span>Dashboard</span>
             </a>
         </li>
         <li class="has-sub">
-             <a href="#">
+            <a href="#">
                 <span>User Registration</span>
             </a>
         </li>
@@ -122,17 +123,18 @@
             <a href="#">
                 <span>Fault Case List page</span>
             </a>
+        </li>
     </ul>
 </div>
 
 <div id="main-content">
     <div id="container">
-        <div class="row mx-auto border-bottom d-flex">
-            <div class="col" >
+        <div class="row mx-auto border-bottom d-flex ">
+            <div class="col-8">
                 {# Container for ChartJS #}
-                <div class="container bg-light" id="chartjs-canvas">
+                <div class="container" id="chartjs-canvas">
                     <h2>Machine Performance</h2>
-                    <canvas>
+                    <canvas id="downtimechart" width="1000" height="400">
 
                     </canvas>
                 </div>
@@ -143,19 +145,21 @@
                     <h2>Legend</h2>
                     {# for items in machinery_fault objects #}
                     {# display id in items as label, list, different color for each #}
+                    <ul id="legendlist">
+
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="row mx-auto ">
-            <div class="col">
-                 <h2>Common Faulty Machinery</h2>
+        <div class="row mx-auto">
+            <div class="col-4">
+                <h2>Common Faulty Machinery</h2>
                 {# Container for most common fault Machinery #}
             </div>
-            <div class="col">
+            <div class="col-4">
                 <h2>Machine Faults</h2>
                 {# Container Scrollable for machinery summary #}
             </div>
-        </div>
     </div>
 </div>
 
