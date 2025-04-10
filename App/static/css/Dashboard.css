@@ -47,11 +47,12 @@ body {
     box-shadow: none;
     border-color: #4dabf7 !important;
     animation: ease 0.3s;
+
 }
 
 .form-control {
     background-color: var(--primary-color); /* white bg */
-    color: var(--secondary-color); /* dark text */
+    color: var(--text-color); 
 }
 
 .btn {

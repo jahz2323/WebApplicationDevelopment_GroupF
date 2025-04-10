@@ -30,7 +30,7 @@ $(document).ready(function () {
     $(document).on('mousemove', function (e) {
         // Check if mouse is on the left side of the screen
         // console.log("PageX", e.pageX);
-        if (e.pageX < 170) {
+        if (e.pageX < 20) {
             if (!isMenuVisible) {
                 showMenu();
                 isMenuVisible = true;
