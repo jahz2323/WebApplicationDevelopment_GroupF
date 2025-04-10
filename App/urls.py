@@ -8,5 +8,8 @@ urlpatterns = [
     path("Services/", views.Services, name="Services"),
     path("Contact/", views.Contact, name="Contact"),
     path("ProductCatalogue", views.ProductCatalogue, name="ProductCatalogue"),
+    path("Login/", views.Login, name="Login"),
+    path("Logout/", views.Logout, name="Logout"),
     path("Dashboard/PerformanceChart/", views.PerformanceChart, name="PerformanceChart"),
+    path("Dashboard/Add_Machinery/", views.Add_Machinery, name="Add_Machinery"),
 ]

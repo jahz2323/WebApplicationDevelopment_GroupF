@@ -8,7 +8,7 @@ services:
     volumes:
       - .:/app
     environment:
-      PYTHONPATH: "${PYTHONPATH}:/app"
+      PYTHONPATH: "/app"
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
       DATABASE_URL: "sqlite:////db.sqlite3"

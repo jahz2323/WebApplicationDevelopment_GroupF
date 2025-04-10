@@ -76,13 +76,7 @@
     min-width: 250px;
 }
 
-.search-btn {
-    background-color: var(--secondary-color) !important;
-    min-width: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 .search-btn:hover {
     background-color: var(--link-hover-color) !important;
     color: var(--text-color) !important;
@@ -117,4 +111,30 @@
         min-width: 200px;
         margin: 0.5rem 0;
     }
+}
+
+.form-control:hover {
+    box-shadow: none;
+    border-color: #4dabf7 !important;
+    animation: ease 0.3s;
+
+}
+
+.form-control {
+    background-color: var(--primary-color); /* white bg */
+    color: var(--text-color); /* dark text */
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.btn:hover {
+    background-color: var(--link-hover-color);
+    color: var(--text-color);
 }
