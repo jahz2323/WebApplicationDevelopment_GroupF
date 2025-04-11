@@ -176,31 +176,35 @@ def update_Machinery(request):
                 machinery.updated_at = now
                 print("Machinery updated at :", machinery.updated_at)
 
-                report.append(f"Name: {machinery.name}, Status: {machinery.status}, Importance: {machinery.importance}, "
-                              f"Created at: {machinery.created_at}, Updated at: {machinery.updated_at}"
+                # Append the machinery details to report list obj
+                report.append(f"Name: {machinery.name}, "
+                              f"Status: {machinery.status}, "
+                              f"Importance: {machinery.importance}, "
+                              f"Created at: {machinery.created_at}, "
+                              f"Updated at: {machinery.updated_at}"
                               f", Current time: {now}, "
                               f"Report details: {report_text}")
 
-                # Export a new file containing the report data, save in static folder
-
+            # If the machinery obj does not exist, return an error response
             except Machinery.DoesNotExist:
-                # If the machinery object does not exist, return an error response
+                    # If the machinery object does not exist, return an error response
                 print(f"Machinery with ID {id} not found")
 
-            #export file to static folder, store as a txt
-            report_content = "\n".join(report)
+        # Join the report list to create a single string
+        report_content = "\n".join(report)
 
-            #Join to the media folder
-            media_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'media')
-            os.makedirs(media_dir, exist_ok=True) #check if the directory exists, if not create it
-            # Create a file name and path to save the report
-            file_name = f"machinery_report_{now.strftime('%Y%m%d_%H%M%S')}.txt"
-            file_path = os.path.join(media_dir, file_name)
+        #Join to the media folder
+        media_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'media')
+        os.makedirs(media_dir, exist_ok=True) #check if the directory exists, if not create it
+        # Create a file nae and path to save the report
+        # Export a new file containing the report data, save in static folder
+        file_name = f"machinery_report_{now.strftime('%Y%m%d_%H%M%S')}.txt"
+        file_path = os.path.join(media_dir, file_name)
 
-            with open(file_path, 'w') as file:
-                file.write(report_content)
-            print(f"Report exported to {file_path}")
-            # Return the response
-            return JsonResponse({'success': 'Machinery updated successfully', 'report_path': f'/static/media/{file_name}'}, status=200)
+        with open(file_path, 'w') as file:
+            file.write(report_content)
+        print(f"Report exported to {file_path}")
+        # Return the response
+        return JsonResponse({'success': 'Machinery updated successfully', 'report_path': f'/static/media/{file_name}'}, status=200)
 
-        return JsonResponse({'error': 'Machinery not found'}, status=404)
+    return JsonResponse({'error': 'Machinery not found'}, status=404)
