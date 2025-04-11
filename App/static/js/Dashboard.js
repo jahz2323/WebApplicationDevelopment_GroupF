@@ -318,6 +318,7 @@ $(document).ready(function () {
             //submit the form
             const machine_name = document.querySelectorAll('input[name="update-machine"]:checked');
             const assigned_machine = Array.from(machine_name).map(cb => cb.value);
+            console.log("Assigned_machine arr",assigned_machine )
             if (assigned_machine.length == 0) {
                 alert("Please select a machine to update.");
                 return;
@@ -335,10 +336,16 @@ $(document).ready(function () {
                 headers: {
                     "X-CSRFToken": csrftoken
                 },
+                traditional: true, // This is important for sending an array for multiple or individual machines to update
+
                 url: "/Dashboard/update_Machinery/",
-                data: $(form).serialize(),
+                data: {
+                    "machinery_id": assigned_machine,
+                    "Report": Report
+                },
                 success: function (response) {
                     alert("Machine updated successfully");
+                    alert("report stored in media as: ", response);
                     location.reload();
                 },
                 error: function (error) {
