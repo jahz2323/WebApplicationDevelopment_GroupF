@@ -1,6 +1,7 @@
 import math
 from operator import truediv
-
+import os # for file path writing new reports
+from django.conf import settings
 from django.urls import resolve
 from rest_framework import serializers
 from App.models import *
@@ -9,7 +10,6 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
-
 
 
 # RESTFUL API provide performance for Machinery
@@ -28,6 +28,7 @@ def get_machinery_status():
     for machine in Machines:
         status_list.append(machine.status, machine.name)
     return status_list
+
 
 # // Author Jahziel Belmonte
 def PerformanceChart(request):
@@ -71,7 +72,7 @@ def PerformanceChart(request):
     return JsonResponse(response[0], safe=True)
 
 
-#// Author Jahziel Belmonte
+# // Author Jahziel Belmonte
 def calculate_downtime(created_at, now_time):
     """
     Calculate the downtime in hours between the created_at time and now_time.
@@ -80,7 +81,6 @@ def calculate_downtime(created_at, now_time):
     :return: downtime in hours
     """
     return math.floor((now_time - created_at).total_seconds() / 3600)  # convert to hours
-
 
 
 def Add_Machinery(request):
@@ -127,10 +127,10 @@ def Add_Machinery(request):
 
             machinery.save()
             # Assign the technician, repair, and collection
-            machinery.assigned_technicians.set(assigned_technician) #Needed for many to many field to update relationship
+            machinery.assigned_technicians.set(
+                assigned_technician)  # Needed for many to many field to update relationship
             machinery.assigned_repair.set(assigned_repair)
             machinery.collections.set(assigned_collection)
-
 
             print("Machinery added successfully")
             return JsonResponse({'success': 'Machinery added successfully'}, status=200)
@@ -158,31 +158,49 @@ def delete_Machinery(request):
 
 def update_Machinery(request):
     print("update_Machinery view accessed")
+    machinery_id = request.POST.getlist("machinery_id")
+    print("Received machinery ID:", machinery_id)
+
     if request.method == "POST":
+        # List literal for report data
+        report = []
         # Get the machinery ID from the request
-        machinery_id = request.POST.get("machinery_id")
-        print("Received machinery ID:", machinery_id)
-        try:
-            # Get the machinery object to match the ID
-            machinery = Machinery.objects.get(id=machinery_id)
-            # Update the machinery object
-            machinery.name = request.POST.get("machine_name")
-            machinery.status = request.POST.get("status")
-            machinery.importance = request.POST.get("Importance")
-            machinery.description = request.POST.get("description")
-            # getlist() is used to get multiple values from the form
-            assigned_technician = request.POST.getlist("assigned-technicians")
-            assigned_repair = request.POST.getlist("assigned-repair")
-            assigned_collection = request.POST.getlist("collections")
+        now = datetime.now()
+        report_text = request.POST.get("Report")
+        for id in machinery_id:
+            try:
+                # Get the machinery object
+                machinery = Machinery.objects.get(id=id)
+                # Update the machinery object set updated.now attib to current time
+                print("Time now:", now)
+                machinery.updated_at = now
+                print("Machinery updated at :", machinery.updated_at)
 
-            # Assign the technician, repair, and collection
-            machinery.assigned_technicians.set(assigned_technician)  # Needed for many to many field to update relationship
-            machinery.assigned_repair.set(assigned_repair)
-            machinery.collections.set(assigned_collection)
+                report.append(f"Name: {machinery.name}, Status: {machinery.status}, Importance: {machinery.importance}, "
+                              f"Created at: {machinery.created_at}, Updated at: {machinery.updated_at}"
+                              f", Current time: {now}, "
+                              f"Report details: {report_text}")
 
-            # Save the updated object
-            machinery.save()
-            print(f"Machinery with ID {machinery_id} updated successfully")
-            return JsonResponse({'success': 'Machinery updated successfully'}, status=200)
-        except Machinery.DoesNotExist:
-            return JsonResponse({'error': 'Machinery not found'}, status=404)
+                # Export a new file containing the report data, save in static folder
+
+            except Machinery.DoesNotExist:
+                # If the machinery object does not exist, return an error response
+                print(f"Machinery with ID {id} not found")
+
+            #export file to static folder, store as a txt
+            report_content = "\n".join(report)
+
+            #Join to the media folder
+            media_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'media')
+            os.makedirs(media_dir, exist_ok=True) #check if the directory exists, if not create it
+            # Create a file name and path to save the report
+            file_name = f"machinery_report_{now.strftime('%Y%m%d_%H%M%S')}.txt"
+            file_path = os.path.join(media_dir, file_name)
+
+            with open(file_path, 'w') as file:
+                file.write(report_content)
+            print(f"Report exported to {file_path}")
+            # Return the response
+            return JsonResponse({'success': 'Machinery updated successfully', 'report_path': f'/static/media/{file_name}'}, status=200)
+
+        return JsonResponse({'error': 'Machinery not found'}, status=404)
