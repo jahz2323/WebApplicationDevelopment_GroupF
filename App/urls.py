@@ -12,4 +12,6 @@ urlpatterns = [
     path("Logout/", views.Logout, name="Logout"),
     path("Dashboard/PerformanceChart/", views.PerformanceChart, name="PerformanceChart"),
     path("Dashboard/Add_Machinery/", views.Add_Machinery, name="Add_Machinery"),
+    path("Dashboard/delete_Machinery/", views.delete_Machinery, name="delete_Machinery"),
+    path("Dashboard/update_Machinery/", views.update_Machinery, name="update_Machinery"),
 ]

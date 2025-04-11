@@ -16,6 +16,7 @@ Thomas viard
     <script src="{% static 'js/Dashboard.js' %}"></script>
     <script src="{% static 'js/LeftMenu.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="{% static 'js/jquery.validate.js' %}"></script>
 </head>
 <body>
 <div class="nav sticky-top shadow gap-3">
@@ -134,50 +135,115 @@ Thomas viard
             </div>
         </div>
         <div class="row mx-auto">
-            <!-- Manager based view, just using admin atm change to is_manager -->
-            {% if user.is_superuser %}
-                <div class="col-4">
-                <h2>Manager view</h2>
-                {# Container for most common fault Machinery #}
-                <div class="container mx-auto flex-end column left-20px">
-                    <h3>Add machinery</h3>
-                    <!-- form to add machines -->
-                    <form id="add-machine-form" method="post" enctype="multipart/form-data"
-                          action="{% url 'Add_Machinery' %}">
-                        {% csrf_token %}
-                        <label for="machine_name">Machine Name:</label>
-                        <input type="text" id="machine_name" name="machine_name" required>
+            <div class="col-2">
+                <!-- divider since error when hover on left side aswell as access to manager view -->
+            </div>
+            <div class="col-4">
+                <!-- Manager based view, just using admin atm change to is_manager -->
+                {% if is_manager %}
+                    <h2>Manager view</h2>
+                    {# Container for most common fault Machinery #}
+                    <div class="container mx-auto flex-end column left-20px " style="width: 500px;">
+                        <h3>Add machinery</h3>
+                        <!-- form to add machines -->
+                        <form id="add-machine-form" method="post"
+                              action="{% url 'Add_Machinery' %}">
+                            {% csrf_token %}
+                            <label for="machine_name">Machine Name:</label>
+                            <input type="text" id="machine_name" name="machine_name" required>
+                            <br>
+                            <label for="description">Description:</label>
+                            <input type="text" id="description" name="description" required>
+                            <br>
+                            <label for="status">status:</label>
+                            <select id="status" name="status">
+                                <option value="OK">OK</option>
+                                <option value="WARNING">WARNING</option>
+                                <option value="FAULT">FAULT</option>
+                            </select>
+                            <br>
+                            <label for="Importance">Importance:</label>
+                            {% for imp in importance %}
+                                <input type="radio" id="Importance" name="Importance"
+                                       value="{{ imp }}">
+                                <label for="Importance">{{ imp }}</label>
+                            {% endfor %}
+                            <br>
+                            <label for="assigned-technicians"> assigned-technicians: </label>
+                            <br>
+                            {% for tech in technicians %}
+                                <input type="checkbox" id="assigned-technicians" name="assigned-technicians"
+                                       value="{{ tech.id }}">
+                                <label for="assigned-technicians">{{ tech.username }}</label> <br>
+                            {% endfor %}
+                            <br>
+                            <label for="assigned-repair"> assigned-repair: </label>
+                            <br>
+                            {% for rep in repairs %}
+                                <input type="checkbox" id="assigned-repair" name="assigned-repair"
+                                       value="{{ rep.id }}">
+                                <label for="assigned-repair">{{ rep.username }}</label> <br>
+                            {% endfor %}
+                            <br>
+                            <label for="collections">Collections:</label>
+                            <br>
+                            {% for col in collections %}
+                                <input type="checkbox" id="collections-{{ col.id }}" name="collections"
+                                       value="{{ col.id }}">
+                                <label for="collections-{{ col.id }}">{{ col.name }}</label><br>
+                            {% endfor %}
+                            <br>
+                             <hr>
+                            <button type="submit" class="btn btn-primary">Add Machine</button>
+                        </form>
+                    </div>
+                    <div class="container border-top border-bottom mx-auto flex-end column left-20px "
+                         style="width: 500px;">
+                        <h2>Delete Machinery</h2>
+                        <form id="delete-machine-form" method="post">
+                            {% csrf_token %}
+                            {% for machine in machinery %}
+                                <input type="checkbox" id="delete-machine-{{ machine.id }}" name="delete-machine"
+                                       value="{{ machine.id }}">
+                                <label for="delete-machine-{{ machine.id }}">{{ machine.name }}</label><br>
+                            {% endfor %}
+                             <hr>
+                            <button type="submit" class="btn btn-danger">Delete Machine</button>
+                        </form>
                         <br>
-                        <label for="machine_type">Machine Type:</label>
-                        <input type="text" id="machine_type" name="machine_type" required>
+
+                    </div>
+                    <div class="container border-top border-bottom mx-auto flex-end column left-20px"
+                         style="width: 500px;">
+                        <h2>File Reports: Machinery</h2>
+                        <form id="update-machine-form" method="post">
+                            {% csrf_token %}
+                            {% for machine in machinery %}
+                                <input type="checkbox" id="update-machine-{{ machine.id }}" name="update-machine"
+                                       value="{{ machine.id }}">
+                                <label for="update-machine-{{ machine.id }}">{{ machine.name }}</label> <br>
+                            {% endfor %}
+                            <br>
+                            <label for="file-report"> File Report: </label>
+                            <input type="text" id="text-box" name="text-box"
+                                   placeholder="Type report here">
                         <br>
-                        <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" required>
+                        <hr>
+                            <button type="submit" class="btn btn-warning">Update Machine</button>
+                        </form>
                         <br>
-                        <label for="status">status:</label>
-                        <select id="status" name="status">
-                            <option value="OK">OK</option>
-                            <option value="WARNING">WARNING</option>
-                            <option value="FAULT">FAULT</option>
-                        </select>
-                        <br>
-                        <label for="collections"> Collections: </label>
-                        <input type="text" id="Collections" name="Collections" required>
-                        <br>
-                        <label for="assigned-technicians"> assigned-technicians: </label>
-{#                        {% for obj in technician %}#}
-                        <br>
-                        <label for="assigned-repair"> assigned-repair: </label>
-                        <input type="text" id="assigned-repair" name="assigned-repair" required>
-                        <input type="submit" value="Add Machine">
-                    </form>
-                </div>
-            {% else %}
-                <div class="col-4">
-                    <h2>Assigned Machines STATUS:</h2>
-                    {# Container Scrollable for machinery summary #}
-                </div>
-            {% endif %}
+                    </div>
+                    <div class="container ">
+                        {# Manager dashboard summary of current status #}
+
+                    </div>
+
+                {% else %}
+                    <div class="col-4">
+                        <h2>Assigned Machines STATUS:</h2>
+                        {# Container Scrollable for machinery summary #}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
