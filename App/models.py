@@ -4,7 +4,6 @@ from django.utils.text import slugify
 
 User = get_user_model()
 
-
 class Collection(models.Model):
     """
     Collection model to group machinery
