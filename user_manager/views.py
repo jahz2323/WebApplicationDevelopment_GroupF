@@ -17,7 +17,7 @@ class UserListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related('profile')
+        queryset = super().get_queryset().select_related('userprofile')
         
         # Filters
         if self.request.GET.get('role'):

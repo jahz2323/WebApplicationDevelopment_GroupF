@@ -1,12 +1,13 @@
 {% load django_bootstrap5 %}
+
 <table class="table table-striped table-hover">
     <thead class="table-dark">
         <tr>
-            <th>{% bootstrap_icon "person" %} Username</th>
-            <th>{% bootstrap_icon "envelope" %} Email</th>
-            <th>{% bootstrap_icon "person-badge" %} Role</th>
-            <th>{% bootstrap_icon "cpu" %} Assigned Machines</th>
-            <th>{% bootstrap_icon "gear" %} Actions</th>
+            <th><i class="bi bi-person"></i> Username</th>
+            <th><i class="bi bi-envelope"></i> Email</th>
+            <th><i class="bi bi-person-badge"></i> Role</th>
+            <th><i class="bi bi-cpu"></i> Assigned Machines</th>
+            <th><i class="bi bi-gear"></i> Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -15,25 +16,24 @@
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>
-                {% if user.profile.role == 'technician' %}
-                    {% bootstrap_badge "Technician" color="primary" %}
-                {% elif user.profile.role == 'repair' %}
-                    {% bootstrap_badge "Repair" color="warning" %}
-                {% else %}
-                    {% bootstrap_badge "Admin" color="success" %}
-                {% endif %}
+                <span class="badge 
+                    {% if user.profile.role == 'technician' %}bg-primary
+                    {% elif user.profile.role == 'repair' %}bg-warning text-dark
+                    {% else %}bg-success{% endif %}">
+                    {{ user.profile.role|title }}
+                </span>
             </td>
             <td>
                 <div class="machine-assignments">
                     <small class="text-muted">
-                        {% bootstrap_icon "tools" %} Tech:
+                        <i class="bi bi-tools"></i> Tech:
                         {% for machine in user.assigned_machinery_tech.all %}
                             {{ machine.name }}{% if not forloop.last %}, {% endif %}
                         {% empty %}None{% endfor %}
                     </small>
                     <br>
                     <small class="text-muted">
-                        {% bootstrap_icon "wrench" %} Repair:
+                        <i class="bi bi-wrench"></i> Repair:
                         {% for machine in user.assigned_machinery_repair.all %}
                             {{ machine.name }}{% if not forloop.last %}, {% endif %}
                         {% empty %}None{% endfor %}
@@ -44,12 +44,12 @@
                 <div class="btn-group">
                     <a href="{% url 'user_manager:update' user.id %}" 
                        class="btn btn-sm btn-outline-primary">
-                        {% bootstrap_icon "pencil" %}
+                        <i class="bi bi-pencil"></i>
                     </a>
                     <a href="{% url 'user_manager:delete' user.id %}" 
                        class="btn btn-sm btn-outline-danger"
                        onclick="return confirm('Are you sure?')">
-                        {% bootstrap_icon "trash" %}
+                        <i class="bi bi-trash"></i>
                     </a>
                 </div>
             </td>
