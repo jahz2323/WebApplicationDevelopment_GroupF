@@ -1,72 +1,6 @@
-:root {
-    --primary-color: #ffffff;
-    --secondary-color: #1a1a1a;
-    --text-color: #ffffff;
-    --accent-color: #333333;
-    --link-hover-color: rgba(97, 246, 219, 0.94);
-}
+{% load static %}
 
-body {
-    background-color: var(--accent-color);
-    padding: 0;
-    margin: 0 auto !important;
-}
-
-.nav {
-    background-color: var(--secondary-color);
-    border-bottom: 1px solid #e6ecf5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    max-height: 100px;
-}
-
-.nav-img {
-    max-width: 100px;
-    max-height: 50px;
-}
-
-.navbar {
-    width: 100%;
-    padding: 0 1rem;
-    gap: 2rem !important;
-}
-
-.navbar-collapse {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#search-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.form-control:hover {
-    box-shadow: none;
-    border-color: #4dabf7 !important;
-    animation: ease 0.3s;
-
-}
-
-.form-control {
-    background-color: var(--primary-color); /* white bg */
-    color: var(--text-color); 
-}
-
-.btn {
-    background-color: var(--secondary-color);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--text-color);
-}
-
-.btn:hover {
-    background-color: var(--link-hover-color);
-    color: var(--text-color);
-}
+<style>
 
 #left-menu {
     position: fixed;
@@ -153,3 +87,35 @@ body {
     }
 
 }
+</style>
+<div id="left-menu">
+    <ul>
+        <li class="has-sub border-bottom">
+            <a href="{% url 'Dashboard' %}">
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="has-sub">
+            <a href="#">
+                <span>User Registration</span>
+            </a>
+        </li>
+        <li class="has-sub">
+            <a href="#">
+                <span>User Management</span>
+            </a>
+        </li>
+        <li class="has-sub">
+            <a href="{% url 'MachineryList' %}">
+                <span>Machinery List page</span>
+            </a>
+        </li>
+        <li class="has-sub">
+            <a href="#">
+                <span>Fault Case List page</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script src="{% static 'js/LeftMenu.js' %}"></script>
