@@ -1,20 +1,99 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from .forms import CustomUserForm
+from django.template import loader, Context
+from App.models import *
 from .models import UserProfile, Machinery, MachineryFault, MachineryWarning, Collection
 from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery
+from .forms import CustomUserForm
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.models import Group, User
+
 
 # Static Pages
 def App(request):
     return render(request, "../templates/StaticPages/Homepage.html")
 
 def About(request):
+    context = {}
+
+    return render(request, "../templates/StaticPages/About.html", context)
+
+
+# Authors  Jahziel
+"""
+For all users, display navigation (left-menu) which provides links to different pages, 
+On mouse enter page.X < 170 display the left-menu where the user can navigate to the different pages 
+
+Visualisation : Chartjs 
+Idea: Display the downtime for FAULT machinery 
+The downtime is calculated by subtracting the current time from the created_at time of the machinery
+This is the data loaded into dataset attrib 
+The chart used is a barchart with x being the name of the machinery and y being the downtime in days 
+DYNAMIC VIEWs
+Manager view: 
+Add machinery, Delete machinery 
+Assign Technician to machinery and Repair 
+
+Export file, txt for groups of machinery or for individual 
+"""
+
+
+# Authors Jahziel Belmonte
+def Dashboard(request):
+    print("all groups that are present in the system", request.user.groups.all())
+    print("user is authenticated", request.user.is_authenticated)
+    # Get current user group
+
+    user = request.user
+    print("user group:", user.groups.get())
+    print("all groups the user is in:", user.groups.all())
+    is_manager = user.groups.filter(name="Managers").exists()
+    is_technician = user.groups.filter(name="Technicians").exists()
+    is_repair = user.groups.filter(name="Repair").exists()
+    importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
+
+    print("is_manager:", is_manager)
+    print("is_technician:", is_technician)
+    print("is_repair:", is_repair)
+
+    if is_manager:
+        print("User is a manager:", user.username)
+        # Add logic for manager dashboard
+        # give context for labels - dynamically updated importance, technicians, repairs, and collections
+        context = {
+            "user": user,
+            "is_manager": is_manager,  # True if user is manager
+            "technicians": User.objects.filter(groups__name="Technicians"),
+            "repairs": User.objects.filter(groups__name="Repair"),
+            "importance": importance_levels,
+            "machinery": Machinery.objects.all(),
+            "machinery_faults": MachineryFault.objects.all(),
+            "machinery_warnings": MachineryWarning.objects.all(),
+            "collections": Collection.objects.all(),
+        }
+        return render(request, "../templates/DynamicPages/Dashboard.html", context)
+
+    elif is_technician:
+        print("User is a technician:", user.username)
+        # Add logic for technician dashboard
+        context = {}
+        return render(request, "../templates/DynamicPages/Dashboard.html", context)
+    elif is_repair:
+        print("User is a repair:", user.username)
+        # Add logic for repair dashboard
+    else:
+        # User is employee
+        print("User has no group assigned")
+
+    context = {}
+
     return render(request, "../templates/StaticPages/About.html")
 
 def Services(request):
     return render(request, "../templates/StaticPages/Services.html")
+
 
 def Contact(request):
     return render(request, "../templates/StaticPages/Contact.html")
@@ -85,6 +164,50 @@ def register_user(request):
     else:
         print("🟢 GET request made to submit-registration")
 
+def MachineryList(request):
+    print("Machinery list view accessed")
+    # Check if the user is authenticated
+    user = request.user
+
+    if user.is_authenticated:
+        print("User is authenticated:", user.username)
+        # Get selection from collection
+        if request.method == "GET":
+            # Collection id
+            Collection_id = request.GET.get("collection_id")
+            print("Requested Collection id :", Collection_id)
+            # Get machinery objects from specific collection
+            if Collection_id:
+                # Get the collection object
+                collection = Collection.objects.get(id=Collection_id)
+                # Get all machinery objects in the collection
+                machinery_list = Machinery.objects.filter(collections=collection)
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': Collection.objects.all(),
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+            else:
+                # Get all machinery objects from the database
+                machinery_list = Machinery.objects.all()
+                # Get all collection objects from the database
+                collections = Collection.objects.all()
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': collections,
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+        else:
+            return render(request, "../templates/DynamicPages/MachineryList.html", context)
+
+
+        # If the user is not authenticated, redirect to the login page
+    return render(request, "../templates/DynamicPages/Login.html", {
+            'error_message': 'You must be logged in to view this page'
+        })
+
     # Always re-render the form with errors and roles
     roles = ["Manager", "Technician", "Repair", "View-only"]
     return render(request, "userreg.html", {'form': form, 'roles': roles})
@@ -92,3 +215,4 @@ def register_user(request):
 # ✅ Registration success
 def registration_success(request):
     return HttpResponse("<h2>✅ Registration Successful!</h2><a href='/App/register/'>Back to form</a>")
+
