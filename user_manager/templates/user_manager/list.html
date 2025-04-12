@@ -1,0 +1,52 @@
+{% extends "user_manager/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="d-inline-block">User Management</h2>
+            <a href="{% url 'user_manager:create' %}" class="btn btn-primary float-end">
+                {% bootstrap_icon "plus-lg" %} Add User
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Search users..." 
+                   hx-get="{% url 'user_manager:list' %}"
+                   hx-trigger="keyup changed delay:500ms"
+                   hx-target="#users-table"
+                   name="search">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" 
+                    hx-get="{% url 'user_manager:list' %}"
+                    hx-trigger="change"
+                    hx-target="#users-table"
+                    name="role">
+                <option value="">All Roles</option>
+                <option value="technician">Technician</option>
+                <option value="repair">Repair</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'user_manager:list' %}" class="btn btn-outline-secondary w-100">
+                Reset Filters
+            </a>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive" id="users-table">
+                {% include 'user_manager/partials/user_table.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

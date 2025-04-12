@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'App',
+    'user_manager',
     # Bootstrap dependency
     'django_bootstrap5',
     # Chartjs dependency 

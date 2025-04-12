@@ -1,0 +1,28 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}User Management{% endblock %}</title>
+    
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    
+    <!-- Custom CSS -->
+    <link href="{% static 'App/css/styles.css' %}" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'user_manager/partials/navbar.html' %}
+    
+    <main class="container mt-4">
+        {% bootstrap_messages %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block javascript %}{% endblock %}
+</body>
+</html>

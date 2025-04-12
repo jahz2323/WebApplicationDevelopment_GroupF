@@ -1,0 +1,72 @@
+{% extends "user_manager/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        {% if object %}Update User{% else %}Create New User{% endif %}
+                    </h3>
+                </div>
+                
+                <div class="card-body">
+                    <form method="post" class="form">
+                        {% csrf_token %}
+                        
+                        {% bootstrap_form form layout='horizontal' %}
+                        
+                        <div class="row mb-4">
+                            <label class="col-form-label col-sm-3">Role</label>
+                            <div class="col-sm-9">
+                                <select name="role" class="form-select">
+                                    <option value="technician" {% if form.initial.role == 'technician' %}selected{% endif %}>
+                                        Technician
+                                    </option>
+                                    <option value="repair" {% if form.initial.role == 'repair' %}selected{% endif %}>
+                                        Repair
+                                    </option>
+                                    <option value="admin" {% if form.initial.role == 'admin' %}selected{% endif %}>
+                                        Admin
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-sm-9 offset-sm-3">
+                                <div class="border p-3 rounded">
+                                    <h5>Machine Assignments</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% bootstrap_field form.tech_machines show_label=False %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% bootstrap_field form.repair_machines show_label=False %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-9 offset-sm-3">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{% url 'user_manager:list' %}" class="btn btn-secondary">
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if object %}Update{% else %}Create{% endif %} User
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
