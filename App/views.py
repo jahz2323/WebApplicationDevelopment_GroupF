@@ -1,156 +1,94 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.template import loader, Context
-from App.models import *
-from .APIs import PerformanceChart,Add_Machinery,delete_Machinery,update_Machinery
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from .forms import CustomUserForm
+from .models import UserProfile, Machinery, MachineryFault, MachineryWarning, Collection
+from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery
 
-
-# Create your views here.
-
+# Static Pages
 def App(request):
-    context = {}
-
-    return render(request, "../templates/StaticPages/Homepage.html", context)
-
+    return render(request, "../templates/StaticPages/Homepage.html")
 
 def About(request):
-    context = {}
+    return render(request, "../templates/StaticPages/About.html")
 
-    return render(request, "../templates/StaticPages/About.html", context)
+def Services(request):
+    return render(request, "../templates/StaticPages/Services.html")
 
+def Contact(request):
+    return render(request, "../templates/StaticPages/Contact.html")
 
-# Authors  Jahziel
-"""
-For all users, display navigation (left-menu) which provides links to different pages, 
-On mouse enter page.X < 170 display the left-menu where the user can navigate to the different pages 
+def ProductCatalogue(request):
+    return render(request, "../templates/StaticPages/ProductCatalogue.html")
 
-Visualisation : Chartjs 
-Idea: Display the downtime for FAULT machinery 
-The downtime is calculated by subtracting the current time from the created_at time of the machinery
-This is the data loaded into dataset attrib 
-The chart used is a barchart with x being the name of the machinery and y being the downtime in days 
-DYNAMIC VIEWs
-Manager view: 
-Add machinery, Delete machinery 
-Assign Technician to machinery and Repair 
+# Login & Logout
+def Login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return render(request, "../templates/DynamicPages/Login.html", {'success_message': 'Login successful', 'user': user.username})
+        else:
+            return render(request, "../templates/DynamicPages/Login.html", {'error_message': 'Invalid username or password'})
+    return render(request, "../templates/DynamicPages/Login.html")
 
-Export file, txt for groups of machinery or for individual 
-"""
+def Logout(request):
+    logout(request)
+    return render(request, "../templates/StaticPages/Homepage.html", {'success_message': 'Logout successful'})
 
-# Authors Jahziel Belmonte
+# Dashboard logic
 def Dashboard(request):
-    print("all groups that are present in the system", request.user.groups.all())
-    print("user is authenticated", request.user.is_authenticated)
-    # Get current user group
-
     user = request.user
-    print("user group:", user.groups.get())
-    print("all groups the user is in:", user.groups.all())
     is_manager = user.groups.filter(name="Managers").exists()
     is_technician = user.groups.filter(name="Technicians").exists()
     is_repair = user.groups.filter(name="Repair").exists()
     importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
 
-    print("is_manager:", is_manager)
-    print("is_technician:", is_technician)
-    print("is_repair:", is_repair)
-
-    if is_manager:
-        print("User is a manager:", user.username)
-        # Add logic for manager dashboard
-        # give context for labels - dynamically updated importance, technicians, repairs, and collections
-        context = {
-            "user": user,
-            "is_manager": is_manager, # True if user is manager
-            "technicians": User.objects.filter(groups__name="Technicians"),
-            "repairs": User.objects.filter(groups__name="Repair"),
-            "importance" : importance_levels,
-            "machinery": Machinery.objects.all(),
-            "machinery_faults": MachineryFault.objects.all(),
-            "machinery_warnings": MachineryWarning.objects.all(),
-            "collections": Collection.objects.all(),
-        }
-        return render(request, "../templates/DynamicPages/Dashboard.html", context)
-
-    elif is_technician:
-        print("User is a technician:", user.username)
-        # Add logic for technician dashboard
-        context = {}
-        return render(request, "../templates/DynamicPages/Dashboard.html", context)
-    elif is_repair:
-        print("User is a repair:", user.username)
-        # Add logic for repair dashboard
-    else:
-        # User is employee
-        print("User has no group assigned")
-
-    context = {}
+    context = {
+        "user": user,
+        "is_manager": is_manager,
+        "technicians": User.objects.filter(groups__name="Technicians"),
+        "repairs": User.objects.filter(groups__name="Repair"),
+        "importance": importance_levels,
+        "machinery": Machinery.objects.all(),
+        "machinery_faults": MachineryFault.objects.all(),
+        "machinery_warnings": MachineryWarning.objects.all(),
+        "collections": Collection.objects.all(),
+    }
 
     return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
+# ✅ User registration (GET view)
+def user_registration(request):
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    form = CustomUserForm()
+    return render(request, "userreg.html", {'form': form, 'roles': roles})
 
-# Authors  Jahziel
-def Login(request):
-    print("Login view accessed")
-    if request.method == "POST":
-        print("Received POST data:", request.POST)
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            print("User authenticated successfully:", user)
-            return render(request, "../templates/DynamicPages/Login.html", {
-                'success_message': 'Login successful',
-                'user': user.username,
-            })
+# ✅ Handles registration POST
+def register_user(request):
+    if request.method == 'POST':
+        print("🔄 POST request received")
+        form = CustomUserForm(request.POST)
+        if form.is_valid():
+            print("✅ Form is valid")
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            UserProfile.objects.create(user=user, role=role)
+            print(f"👤 User {user.username} created with role {role}")
+            return redirect('registration_success')
         else:
-            print("Authentication failed")
-            return render(request, "../templates/DynamicPages/Login.html", {
-                'error_message': 'Invalid username or password'
-            })
-    # If the request method is GET, render the login page
+            print("❌ Form is invalid")
+            print(form.errors)
+    else:
+        print("🟢 GET request made to submit-registration")
 
-    context = {
+    # Always re-render the form with errors and roles
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    return render(request, "userreg.html", {'form': form, 'roles': roles})
 
-    }
-    return render(request, "../templates/DynamicPages/Login.html", context)
-
-
-# Authors  Jahziel
-def Logout(request):
-    logout(request)
-    return render(request, "../templates/StaticPages/Homepage.html", {
-        'success_message': 'Logout successful',
-    })
-
-
-def Services(request):
-    context = {}
-
-    return render(request, "../templates/StaticPages/Services.html", context)
-
-
-def ProductCatalogue(request):
-    context = {}
-    return render(request, "../templates/StaticPages/ProductCatalogue.html", context)
-
-
-def Contact(request):
-    context = {}
-    return render(request, "../templates/StaticPages/Contact.html", context)
-
-# def FaultCase(request):
-#     if request.method == "POST":
-#     context = {}
-#     machinery = Machinery.objects.get(id=machinery_id)
-#     if user_technician:
-#       function: Able to create new fault case
-
-#     faults = MachineryFault.objects.filter(machinery=machinery)
-#     context['machinery'] = machinery
-#     context['faults'] = faults
-#     return render(request, "../templates/DynamicPages/FaultCase.html", context)
+# ✅ Registration success
+def registration_success(request):
+    return HttpResponse("<h2>✅ Registration Successful!</h2><a href='/App/register/'>Back to form</a>")
