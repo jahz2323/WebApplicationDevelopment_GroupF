@@ -30,52 +30,16 @@ def user_list(request):
     return render(request, "user_manager/user_list.html", {"user_data": user_data})
 
 
-# View to handle editing a user
-@login_required
-def edit_user(request, user_id):
-    # Fetch the user object from the database
-    user = get_object_or_404(User, id=user_id)
-    
-    # Pre-fill the form with the current user's data
-    if request.method == "POST":
-        form = UserCreationForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('user_list')  # Redirect after saving the user
-    else:
-        form = UserCreationForm(instance=user)
-
-    return render(request, 'user_manager/edit_user.html', {'form': form, 'user': user})
-
-
-# Already implemented in the registration section
-# Function to add user
-# @login_required
-# def add_user(request):
-#     if request.method == "POST":
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             # Redirect to user list after successful registration
-#             return redirect('user_list')
-#     else:
-#         form = UserCreationForm()
-
-#     return render(request, 'user_manager/add_user.html', {'form': form})
-
-
-
-
-
-# Temporary functions
-
-
-
 # View to handle deleting a user
 @login_required
-def delete_user(request, id):
-    user = get_object_or_404(User, id=id)
-    if request.method == 'POST':
-        user.delete()
-        return redirect('user_list')  # Redirect to the user list page after deletion
-    return render(request, 'user_manager/confirm_delete.html', {'user': user})
+def delete_user(request, user_id):
+    user_to_delete = get_object_or_404(User, pk=user_id)
+
+    # Prevent users from deleting themselves
+    if user_to_delete == request.user:
+        messages.error(request, "You cannot delete your own account.")
+        return redirect('user_list')
+
+    user_to_delete.delete()
+    messages.success(request, f"User '{user_to_delete.username}' has been deleted.")
+    return redirect('user_list')
