@@ -1,80 +1,64 @@
-# user_manager/views.py
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render, redirect
+from App.models import UserProfile
 from django.contrib import messages
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from App.models import Machinery
-from .forms import UserForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
-User = get_user_model()
 
-class UserListView(LoginRequiredMixin, ListView):
-    model = User
-    template_name = 'user_manager/list.html'
-    context_object_name = 'users'
-    paginate_by = 10
+# Function to render users list for user management page
+@login_required
+def user_list(request):
+    # get all users objects
+    users = User.objects.all()
+    user_data = []
 
-    def get_queryset(self):
-        queryset = super().get_queryset().select_related('userprofile')
+    # loop through each user for details
+    for user in users:
+        try:
+            role = user.groups.first()
+        except UserProfile.DoesNotExist:
+            role = "N/A"
+        tech_machines = user.assigned_machinery_tech.all()
+        repair_machines = user.assigned_machinery_repair.all()
         
-        # Filters
-        if self.request.GET.get('role'):
-            queryset = queryset.filter(profile__role=self.request.GET['role'])
-        if self.request.GET.get('search'):
-            queryset = queryset.filter(
-                Q(username__icontains=self.request.GET['search']) |
-                Q(email__icontains=self.request.GET['search'])
-            )
-        return queryset
+        user_data.append({
+            "user": user,
+            "role": role,
+            "machines": list(tech_machines) + list(repair_machines)
+        })
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['machinery'] = Machinery.objects.all()
-        return context
+    return render(request, "user_manager/user_list.html", {"user_data": user_data})
 
-class UserCreateView(LoginRequiredMixin, CreateView):
-    model = User
-    form_class = UserForm
-    template_name = 'user_manager/form.html'
-    success_url = reverse_lazy('user_manager:list')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        # Handle profile and assignments
-        self.object.profile.role = self.request.POST.get('role')
-        self.object.profile.save()
-        self.object.assigned_machinery_tech.set(form.cleaned_data['tech_machines'])
-        self.object.assigned_machinery_repair.set(form.cleaned_data['repair_machines'])
-        messages.success(self.request, "User created successfully!")
-        return response
+# Function to add user
+@login_required
+def add_user(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Set default role
+            UserProfile.objects.create(user=user, role='Technician')
+            messages.success(request, "User created!")
+            return redirect('user_list')
+    else:
+        form = UserCreationForm()
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
-    form_class = UserForm
-    template_name = 'user_manager/form.html'
-    success_url = reverse_lazy('user_manager:list')
+    return render(request, "user_manager/add_user.html", {"form": form})
 
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['role'] = self.object.profile.role
-        return initial
+# View to handle editing a user
+@login_required
+def edit_user(request, id):
+    user = get_object_or_404(User, id=id)
+    # Add your logic for editing the user here
+    return render(request, 'user_manager/edit_user.html', {'user': user})
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        # Handle profile and assignments
-        self.object.profile.role = self.request.POST.get('role')
-        self.object.profile.save()
-        self.object.assigned_machinery_tech.set(form.cleaned_data['tech_machines'])
-        self.object.assigned_machinery_repair.set(form.cleaned_data['repair_machines'])
-        messages.success(self.request, "User updated successfully!")
-        return response
-
-class UserDeleteView(LoginRequiredMixin, DeleteView):
-    model = User
-    success_url = reverse_lazy('user_manager:list')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, "User deleted successfully!")
-        return super().delete(request, *args, **kwargs)
+# View to handle deleting a user
+@login_required
+def delete_user(request, id):
+    user = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('user_list')  # Redirect to the user list page after deletion
+    return render(request, 'user_manager/confirm_delete.html', {'user': user})
