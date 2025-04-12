@@ -27,7 +27,7 @@ def user_list(request):
             "role": role,
             "machines": list(tech_machines) + list(repair_machines)
         })
-    return render(request, "user_manager/user_list.html", {"user_data": user_data})
+    return render(request, "user_manager/partials/user_list_table.html", {"user_data": user_data})
 
 
 # View to handle deleting a user
