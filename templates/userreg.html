@@ -1,0 +1,172 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration - Dark Theme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'css/stylereg.css' %}" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+    {% include 'common/navbar.html' %}
+    <div class="container py-5">
+        <div class="card bg-dark border-light">
+            <div class="card-header border-bottom border-secondary">
+                <h4><i class="fas fa-user-plus me-2"></i> New User Registration</h4>
+            </div>
+            <div class="card-body">
+                <!-- Alert for errors -->
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul class="mb-0">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                <!-- Nav Tabs -->
+                <ul class="nav nav-pills justify-content-center mb-4" id="formTabs">
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basic">Basic Information</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#role">Role Selection</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirmation">Confirmation</button></li>
+                </ul>
+
+                <!-- Form Start -->
+                <form id="registrationForm" method="POST" action="{% url 'register_user' %}" novalidate>
+
+                    {% csrf_token %}
+                    <div class="tab-content">
+
+                        <!-- Basic Information -->
+                        <div class="tab-pane fade show active" id="basic">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="username" class="form-label text-white">Username *</label>
+                                    <input type="text" id="username" name="username" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                                <div class="col">
+                                    <label for="email" class="form-label text-white">Email *</label>
+                                    <input type="email" id="email" name="email" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="firstName" class="form-label text-white">First Name *</label>
+                                    <input type="text" id="firstName" name="first_name" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                                <div class="col">
+                                    <label for="lastName" class="form-label text-white">Last Name *</label>
+                                    <input type="text" id="lastName" name="last_name" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="password" class="form-label text-white">Password *</label>
+                                    <input type="password" id="password" name="password1" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                                <div class="col">
+                                    <label for="confirmPassword" class="form-label text-white">Confirm Password *</label>
+                                    <input type="password" id="confirmPassword" name="password2" class="form-control bg-dark text-light border-secondary" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="department" class="form-label text-white">Department</label>
+                                <select id="department" class="form-select bg-dark text-light border-secondary">
+                                    <option value="">Select Department</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Quality">Quality</option>
+                                    <option value="Management">Management</option>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" id="nextStep">Next: Role Selection</button>
+                            </div>
+                        </div>
+
+                        <!-- Role Selection -->
+                        <div class="tab-pane fade" id="role">
+                            <div class="alert alert-info text-dark">Select a role for the user:</div>
+                            <div class="row g-4">
+                                {% for role in roles %}
+                                <div class="col-md-3">
+                                    <div class="card role-card text-center p-3 h-100 border border-secondary bg-dark text-light" data-role="{{ role }}">
+                                        <div class="fs-1 mb-2 text-primary">
+                                            {% if role == "Manager" %}
+                                                <i class="fas fa-user-tie"></i>
+                                            {% elif role == "Technician" %}
+                                                <i class="fas fa-hard-hat"></i>
+                                            {% elif role == "Repair" %}
+                                                <i class="fas fa-tools"></i>
+                                            {% else %}
+                                                <i class="fas fa-eye"></i>
+                                            {% endif %}
+                                        </div>
+                                        <h5>{{ role }}</h5>
+                                        <p class="text-muted">Role: {{ role }} access rights.</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <input type="hidden" id="selectedRole" name="role">
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" id="prevStep">← Previous</button>
+                                <button type="button" class="btn btn-primary" id="nextConfirm">Next: Confirmation →</button>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation -->
+                        <div class="tab-pane fade" id="confirmation">
+                            <div class="alert alert-success text-dark">Review all details before submission.</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="text-info">User Information</h5>
+                                    <table class="table table-dark table-bordered">
+                                        <tr><th>Username</th><td id="confirmUsername">-</td></tr>
+                                        <tr><th>Full Name</th><td id="confirmFullName">-</td></tr>
+                                        <tr><th>Email</th><td id="confirmEmail">-</td></tr>
+                                        <tr><th>Department</th><td id="confirmDepartment">-</td></tr>
+                                        <tr><th>Role</th><td id="confirmRole">-</td></tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="text-info">Account Options</h5>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="sendCredentials" checked>
+                                        <label class="form-check-label" for="sendCredentials">Send login credentials to email</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="requirePasswordChange" checked>
+                                        <label class="form-check-label" for="requirePasswordChange">Require password change on first login</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="termsAgree" required>
+                                <label class="form-check-label" for="termsAgree">I confirm all details are correct and comply with company policy.</label>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" id="prevConfirm">← Previous</button>
+                                <button type="submit" class="btn btn-success" id="createUserBtn">Create User</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include 'common/footer.html' %}
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/userreg.js' %}"></script>
+</body>
+</html>

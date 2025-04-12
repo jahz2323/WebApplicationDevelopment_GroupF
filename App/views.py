@@ -1,20 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader, Context
 from App.models import *
+from .models import UserProfile, Machinery, MachineryFault, MachineryWarning, Collection
 from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery
+from .forms import CustomUserForm
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
-# Create your views here.
-
+# Static Pages
 def App(request):
-    context = {}
-
-    return render(request, "../templates/StaticPages/Homepage.html", context)
-
+    return render(request, "../templates/StaticPages/Homepage.html")
 
 def About(request):
     context = {}
@@ -90,60 +89,80 @@ def Dashboard(request):
 
     context = {}
 
-    return render(request, "../templates/DynamicPages/Dashboard.html", context)
-
-
-# Authors  Jahziel
-def Login(request):
-    print("Login view accessed")
-    if request.method == "POST":
-        print("Received POST data:", request.POST)
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            print("User authenticated successfully:", user)
-            return render(request, "../templates/DynamicPages/Login.html", {
-                'success_message': 'Login successful',
-                'user': user.username,
-            })
-        else:
-            print("Authentication failed")
-            return render(request, "../templates/DynamicPages/Login.html", {
-                'error_message': 'Invalid username or password'
-            })
-    # If the request method is GET, render the login page
-
-    context = {
-
-    }
-    return render(request, "../templates/DynamicPages/Login.html", context)
-
-
-# Authors  Jahziel
-def Logout(request):
-    logout(request)
-    return render(request, "../templates/StaticPages/Homepage.html", {
-        'success_message': 'Logout successful',
-    })
-
+    return render(request, "../templates/StaticPages/About.html")
 
 def Services(request):
-    context = {}
-
-    return render(request, "../templates/StaticPages/Services.html", context)
-
-
-def ProductCatalogue(request):
-    context = {}
-    return render(request, "../templates/StaticPages/ProductCatalogue.html", context)
+    return render(request, "../templates/StaticPages/Services.html")
 
 
 def Contact(request):
-    context = {}
-    return render(request, "../templates/StaticPages/Contact.html", context)
+    return render(request, "../templates/StaticPages/Contact.html")
 
+def ProductCatalogue(request):
+    return render(request, "../templates/StaticPages/ProductCatalogue.html")
+
+# Login & Logout
+def Login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return render(request, "../templates/DynamicPages/Login.html", {'success_message': 'Login successful', 'user': user.username})
+        else:
+            return render(request, "../templates/DynamicPages/Login.html", {'error_message': 'Invalid username or password'})
+    return render(request, "../templates/DynamicPages/Login.html")
+
+def Logout(request):
+    logout(request)
+    return render(request, "../templates/StaticPages/Homepage.html", {'success_message': 'Logout successful'})
+
+# Dashboard logic
+def Dashboard(request):
+    user = request.user
+    is_manager = user.groups.filter(name="Managers").exists()
+    is_technician = user.groups.filter(name="Technicians").exists()
+    is_repair = user.groups.filter(name="Repair").exists()
+    importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
+
+    context = {
+        "user": user,
+        "is_manager": is_manager,
+        "technicians": User.objects.filter(groups__name="Technicians"),
+        "repairs": User.objects.filter(groups__name="Repair"),
+        "importance": importance_levels,
+        "machinery": Machinery.objects.all(),
+        "machinery_faults": MachineryFault.objects.all(),
+        "machinery_warnings": MachineryWarning.objects.all(),
+        "collections": Collection.objects.all(),
+    }
+
+    return render(request, "../templates/DynamicPages/Dashboard.html", context)
+
+# ✅ User registration (GET view)
+def user_registration(request):
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    form = CustomUserForm()
+    return render(request, "userreg.html", {'form': form, 'roles': roles})
+
+# ✅ Handles registration POST
+def register_user(request):
+    if request.method == 'POST':
+        print("🔄 POST request received")
+        form = CustomUserForm(request.POST)
+        if form.is_valid():
+            print("✅ Form is valid")
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            UserProfile.objects.create(user=user, role=role)
+            print(f"👤 User {user.username} created with role {role}")
+            return redirect('registration_success')
+        else:
+            print("❌ Form is invalid")
+            print(form.errors)
+    else:
+        print("🟢 GET request made to submit-registration")
 
 def MachineryList(request):
     print("Machinery list view accessed")
@@ -188,14 +207,12 @@ def MachineryList(request):
     return render(request, "../templates/DynamicPages/Login.html", {
             'error_message': 'You must be logged in to view this page'
         })
-# def FaultCase(request):
-#     if request.method == "POST":
-#     context = {}
-#     machinery = Machinery.objects.get(id=machinery_id)
-#     if user_technician:
-#       function: Able to create new fault case
 
-#     faults = MachineryFault.objects.filter(machinery=machinery)
-#     context['machinery'] = machinery
-#     context['faults'] = faults
-#     return render(request, "../templates/DynamicPages/FaultCase.html", context)
+    # Always re-render the form with errors and roles
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    return render(request, "userreg.html", {'form': form, 'roles': roles})
+
+# ✅ Registration success
+def registration_success(request):
+    return HttpResponse("<h2>✅ Registration Successful!</h2><a href='/App/register/'>Back to form</a>")
+
