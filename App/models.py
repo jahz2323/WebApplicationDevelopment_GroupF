@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+# imports for user registration page 
+from django.db import models
+from django.contrib.auth.models import User
+
 
 User = get_user_model()
 
@@ -153,4 +157,15 @@ class FaultComment(models.Model):
 
     class Meta:
         ordering = ['created_at']
+
+# userregistration class 
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
+
+
 

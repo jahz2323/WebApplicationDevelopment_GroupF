@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # Static pages
     path("", views.App, name="App"),
     path("Dashboard/", views.Dashboard, name="Dashboard"),
     path("About/", views.About, name="About"),
@@ -14,4 +15,9 @@ urlpatterns = [
     path("Dashboard/Add_Machinery/", views.Add_Machinery, name="Add_Machinery"),
     path("Dashboard/delete_Machinery/", views.delete_Machinery, name="delete_Machinery"),
     path("Dashboard/update_Machinery/", views.update_Machinery, name="update_Machinery"),
+
+    # User registration
+    path("register/", views.user_registration, name="user_registration"),
+    path("submit-registration/", views.register_user, name="register_user"),
+    path("register/success/", views.registration_success, name="registration_success"),
 ]
