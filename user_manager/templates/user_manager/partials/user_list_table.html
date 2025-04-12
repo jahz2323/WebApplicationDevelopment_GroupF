@@ -1,0 +1,42 @@
+{% extends '../base.html' %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">User Management</h1>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Assigned Machines</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in user_data %}
+        <tr>
+            <td>{{ entry.user.username }}</td>
+            <td>{{ entry.user.email }}</td>
+            <td>{{ entry.role }}</td>
+            <td>
+                {% for machine in entry.machines %}
+                    <span class="badge bg-info">{{ machine.name }}</span><br>
+                {% empty %}
+                    <span class="text-muted">None</span>
+                {% endfor %}
+            </td>
+            <td class="action-links">
+                <a href="{% url 'delete_user' entry.user.id %}" 
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this user?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
