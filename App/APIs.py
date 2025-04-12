@@ -53,6 +53,7 @@ def PerformanceChart(request):
         """
         items.append({
             "name": machinery.name,
+            "id": machinery.id,
             "status": machinery.status,
             "importance": machinery.importance,
             "created_at": machinery.created_at,

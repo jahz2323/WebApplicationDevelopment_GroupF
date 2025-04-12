@@ -1,92 +1,91 @@
 {% load static %}
-
 <style>
 
-#left-menu {
-    position: fixed;
-    top: 0;
-    width: 150px;
-    background-color: var(--primary-color);
-    overflow-y: auto;
-    height: 100vh;
-    border-right: 1px solid #e6ecf5;
-    margin-top: 0px;
-    -webkit-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: left 0.3s ease-in-out;
-    overflow-x: hidden;
-    z-index: 20;
-}
-
-#left-menu:hover {
-    left: 0; /* Reveal the menu when hovering */
-}
-
-.has-sub {
-    position: relative;
-    text-align: start;
-    font-size: 18px !important;
-    padding: 0.5rem 0 !important;
-}
-
-#main-content {
-    transition: margin-left 0.3s ease-in-out;
-    min-height: calc(100vh - 100px);
-    margin-left: 150px;
-    left: 150px;
-    clear: both;
-}
-
-
-#left-menu.small-left-menu li.has-sub::after {
-    content: '';
-}
-
-#left-menu.small-left-menu li.has-sub ul {
-    position: fixed;
-    width: 100px;
-    z-index: 123;
-    height: 0;
-    left: 10px;
-    padding-left: 15px;
-}
-
-@media only screen and (max-width: 992px) {
-    #left-menu,
-    #logo {
-        width: 60px;
+    #left-menu {
+        position: fixed;
+        top: 0;
+        width: 150px;
+        background-color: var(--primary-color);
+        overflow-y: auto;
+        height: 100vh;
+        border-right: 1px solid #e6ecf5;
+        margin-top: 0px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: left 0.3s ease-in-out;
+        overflow-x: hidden;
+        z-index: 20;
     }
 
-    #page-container,
-    #header .header-left {
-        padding-left: 0px;
+    #left-menu:hover {
+        left: 0; /* Reveal the menu when hovering */
     }
 
-    #toggle-left-menu, .big-logo {
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 992px) {
-    #left-menu li.has-sub::after {
-        position: absolute;
-        top: 10px;
-        right: 2px;
-        cursor: pointer;
-        transform: rotate(0deg);
-        -webkit-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        transition: all 0.3s ease;
+    .has-sub {
+        position: relative;
+        text-align: start;
+        font-size: 18px !important;
+        padding: 0.5rem 0 !important;
     }
 
-    #left-menu li.has-sub.rotate:after {
-        -webkit-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
+    #main-content {
+        transition: margin-left 0.3s ease-in-out;
+        min-height: calc(100vh - 100px);
+        margin-left: 150px;
+        left: 150px;
+        clear: both;
     }
 
-}
+
+    #left-menu.small-left-menu li.has-sub::after {
+        content: '';
+    }
+
+    #left-menu.small-left-menu li.has-sub ul {
+        position: fixed;
+        width: 100px;
+        z-index: 123;
+        height: 0;
+        left: 10px;
+        padding-left: 15px;
+    }
+
+    @media only screen and (max-width: 992px) {
+        #left-menu,
+        #logo {
+            width: 60px;
+        }
+
+        #page-container,
+        #header .header-left {
+            padding-left: 0px;
+        }
+
+        #toggle-left-menu, .big-logo {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 992px) {
+        #left-menu li.has-sub::after {
+            position: absolute;
+            top: 10px;
+            right: 2px;
+            cursor: pointer;
+            transform: rotate(0deg);
+            -webkit-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+        #left-menu li.has-sub.rotate:after {
+            -webkit-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+
+    }
 </style>
 <div id="left-menu">
     <ul>
@@ -95,8 +94,9 @@
                 <span>Dashboard</span>
             </a>
         </li>
+
         <li class="has-sub">
-            <a href="#">
+            <a href="{% url 'user_registration' %}">
                 <span>User Registration</span>
             </a>
         </li>
