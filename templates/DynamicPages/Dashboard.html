@@ -98,7 +98,7 @@ Thomas viard
             </a>
         </li>
         <li class="has-sub">
-            <a href="#">
+            <a href="{% url 'MachineryList' %}">
                 <span>Machinery List page</span>
             </a>
         </li>
@@ -185,7 +185,7 @@ Thomas viard
                                 <label for="assigned-repair">{{ rep.username }}</label> <br>
                             {% endfor %}
                             <br>
-                            <label for="collections">Collections:</label>
+                            <label for="collections-{{ col.id }}">Collections:</label>
                             <br>
                             {% for col in collections %}
                                 <input type="checkbox" id="collections-{{ col.id }}" name="collections"

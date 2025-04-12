@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader, Context
 from App.models import *
-from .APIs import PerformanceChart,Add_Machinery,delete_Machinery,update_Machinery
+from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.models import Group
@@ -40,6 +40,7 @@ Assign Technician to machinery and Repair
 Export file, txt for groups of machinery or for individual 
 """
 
+
 # Authors Jahziel Belmonte
 def Dashboard(request):
     print("all groups that are present in the system", request.user.groups.all())
@@ -64,10 +65,10 @@ def Dashboard(request):
         # give context for labels - dynamically updated importance, technicians, repairs, and collections
         context = {
             "user": user,
-            "is_manager": is_manager, # True if user is manager
+            "is_manager": is_manager,  # True if user is manager
             "technicians": User.objects.filter(groups__name="Technicians"),
             "repairs": User.objects.filter(groups__name="Repair"),
-            "importance" : importance_levels,
+            "importance": importance_levels,
             "machinery": Machinery.objects.all(),
             "machinery_faults": MachineryFault.objects.all(),
             "machinery_warnings": MachineryWarning.objects.all(),
@@ -143,6 +144,50 @@ def Contact(request):
     context = {}
     return render(request, "../templates/StaticPages/Contact.html", context)
 
+
+def MachineryList(request):
+    print("Machinery list view accessed")
+    # Check if the user is authenticated
+    user = request.user
+
+    if user.is_authenticated:
+        print("User is authenticated:", user.username)
+        # Get selection from collection
+        if request.method == "GET":
+            # Collection id
+            Collection_id = request.GET.get("collection_id")
+            print("Requested Collection id :", Collection_id)
+            # Get machinery objects from specific collection
+            if Collection_id:
+                # Get the collection object
+                collection = Collection.objects.get(id=Collection_id)
+                # Get all machinery objects in the collection
+                machinery_list = Machinery.objects.filter(collections=collection)
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': Collection.objects.all(),
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+            else:
+                # Get all machinery objects from the database
+                machinery_list = Machinery.objects.all()
+                # Get all collection objects from the database
+                collections = Collection.objects.all()
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': collections,
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+        else:
+            return render(request, "../templates/DynamicPages/MachineryList.html", context)
+
+
+        # If the user is not authenticated, redirect to the login page
+    return render(request, "../templates/DynamicPages/Login.html", {
+            'error_message': 'You must be logged in to view this page'
+        })
 # def FaultCase(request):
 #     if request.method == "POST":
 #     context = {}

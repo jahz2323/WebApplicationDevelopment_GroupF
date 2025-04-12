@@ -1,10 +1,83 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MachineryList</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/MachineryList.css' %}"></link>
+
 </head>
 <body>
+{% include 'common/navbar.html' %}
+{% include 'common/leftmenu.html' %}
 
+<!--
+    Authors Jahziel and Omkar
+    Content area to display Machinery List page dynamically
+    functions :
+    Clientside:
+    browse all machines sorted by id
+    sort:
+    View machines in collections
+    Sort by importance
+    Sort by status
+    Serverside:
+    AJAX call GET
+ -->
+<div class="container-fluid mt-5 mb-5 justify-content-center flex-column" id="page-container" style="padding: 0px; top: 0px;">
+    <div class="row justify-content-center">
+        <div class="col-md col-lg-8 col-sm-12">
+            <h1>Machinery List</h1>
+            <div class="row">
+                <div class="col width-100">
+                    <form id="search-form" method="get" action="{% url 'MachineryList' %}">
+                        {% csrf_token %}
+                        <label for="collection-select">Select a Collection:</label>
+                        <select id="collection-select" name="collection_id">
+                            {% for collection in collections %}
+                            <option value="{{ collection.id }}">{{ collection.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="machinery-list">
+                <!-- Machinery list will be populated here -->
+                {% if user.is_authenticated %}
+                {% for machine in machinery_list %}
+                <form class="machine-form" method="post" action="">
+                    {% csrf_token %}
+                    <div class="machine-item">
+                        <h2>{{ machine.name }}</h2>
+                        <p>Status: {{ machine.status }}</p>
+                        <p>Importance: {{ machine.importance }}</p>
+                        <p> Machine Collection :
+                        {% for collection in machine.collections.all %}
+                            {{ collection.name }}
+                            {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                        </p>
+                        <p>Last Updated: {{ machine.updated_at }}</p>
+                        <p>Created At: {{ machine.created_at }}</p>
+                        <p>Status: {{ machine.status }}</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary"> View more!</button>
+                </form>
+                {% endfor %}
+                {% else %}
+                <p>Please log in to view the machinery list.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% include 'common/footer.html' %}
+<script src="{% static 'js/jquery.validate.js' %}"></script>
 </body>
 </html>
