@@ -29,7 +29,7 @@
                 {% endfor %}
             </td>
             <td class="action-links">
-                <a href="{% url 'delete_user' entry.user.id %}" 
+                <a href="{% url 'user_manager:delete_user' entry.user.id %}" 
                    class="btn btn-sm btn-danger"
                    onclick="return confirm('Are you sure you want to delete this user?');">
                     Delete
