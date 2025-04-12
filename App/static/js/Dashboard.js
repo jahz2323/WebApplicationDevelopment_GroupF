@@ -43,11 +43,13 @@ $(document).ready(function () {
                  chart plot the date time from when created and to current date time
                  */
                 names = data.items.map(item => item.name);
+                ids = data.items.map(item => item.id);
                 ticket_Date = data.items.map(item => item.created_at);
                 current_time = data.items.map(item => item.current_time);
                 console.log("names", names);
                 console.log("ticket_Date", ticket_Date);
                 console.log("current_time", current_time);
+                console.log("ids", ids);
 
                 data.items.forEach(item => {
                     $('#legendlist').append(`
