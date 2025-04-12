@@ -80,35 +80,9 @@ Thomas viard
     </nav>
 </div>
 
-<div id="left-menu">
-    <ul>
-        <li class="has-sub border-bottom">
-            <a href="{% url 'Dashboard' %}">
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="has-sub">
-            <a href="#">
-                <span>User Registration</span>
-            </a>
-        </li>
-        <li class="has-sub">
-            <a href="#">
-                <span>User Management</span>
-            </a>
-        </li>
-        <li class="has-sub">
-            <a href="{% url 'MachineryList' %}">
-                <span>Machinery List page</span>
-            </a>
-        </li>
-        <li class="has-sub">
-            <a href="#">
-                <span>Fault Case List page</span>
-            </a>
-        </li>
-    </ul>
-</div>
+{% include 'common/leftmenu.html' %}
+
+{# Main content area #}
 
 <div id="main-content">
     <div id="container">
