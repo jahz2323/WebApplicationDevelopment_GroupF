@@ -1,28 +1,54 @@
-// Simple carousel functionality
+// about.js – Carousel + Redirect Button
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("✅ about.js loaded and running!");
 
-    const prev = document.querySelector('.prev');
-    const next = document.querySelector('.next');
+    // Get elements
     const testimonials = document.querySelectorAll('.testimonial');
-    let currentIndex = 0;
+    const prevBtn = document.querySelector('.testimonial-nav.prev');
+    const nextBtn = document.querySelector('.testimonial-nav.next');
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    let index = 0;
 
-    // Hide all testimonials except the first one
-    testimonials.forEach((testimonial, index) => {
-        if (index !== 0) {
-            testimonial.style.display = 'none';
-        }
-    });
+    // Show testimonial at given index
+    function showTestimonial(i) {
+        testimonials.forEach((t, idx) => {
+            t.style.display = idx === i ? 'block' : 'none';
+        });
+    }
 
-    prev.addEventListener('click', function() {
-        testimonials[currentIndex].style.display = 'none';
-        currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
-        testimonials[currentIndex].style.display = 'block';
-    });
+    // Initially show the first testimonial
+    showTestimonial(index);
 
-    next.addEventListener('click', function() {
-        testimonials[currentIndex].style.display = 'none';
-        currentIndex = (currentIndex + 1) % testimonials.length;
-        testimonials[currentIndex].style.display = 'block';
-    });
+    // Previous button click
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            index = (index - 1 + testimonials.length) % testimonials.length;
+            showTestimonial(index);
+        });
+    }
+
+    // Next button click
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            index = (index + 1) % testimonials.length;
+            showTestimonial(index);
+        });
+    }
+
+    // Auto-slide every 6 seconds
+    setInterval(() => {
+        index = (index + 1) % testimonials.length;
+        showTestimonial(index);
+    }, 6000);
+
+    // Redirect button logic
+    if (getStartedBtn) {
+        getStartedBtn.addEventListener('click', () => {
+            const redirectUrl = getStartedBtn.getAttribute('data-url');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        });
+    }
 });
