@@ -194,21 +194,21 @@ def user_registration(request):
 
 def register_user(request):
     if request.method == 'POST':
-        print("🔄 POST request received")
+        print(" POST request received")
         form = CustomUserForm(request.POST)
         if form.is_valid():
-            print("✅ Form is valid")
+            print("Form is valid")
             user = form.save()
             role = form.cleaned_data.get('role')
             print(f"👤 Created user: {user.username}, Role: {role}")
             UserProfile.objects.create(user=user, role=role)
-            print("📦 UserProfile created successfully")
+            print(" UserProfile created successfully")
             return redirect('registration_success')
         else:
-            print("❌ Form is invalid:")
+            print(" Form is invalid:")
             print(form.errors)
     else:
-        print("🟢 GET request received for registration")
+        print(" GET request received for registration")
 
     form = CustomUserForm()
     roles = ["Manager", "Technician", "Repair", "View-only"]
@@ -216,7 +216,7 @@ def register_user(request):
 
 
 def registration_success(request):
-    return HttpResponse("<h2>✅ Registration Successful!</h2><a href='/App/register/'>Go back to form</a>")
+    return HttpResponse("<h2> Registration Successful!</h2><a href='/submit-registration/'>Go back to form</a>")
 
 
 # Authors Jahziel Belmonte
