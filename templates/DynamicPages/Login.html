@@ -16,6 +16,7 @@
   >
     {% include 'common/navbar.html'%}
 
+    <!-- Form Container -->
     <div
       class="container"
       style="
@@ -29,6 +30,7 @@
       "
     >
       <div class="row">
+        <!-- Form Starts -->
         <form
           id="login-form"
           method="post"
@@ -48,6 +50,7 @@
             "
             >Username:</label
           >
+          <!-- User Input -->
           <input
             type="text"
             id="username"
@@ -72,6 +75,7 @@
             "
             >Password:</label
           >
+          <!-- Password Input -->
           <input
             type="password"
             id="password"
@@ -111,6 +115,7 @@
 
     {% include 'common/footer.html' %}
 
+    <!-- JS Files -->
     <script src="{% static 'js/jquery.validate.js' %}"></script>
     <script src="{% static 'js/Login.js' %}"></script>
   </body>
