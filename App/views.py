@@ -94,7 +94,7 @@ def Dashboard(request):
             'assigned_machinery': assigned_machinery,
             "machinery": Machinery.objects.all(),
             'ok_count': ok_count,
-            'total_count': total_count
+            'total_count': total_count,
         }
         return render(request, "../templates/DynamicPages/Dashboard.html", context)
     elif is_repair:
@@ -104,7 +104,7 @@ def Dashboard(request):
             'assigned_machinery': assigned_machinery,
             "machinery": Machinery.objects.all(),
             'ok_count': ok_count,
-            'total_count': total_count
+            'total_count': total_count,
         }
         return render(request, "../templates/DynamicPages/Dashboard.html", context)
         # Add logic for repair dashboard
