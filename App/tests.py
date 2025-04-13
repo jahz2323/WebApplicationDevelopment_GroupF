@@ -1,9 +1,13 @@
 from django.test import TestCase
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from django.utils import timezone
 from datetime import timedelta
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.text import slugify
+from django.contrib.contenttypes.models import ContentType
+from django.test import override_settings
+from io import StringIO
+from django.core.management import call_command
 
 from .models import (
     Collection,
@@ -467,3 +471,143 @@ class UserProfileModelTest(TestCase):
         """Test the string representation of a user profile"""
         expected_str = f"{self.user.username} - {self.profile.role}"
         self.assertEqual(str(self.profile), expected_str)
+
+
+class GroupPermissionsTest(TestCase):
+    """Tests for the group permissions setup"""
+
+    def setUp(self):
+        # Create content types for the models
+        self.machinery_type = ContentType.objects.get_for_model(Machinery)
+        self.fault_type = ContentType.objects.get_for_model(MachineryFault)
+
+        # Create test users for each role
+        self.technician_user = User.objects.create_user(
+            username="tech_test",
+            password="testpass123"
+        )
+        self.repair_user = User.objects.create_user(
+            username="repair_test",
+            password="testpass123"
+        )
+        self.manager_user = User.objects.create_user(
+            username="manager_test",
+            password="testpass123"
+        )
+
+    def test_setup_groups_command(self):
+        """Test that the setup_groups command creates the expected groups and permissions"""
+        # Capture command output
+        out = StringIO()
+        call_command('setup_groups', stdout=out)
+        command_output = out.getvalue()
+
+        # Check that the command output indicates groups were created or already exist
+        self.assertIn('Group "Technicians"', command_output)
+        self.assertIn('Group "Repair"', command_output)
+        self.assertIn('Group "Managers"', command_output)
+
+        # Verify groups exist
+        self.assertTrue(Group.objects.filter(name="Technicians").exists())
+        self.assertTrue(Group.objects.filter(name="Repair").exists())
+        self.assertTrue(Group.objects.filter(name="Managers").exists())
+
+    def test_technician_permissions(self):
+        """Test that technicians have the correct permissions"""
+        # Run setup_groups command to ensure permissions are created
+        call_command('setup_groups')
+
+        # Get the technician group
+        technician_group = Group.objects.get(name="Technicians")
+
+        # Add user to the group
+        self.technician_user.groups.add(technician_group)
+
+        # Check that the technician has the expected permissions
+        self.assertTrue(self.technician_user.has_perm(f"App.view_machinery"))
+        self.assertTrue(self.technician_user.has_perm(f"App.add_warning"))
+        self.assertTrue(self.technician_user.has_perm(f"App.create_fault"))
+        self.assertTrue(self.technician_user.has_perm(f"App.comment_fault"))
+
+        # Check that the technician doesn't have manager or repair permissions
+        self.assertFalse(self.technician_user.has_perm(f"App.add_machinery"))
+        self.assertFalse(self.technician_user.has_perm(f"App.resolve_fault"))
+
+    def test_repair_permissions(self):
+        """Test that repair staff have the correct permissions"""
+        # Run setup_groups command to ensure permissions are created
+        call_command('setup_groups')
+
+        # Get the repair group
+        repair_group = Group.objects.get(name="Repair")
+
+        # Add user to the group
+        self.repair_user.groups.add(repair_group)
+
+        # Check that the repair staff has the expected permissions
+        self.assertTrue(self.repair_user.has_perm(f"App.view_machinery"))
+        self.assertTrue(self.repair_user.has_perm(f"App.remove_warning"))
+        self.assertTrue(self.repair_user.has_perm(f"App.resolve_fault"))
+        self.assertTrue(self.repair_user.has_perm(f"App.comment_fault"))
+
+        # Check that the repair staff doesn't have manager or technician permissions
+        self.assertFalse(self.repair_user.has_perm(f"App.add_machinery"))
+        self.assertFalse(self.repair_user.has_perm(f"App.create_fault"))
+
+    def test_manager_permissions(self):
+        """Test that managers have the correct permissions"""
+        # Run setup_groups command to ensure permissions are created
+        call_command('setup_groups')
+
+        # Get the manager group
+        manager_group = Group.objects.get(name="Managers")
+
+        # Add user to the group
+        self.manager_user.groups.add(manager_group)
+
+        # Check that the manager has the expected permissions
+        self.assertTrue(self.manager_user.has_perm(f"App.view_machinery"))
+        self.assertTrue(self.manager_user.has_perm(f"App.add_machinery"))
+        self.assertTrue(self.manager_user.has_perm(f"App.delete_machinery"))
+        self.assertTrue(self.manager_user.has_perm(f"App.assign_users"))
+        self.assertTrue(self.manager_user.has_perm(f"App.generate_reports"))
+        self.assertTrue(self.manager_user.has_perm(f"App.comment_fault"))
+
+        # Check that the manager doesn't have technician or repair specific permissions
+        self.assertFalse(self.manager_user.has_perm(f"App.create_fault"))
+        self.assertFalse(self.manager_user.has_perm(f"App.resolve_fault"))
+
+    def test_permission_separation(self):
+        """Test that permissions are properly separated between groups"""
+        # Run setup_groups command to ensure permissions are created
+        call_command('setup_groups')
+
+        # Get all groups
+        technician_group = Group.objects.get(name="Technicians")
+        repair_group = Group.objects.get(name="Repair")
+        manager_group = Group.objects.get(name="Managers")
+
+        # Get permissions for each group
+        technician_perms = set(technician_group.permissions.values_list('codename', flat=True))
+        repair_perms = set(repair_group.permissions.values_list('codename', flat=True))
+        manager_perms = set(manager_group.permissions.values_list('codename', flat=True))
+
+        # Check unique permissions for technicians
+        self.assertIn('add_warning', technician_perms)
+        self.assertIn('create_fault', technician_perms)
+        self.assertNotIn('add_warning', repair_perms)
+        self.assertNotIn('create_fault', manager_perms)
+
+        # Check unique permissions for repair staff
+        self.assertIn('remove_warning', repair_perms)
+        self.assertIn('resolve_fault', repair_perms)
+        self.assertNotIn('remove_warning', technician_perms)
+        self.assertNotIn('resolve_fault', manager_perms)
+
+        # Check unique permissions for managers
+        self.assertIn('add_machinery', manager_perms)
+        self.assertIn('delete_machinery', manager_perms)
+        self.assertIn('assign_users', manager_perms)
+        self.assertIn('generate_reports', manager_perms)
+        self.assertNotIn('add_machinery', technician_perms)
+        self.assertNotIn('delete_machinery', repair_perms)
