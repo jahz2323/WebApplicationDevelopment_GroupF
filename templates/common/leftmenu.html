@@ -1,5 +1,4 @@
 {% load static %}
-
 <style>
 
     #left-menu {
@@ -95,14 +94,14 @@
                 <span>Dashboard</span>
             </a>
         </li>
-        
+
         <li class="has-sub">
             <a href="{% url 'user_registration' %}">
                 <span>User Registration</span>
             </a>
         </li>
         <li class="has-sub">
-            <a href="#">
+            <a href="{% url 'user_manager:user_list' %}">
                 <span>User Management</span>
             </a>
         </li>

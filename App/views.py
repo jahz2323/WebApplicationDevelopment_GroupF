@@ -14,8 +14,10 @@ from django.contrib.auth.models import Group, User
 def App(request):
     return render(request, "../templates/StaticPages/Homepage.html")
 
+
 def About(request):
     return render(request, "../templates/StaticPages/About.html")
+
 
 def Services(request):
     return render(request, "../templates/StaticPages/Services.html")
@@ -23,8 +25,10 @@ def Services(request):
 def Contact(request):
     return render(request, "../templates/StaticPages/Contact.html")
 
+
 def ProductCatalogue(request):
     return render(request, "../templates/StaticPages/ProductCatalogue.html")
+
 
 # Login & Logout
 def Login(request):
@@ -34,14 +38,18 @@ def Login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return render(request, "../templates/DynamicPages/Login.html", {'success_message': 'Login successful', 'user': user.username})
+            return render(request, "../templates/DynamicPages/Login.html",
+                          {'success_message': 'Login successful', 'user': user.username})
         else:
-            return render(request, "../templates/DynamicPages/Login.html", {'error_message': 'Invalid username or password'})
+            return render(request, "../templates/DynamicPages/Login.html",
+                          {'error_message': 'Invalid username or password'})
     return render(request, "../templates/DynamicPages/Login.html")
+
 
 def Logout(request):
     logout(request)
     return render(request, "../templates/StaticPages/Homepage.html", {'success_message': 'Logout successful'})
+
 
 # Dashboard logic
 def Dashboard(request):
@@ -65,6 +73,7 @@ def Dashboard(request):
 
     return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
+<<<<<<< HEAD
 # ✅ User registration page (GET view)
 def user_registration(request):
     roles = ["Manager", "Technician", "Repair", "View-only"]
@@ -72,6 +81,16 @@ def user_registration(request):
     return render(request, "userreg.html", {'form': form, 'roles': roles})
 
 # ✅ Handles form POST submission
+=======
+
+# Authors Omkar
+def user_registration(request):
+    form = CustomUserForm()
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    return render(request, '../templates/DynamicPages/userreg.html', {'form': form, 'roles': roles})
+
+
+>>>>>>> master
 def register_user(request):
     roles = ["Manager", "Technician", "Repair", "View-only"]
     if request.method == 'POST':
@@ -81,14 +100,20 @@ def register_user(request):
             print("✅ Form is valid")
             user = form.save()
             role = form.cleaned_data.get('role')
+            print(f"👤 Created user: {user.username}, Role: {role}")
             UserProfile.objects.create(user=user, role=role)
+<<<<<<< HEAD
             print(f"👤 User created: {user.username}, Role: {role}")
+=======
+            print("📦 UserProfile created successfully")
+>>>>>>> master
             return redirect('registration_success')
         else:
-            print("❌ Form is invalid")
+            print("❌ Form is invalid:")
             print(form.errors)
             return render(request, "userreg.html", {'form': form, 'roles': roles})
     else:
+<<<<<<< HEAD
         print("🟢 GET request to /submit-registration/")
         form = CustomUserForm()
         return render(request, "userreg.html", {'form': form, 'roles': roles})
@@ -114,6 +139,58 @@ def MachineryList(request):
                 'collections': Collection.objects.all(),
             }
             return render(request, "../templates/DynamicPages/MachineryList.html", context)
+=======
+        print("🟢 GET request received for registration")
+
+    form = CustomUserForm()
+    roles = ["Manager", "Technician", "Repair", "View-only"]
+    return render(request, '../templates/DynamicPages/userreg.html', {'form': form, 'roles': roles})
+
+
+def registration_success(request):
+    return HttpResponse("<h2>✅ Registration Successful!</h2><a href='/App/register/'>Go back to form</a>")
+
+
+# Authors Jahziel Belmonte
+def MachineryList(request):
+    print("Machinery list view accessed")
+    # Check if the user is authenticated
+    user = request.user
+
+    if user.is_authenticated:
+        print("User is authenticated:", user.username)
+        # Get selection from collection
+        if request.method == "GET":
+            # Collection id
+            Collection_id = request.GET.get("collection_id")
+            print("Requested Collection id :", Collection_id)
+            # Get machinery objects from specific collection
+            if Collection_id:
+                # Get the collection object
+                collection = Collection.objects.get(id=Collection_id)
+                # Get all machinery objects in the collection
+                machinery_list = Machinery.objects.filter(collections=collection)
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': Collection.objects.all(),
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+            else:
+                # Get all machinery objects from the database
+                machinery_list = Machinery.objects.all()
+                # Get all collection objects from the database
+                collections = Collection.objects.all()
+                context = {
+                    'machinery_list': machinery_list,
+                    'user': user,
+                    'collections': collections,
+                }
+                return render(request, "../templates/DynamicPages/MachineryList.html", context)
+        else:
+            return render(request, "../templates/DynamicPages/MachineryList.html", context)
+        # If the user is not authenticated, redirect to the login page
+>>>>>>> master
     return render(request, "../templates/DynamicPages/Login.html", {
         'error_message': 'You must be logged in to view this page'
     })
