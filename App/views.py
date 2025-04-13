@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader, Context
@@ -307,9 +308,63 @@ def machinery_fault_list(request, machinery_id):
 
 
 # View to show detailed information about a specific fault case
+@login_required
 def fault_detail(request, pk):
-    # Retrieve the fault object using its primary key or return 404
     fault = get_object_or_404(MachineryFault, pk=pk)
 
-    # Render the fault_detail template with the fault data
-    return render(request, '../templates/DynamicPages/fault_detail.html', {'fault': fault})
+    if request.method == "POST" and request.user.has_perm("App.comment_fault"):
+        text = request.POST.get("text")
+        image = request.FILES.get("image")
+
+        if text:
+            FaultComment.objects.create(
+                fault=fault,
+                user=request.user,
+                text=text
+            )
+
+        if image:
+            FaultImage.objects.create(
+                fault=fault,
+                uploaded_by=request.user,
+                image=image
+            )
+
+        if request.user.has_perm("App.resolve_fault") and 'resolve' in request.POST:
+            fault.resolved = True
+            fault.resolved_by = request.user
+            fault.save()
+
+        return redirect("fault_detail", pk=fault.pk)
+
+    return render(request, "DynamicPages/fault_detail.html", {
+    })
+
+@login_required
+@permission_required("App.create_fault", raise_exception=True)
+def create_fault(request, machinery_id):
+    machinery = get_object_or_404(Machinery, pk=machinery_id)
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+        details = request.POST.get("details")
+        image = request.FILES.get("image")
+
+        if title and details:
+            fault = MachineryFault.objects.create(
+                title=title,
+                details=details,
+                created_by=request.user,
+                machinery=machinery
+            )
+
+            if image:
+                FaultImage.objects.create(
+                    fault=fault,
+                    uploaded_by=request.user,
+                    image=image
+                )
+
+            return redirect("fault_detail", pk=fault.pk)
+
+    return render(request, "../templates/DynamicPages/create_fault.html", {"machinery": machinery})

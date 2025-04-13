@@ -31,5 +31,9 @@
         No faults reported for this machinery.
     </div>
     {% endif %}
+    {% if perms.App.create_fault %}
+    <a href="{% url 'create_fault' machinery.pk %}" class="btn btn-danger mb-3">➕ Report a Fault</a>
+    {% endif %}
+
 </div>
 {% endblock %}

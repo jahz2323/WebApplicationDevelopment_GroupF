@@ -1,0 +1,24 @@
+{% extends "DynamicPages/base.html" %}
+
+{% block title %}Faults for {{ machinery.name }}{% endblock %}
+
+{% block content %}
+<h3>Report New Fault for {{ machinery.name }}</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label>Title</label>
+        <input type="text" name="title" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Details</label>
+        <textarea name="details" class="form-control" rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Image (optional)</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+    <button class="btn btn-danger" type="submit">Create Fault</button>
+</form>
+{% endblock %}
+
