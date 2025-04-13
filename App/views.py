@@ -153,7 +153,7 @@ def Dashboard(request):
 def user_registration(request):
     form = CustomUserForm()
     roles = ["Manager", "Technician", "Repair", "View-only"]
-    return render(request, 'userreg.html', {'form': form, 'roles': roles})
+    return render(request, '../templates/DynamicPages/userreg.html', {'form': form, 'roles': roles})
 
 
 def register_user(request):
@@ -176,7 +176,7 @@ def register_user(request):
 
     form = CustomUserForm()
     roles = ["Manager", "Technician", "Repair", "View-only"]
-    return render(request, 'userreg.html', {'form': form, 'roles': roles})
+    return render(request, '../templates/DynamicPages/userreg.html', {'form': form, 'roles': roles})
 
 
 def registration_success(request):
