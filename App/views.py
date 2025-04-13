@@ -94,7 +94,29 @@ def Dashboard(request):
 
 
 def Services(request):
-    return render(request, "../templates/StaticPages/Services.html")
+    services_data = [
+        {
+            'image': 'media/ServicePage/Mchn.jpg',
+            'title': 'Machine Status Monitoring',
+            'description': 'Stay updated on machine health with real-time data and alerts.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn1.jpg',
+            'title': 'Fault Reporting',
+            'description': 'Technicians can report and log faults instantly for quicker resolution.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn2.jpg',
+            'title': 'Repair Management',
+            'description': 'Repair personnel can view, update, and resolve reported issues.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn3.jpg',
+            'title': 'Manager Dashboard',
+            'description': 'Managers can assign tasks, monitor operations, and view reports.'
+        }
+    ]
+    return render(request, "../templates/StaticPages/Services.html", {'services': services_data})
 
 
 def Contact(request):
@@ -228,3 +250,5 @@ def MachineryList(request):
     return render(request, "../templates/DynamicPages/Login.html", {
         'error_message': 'You must be logged in to view this page'
     })
+
+

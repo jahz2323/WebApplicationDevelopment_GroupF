@@ -1,0 +1,237 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Page Setup -->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Our Services</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/Services.css' %}"/>
+
+    <!-- Inline CSS for page styling -->
+    <style>
+        /* General page styles */
+
+
+
+        /* Main content area */
+        main {
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Slideshow container styling */
+        .slideshow-container {
+            position: relative;
+            max-width: 900px;
+            width: 90%;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Individual slide styling */
+        .slide {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .slide img {
+            width: 250px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .slide h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .slide p {
+            font-size: 16px;
+        }
+
+        /* Fade animation */
+        .fade {
+            animation: fade 1s ease-in-out;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0.3
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        /* Navigation arrows */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 50%;
+            user-select: none;
+            transition: background 0.3s;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* Dot indicators */
+        .dots {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 4px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- Header section with navigation -->
+{% include 'common/navbar.html' %}
+
+<!-- Main content with slideshow -->
+<main>
+    <div class="slideshow-container">
+        <!-- Slide 1 -->
+        <div class="slide fade">
+            <img src="/static/media/ServicePage/Mchn.jpg" alt="Machine Status Monitoring">
+            <h2>Machine Status Monitoring</h2>
+            <p>Keep track of your machines' operational status with real-time updates.</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide fade">
+            <img src="/static/media/ServicePage/Mchn1.jpg" alt="Fault Reporting">
+            <h2>Fault Reporting</h2>
+            <p>Technicians can report faults and log issues for repair personnel to address.</p>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide fade">
+            <img src="/static/media/ServicePage/Mchn2.jpg" alt="Repair Management">
+            <h2>Repair Management</h2>
+            <p>Repair teams can update fault reports, log repairs, and resolve issues efficiently.</p>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide fade">
+            <img src="/static/media/ServicePage/Mchn3.jpg" alt="Manager Dashboard">
+            <h2>Manager Dashboard</h2>
+            <p>Managers can oversee machine statuses, assign technicians, and generate reports.</p>
+        </div>
+
+        <!-- Navigation arrows -->
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+
+    <!-- Dot indicators for slide navigation -->
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+</main>
+
+<!-- Footer section -->
+{% include 'common/footer.html' %}
+
+<!-- Slideshow JavaScript -->
+<script>
+    let slideIndex = 1; // Current slide index
+    let slideTimer = 20;     // Timer for auto sliding
+
+    // Function to display the current slide
+    function showSlides(n) {
+        const slides = document.getElementsByClassName("slide");
+        const dots = document.getElementsByClassName("dot");
+
+        // Wrap around if out of bounds
+        if (n > slides.length) slideIndex = 1;
+        if (n < 1) slideIndex = slides.length;
+
+        // Hide all slides
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+
+        // Remove 'active' class from all dots
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.remove("active");
+        }
+
+        // Show the current slide and activate its dot
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].classList.add("active");
+    }
+
+    // Move forward/backward in slideshow
+    function plusSlides(n) {
+        clearTimeout(slideTimer); // Stop auto slide when user interacts
+        showSlides(slideIndex += n);
+        autoSlide(); // Restart auto slide
+    }
+
+    // Jump to a specific slide
+    function currentSlide(n) {
+        clearTimeout(slideTimer);
+        showSlides(slideIndex = n);
+        autoSlide();
+    }
+
+    // Automatically switch slides every 4 seconds
+    function autoSlide() {
+        slideTimer = setTimeout(() => {
+            plusSlides(1);
+        }, 4000);
+    }
+
+    // Initialize slideshow on page load
+    window.onload = () => {
+        showSlides(slideIndex);
+        autoSlide();
+    };
+</script>
+
+</body>
+</html>
