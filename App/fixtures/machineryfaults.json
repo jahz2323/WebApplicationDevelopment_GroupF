@@ -86,7 +86,7 @@
     "pk": 2,
     "fields": {
       "fault": 1,
-      "image": "fault_images/conveyor_jam.jpg",
+      "image": "fault_images/conveyor_jam.png",
       "uploaded_by": 3,
       "uploaded_at": "2025-04-03T10:40:00Z"
     }

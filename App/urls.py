@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Static pages
@@ -19,9 +21,10 @@ urlpatterns = [
     path("MachineryList/", views.MachineryList, name="MachineryList"),
     path('machinery/<int:machinery_id>/faults/', views.machinery_fault_list, name='machinery_fault_list'),
     path('fault/<int:pk>/', views.fault_detail, name='fault_detail'),
+    path("machinery/<int:machinery_id>/fault/create/", views.create_fault, name="create_fault"),
     # User registration
     path("register/", views.user_registration, name="user_registration"),
     path("submit-registration/", views.register_user, name="register_user"),
     path("register/success/", views.registration_success, name="registration_success"),
     # path("FaultCaseDetails <int:machinery_id>/", views.FaultCaseDetails, name="FaultCaseDetails"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
