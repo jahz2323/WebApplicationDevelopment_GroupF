@@ -1,4 +1,4 @@
-
+{% comment %} Authors Omkar Joshi {% endcomment %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,19 +6,29 @@
     <meta charset="UTF-8">
     <title>User Registration - Dark Theme</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- External Bootstrap and FontAwesome CSS for styling and icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom dark-theme CSS for registration page -->
     <link href="{% static 'css/stylereg.css' %}" rel="stylesheet">
 </head>
 <body class="bg-dark text-light">
+
+    <!-- Include shared navigation bar -->
     {% include 'common/navbar.html' %}
+
+    <!-- Main container for registration card -->
     <div class="container py-5">
         <div class="card bg-dark border-light">
             <div class="card-header border-bottom border-secondary">
                 <h4><i class="fas fa-user-plus me-2"></i> New User Registration</h4>
             </div>
+
             <div class="card-body">
-                <!-- Alert for errors -->
+
+                <!-- Display server-side form validation errors -->
                 {% if form.errors %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul class="mb-0">
@@ -32,21 +42,27 @@
                     </div>
                 {% endif %}
 
-                <!-- Nav Tabs -->
+                <!-- Navigation tabs for multi-step registration -->
                 <ul class="nav nav-pills justify-content-center mb-4" id="formTabs">
-                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basic">Basic Information</button></li>
-                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#role">Role Selection</button></li>
-                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirmation">Confirmation</button></li>
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basic">Basic Information</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#role">Role Selection</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirmation">Confirmation</button>
+                    </li>
                 </ul>
 
-                <!-- Form Start -->
+                <!-- Registration form begins -->
                 <form id="registrationForm" method="POST" action="{% url 'register_user' %}" novalidate>
-
                     {% csrf_token %}
                     <div class="tab-content">
 
-                        <!-- Basic Information -->
+                        <!-- STEP 1: Basic Information -->
                         <div class="tab-pane fade show active" id="basic">
+                            <!-- Username and Email -->
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="username" class="form-label text-white">Username *</label>
@@ -57,6 +73,8 @@
                                     <input type="email" id="email" name="email" class="form-control bg-dark text-light border-secondary" required>
                                 </div>
                             </div>
+
+                            <!-- First and Last Name -->
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="firstName" class="form-label text-white">First Name *</label>
@@ -67,6 +85,8 @@
                                     <input type="text" id="lastName" name="last_name" class="form-control bg-dark text-light border-secondary" required>
                                 </div>
                             </div>
+
+                            <!-- Password and Confirm Password -->
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="password" class="form-label text-white">Password *</label>
@@ -77,6 +97,8 @@
                                     <input type="password" id="confirmPassword" name="password2" class="form-control bg-dark text-light border-secondary" required>
                                 </div>
                             </div>
+
+                            <!-- Department Dropdown -->
                             <div class="mb-3">
                                 <label for="department" class="form-label text-white">Department</label>
                                 <select id="department" class="form-select bg-dark text-light border-secondary">
@@ -88,14 +110,20 @@
                                     <option value="Management">Management</option>
                                 </select>
                             </div>
+
+                            <!-- Button to go to Role Selection -->
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary" id="nextStep">Next: Role Selection</button>
                             </div>
                         </div>
 
-                        <!-- Role Selection -->
+                        <!-- 
+                             STEP 2: Role Selection
+                        = -->
                         <div class="tab-pane fade" id="role">
                             <div class="alert alert-info text-dark">Select a role for the user:</div>
+
+                            <!-- Role options as cards -->
                             <div class="row g-4">
                                 {% for role in roles %}
                                 <div class="col-md-3">
@@ -117,17 +145,25 @@
                                 </div>
                                 {% endfor %}
                             </div>
+
+                            <!-- Hidden input to hold selected role value -->
                             <input type="hidden" id="selectedRole" name="role">
+
+                            <!-- Nav buttons -->
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-secondary" id="prevStep">← Previous</button>
                                 <button type="button" class="btn btn-primary" id="nextConfirm">Next: Confirmation →</button>
                             </div>
                         </div>
 
-                        <!-- Confirmation -->
+                        <!-- 
+                             STEP 3: Confirmation
+                        = -->
                         <div class="tab-pane fade" id="confirmation">
                             <div class="alert alert-success text-dark">Review all details before submission.</div>
+
                             <div class="row">
+                                <!-- Summary of user input -->
                                 <div class="col-md-6 mb-3">
                                     <h5 class="text-info">User Information</h5>
                                     <table class="table table-dark table-bordered">
@@ -138,6 +174,8 @@
                                         <tr><th>Role</th><td id="confirmRole">-</td></tr>
                                     </table>
                                 </div>
+
+                                <!-- Options like email notification and password reset -->
                                 <div class="col-md-6 mb-3">
                                     <h5 class="text-info">Account Options</h5>
                                     <div class="form-check">
@@ -150,10 +188,16 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Agreement checkbox -->
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="termsAgree" required>
-                                <label class="form-check-label" for="termsAgree">I confirm all details are correct and comply with company policy.</label>
+                                <label class="form-check-label" for="termsAgree">
+                                    I confirm all details are correct and comply with company policy.
+                                </label>
                             </div>
+
+                            <!-- Submit and back buttons -->
                             <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary" id="prevConfirm">← Previous</button>
                                 <button type="submit" class="btn btn-success" id="createUserBtn">Create User</button>
@@ -164,9 +208,11 @@
             </div>
         </div>
     </div>
-    {% include 'common/leftmenu.html' %}
+
+    <!-- Include shared footer -->
     {% include 'common/footer.html' %}
-    <!-- Scripts -->
+
+    <!-- Required JS Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'js/userreg.js' %}"></script>
