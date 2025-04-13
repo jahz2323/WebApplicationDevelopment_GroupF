@@ -6,19 +6,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
 </head>
 <body>
+  {% include 'common/navbar.html' %}
   <header>
     <h1>Contact Us</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
   </header>
   <main>
     <form onsubmit="return validateContactForm()">
@@ -55,5 +48,6 @@
       return false;
     }
   </script>
+  {% include 'common/footer.html' %}
 </body>
 </html>

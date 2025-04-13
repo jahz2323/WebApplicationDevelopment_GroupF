@@ -2,203 +2,111 @@
 {% load django_bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Our Factory Machinery Tracking System</title>
-    <link rel="stylesheet" href="{% static 'css/About.css' %}">
+    <title>About Us - Factory Machinery Tracking System</title>
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
 </head>
 <body>
 {% include 'common/navbar.html' %}
 
-<section class="hero">
+<!-- Hero Section -->
+<section class="hero dark-bg text-center">
     <div class="container">
         <h1>About Our Factory Machinery Tracking System</h1>
-        <p>Discover the story behind our innovative solution, the principles that guide us, and how we're dedicated to
-            empowering your industrial operations to run smoothly and efficiently.</p>
+        <p class="lead">Empowering your industrial operations to run smoothly and efficiently with precision and automation.Our Factory Machinery Tracking System is a robust digital solution designed to help manufacturers monitor, maintain, and optimize their machinery operations in real time. 
+            From preventive maintenance scheduling to performance analytics, our platform empowers teams to reduce downtime, increase productivity, and make data-driven decisions. 
+            With a commitment to innovation and user-centric design, our system supports over 50,000 employees worldwide and has tracked over 5 million machines since inception.</p>
         <div class="hero-image">
-            <img src="./media/birmingham-museums-trust-vgTENcD9TvE-unsplash.jpg" alt="Factory Team Collaboration">
+            <img src="{% static 'media/manuERPneeds.jpg' %}" alt="Team Collaboration">
         </div>
     </div>
 </section>
 
-<section class="system-info">
+<!-- System Information -->
+<section class="system-info section-dark">
     <div class="container">
-        <h2>System Information</h2>
+        <h2 class="section-title">System Information</h2>
         <div class="info-cards">
             <div class="info-card">
                 <h3>Version Details</h3>
                 <ul>
-                    <li>Current Version: 2.5.3</li>
+                    <li>Version: 2.5.3</li>
                     <li>Release Date: June 15, 2025</li>
-                    <li>Latest Update: July 3, 2025</li>
-                    <li>Build Number: #1245</li>
-                    <li>Database Schema: v4.2</li>
+                    <li>Update: July 3, 2025</li>
+                    <li>Build: #1245</li>
+                    <li>DB Schema: v4.2</li>
                     <li>API Version: 1.8</li>
                 </ul>
             </div>
             <div class="info-card">
-                <h3>Contact Information</h3>
+                <h3>Contact Info</h3>
                 <ul>
                     <li>Email: support@machinerytrack.com</li>
                     <li>Phone: +1 (555) 123-4567</li>
-                    <li>Technical Support: tech@machinerytrack.com</li>
-                    <li>Sales Inquiries: sales@machinerytrack.com</li>
-                    <li>Emergency Support: +1 (555) 987-6543</li>
+                    <li>Tech: tech@machinerytrack.com</li>
+                    <li>Sales: sales@machinerytrack.com</li>
+                    <li>Emergency: +1 (555) 987-6543</li>
                 </ul>
             </div>
             <div class="info-card">
-                <h3>Location</h3>
+                <h3>Locations</h3>
                 <ul>
-                    <li>Headquarters: 123 Industrial Way, Suite 500, New York, USA</li>
-                    <li>Support Center: 456 Tech Park, Boston, USA</li>
-                    <li>Development Office: 789 Innovation Drive, San Francisco, USA</li>
-                    <li>European HQ: 10 Rue de l'Industrie, Paris, France</li>
+                    <li>NY HQ: Suite 500, NY, USA</li>
+                    <li>Support: Tech Park, Boston</li>
+                    <li>Dev: Innovation Dr, SF</li>
+                    <li>Europe: Rue de l’Industrie, Paris</li>
                 </ul>
             </div>
         </div>
     </div>
 </section>
 
-<section class="contact-section">
-    <div class="container">
-        <h2>Reach out to us today</h2>
-        <p>Whether you need support or want to learn more, we're here to assist you with your machinery tracking
-            needs.</p>
-        <div class="contact-cards">
-            <div class="contact-card">
-                <i>📧</i>
-                <div>
-                    <h3>Email</h3>
-                    <p>info@machinerytrack.com</p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <i>📞</i>
-                <div>
-                    <h3>Phone</h3>
-                    <p>+1 (555) 123-4567</p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <i>📍</i>
-                <div>
-                    <h3>Address</h3>
-                    <p>123 Industrial Way, Suite 500, New York, USA</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="story-section">
-    <div class="container">
-        <div class="story-content">
-            <h2>Our story</h2>
-            <p>Every great solution begins with a problem. We noticed industrial businesses struggling to manage
-                machinery maintenance, missing out on opportunities, and wasting time on reactive repairs. That's why we
-                set out to create a comprehensive tracking system that simplifies maintenance processes and drives
-                efficiency.</p>
-            <button>Learn more</button>
-        </div>
-        <div class="story-image">
-            <img src="./media/AmdConf.webp" alt="Our Story">
-        </div>
-    </div>
-</section>
-
-<section class="target-section">
-    <div class="container">
-        <div class="target-image">
-            <img src="./media/birmingham-museums-trust-vgTENcD9TvE-unsplash.jpg" alt="Our Target">
-        </div>
-        <div class="target-content">
-            <h2>Our target</h2>
-            <p>Our aim is to maximize uptime. Our system is designed to adapt to your unique needs and scale seamlessly
-                as your operations grow. We prioritize fostering long-term equipment reliability by understanding needs
-                and delivering experiences that prevent breakdowns.</p>
-            <button>Learn more</button>
-        </div>
-    </div>
-</section>
-
-<section class="success-section">
-    <div class="container">
-        <h2>Our proven success stories</h2>
-        <div class="stats">
-            <div class="stat-item">
-                <h3>50K+</h3>
-                <p>Employees served</p>
-            </div>
-            <div class="stat-item">
-                <h3>05M+</h3>
-                <p>Machines tracked</p>
-            </div>
-            <div class="stat-item">
-                <h3>98%</h3>
-                <p>Customer satisfaction</p>
-            </div>
-            <div class="stat-item">
-                <h3>15+</h3>
-                <p>Years in business</p>
-            </div>
-        </div>
-    </div>
-</section>
-
+<!-- Meet Our Experts -->
 <section class="experts-section">
-    <div class="container">
-        <h2>Meet our experts</h2>
-        <p>Discover the passionate team of industrial specialists, software developers, and customer success
-            professionals working tirelessly to help you achieve operational excellence.</p>
+    <div class="container text-center">
+        <h2>Meet Our Experts</h2>
+        <p class="subtitle">Passionate engineers, developers, and success managers leading innovation.</p>
         <div class="expert-cards">
             <div class="expert-card">
-                <img src="./media/birmingham-museums-trust-vgTENcD9TvE-unsplash.jpg" alt="Expert 1">
+                <img src="{% static 'media/portrait-male-engineer-operating-cnc-machinery-factory-119421282.webp' %}" alt="Michael Carter">
                 <div class="expert-info">
                     <h3>Michael Carter</h3>
                     <p>Senior Industrial Engineer</p>
-                    <div class="social-links">
-                        <a href="#">in</a>
-                        <a href="#">tw</a>
-                    </div>
+                    <div class="social-links"><a href="#">in</a><a href="#">tw</a></div>
                 </div>
             </div>
             <div class="expert-card">
-                <img src="./media/birmingham-museums-trust-vgTENcD9TvE-unsplash.jpg" alt="Expert 2">
+                <img src="{% static 'media/portrait-male-engineer-operating-cnc-machinery-factory-119421282.webp' %}" alt="Alexa Davis">
                 <div class="expert-info">
-                    <h3>Ryan Davis</h3>
+                    <h3>Alexa Davis</h3>
                     <p>Lead Software Developer</p>
-                    <div class="social-links">
-                        <a href="#">in</a>
-                        <a href="#">tw</a>
-                    </div>
+                    <div class="social-links"><a href="#">in</a><a href="#">tw</a></div>
                 </div>
             </div>
             <div class="expert-card">
-                <img src="./media/birmingham-museums-trust-vgTENcD9TvE-unsplash.jpg" alt="Expert 3">
+                <img src="{% static 'media/portrait-male-engineer-operating-cnc-machinery-factory-119421282.webp' %}" alt="Jake Walker">
                 <div class="expert-info">
-                    <h3>Jessica Walker</h3>
+                    <h3>Jake Walker</h3>
                     <p>Customer Success Manager</p>
-                    <div class="social-links">
-                        <a href="#">in</a>
-                        <a href="#">tw</a>
-                    </div>
+                    <div class="social-links"><a href="#">in</a><a href="#">tw</a></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="testimonials">
+<!-- Testimonials -->
+<section class="testimonials section-dark">
     <div class="container">
-        <h2>What our customers are saying</h2>
+        <h2 class="section-title">What Our Customers Say</h2>
         <div class="testimonial-carousel">
-            <div class="testimonial">
-                <p>This tracking system has transformed the way we handle machinery maintenance. The automation features
-                    saved us hours of manual work every week, and the analytics have given us insights we never had
-                    before.</p>
+            <div class="testimonial active">
+                <p>This system revolutionized our maintenance tracking. Automation saved us hours every week!</p>
                 <div class="testimonial-author">Michael Carter</div>
                 <div class="testimonial-role">Production Manager</div>
             </div>
@@ -208,15 +116,17 @@
     </div>
 </section>
 
+<!-- CTA Section -->
 <section class="cta-section">
-    <div class="container">
-        <h2>Get more efficiency, grow your operations</h2>
-        <p>Simple tools and smart insights to help you maintain your equipment and prevent costly downtime.</p>
-        <button class="cta-button">Get Started</button>
+    <div class="container text-center">
+        <h2>Maximize Efficiency, Minimize Downtime</h2>
+        <p>Smart tracking and insights designed for scalable industrial growth.</p>
+        <button class="cta-button" id="getStartedBtn" data-url="{% url 'App' %}">Get Started</button>
     </div>
 </section>
 
 {% include 'common/footer.html' %}
 <script src="{% static 'js/about.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

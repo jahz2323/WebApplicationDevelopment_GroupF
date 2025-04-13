@@ -20,4 +20,5 @@ urlpatterns = [
     path("register/", views.user_registration, name="user_registration"),
     path("submit-registration/", views.register_user, name="register_user"),
     path("register/success/", views.registration_success, name="registration_success"),
+    path("FaultCaseDetails <int:machinery_id>/", views.FaultCaseDetails, name="FaultCaseDetails"),
 ]

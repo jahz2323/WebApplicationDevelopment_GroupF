@@ -276,3 +276,26 @@ def MachineryList(request):
     })
 
 
+def FaultCaseDetails(request, machinery_id):
+    print("Fault case details view accessed")
+    # Check if the user is authenticated
+    user = request.user
+
+    if user.is_authenticated:
+        print("User is authenticated:", user.username)
+        # Get the machinery object from the database
+        machinery = Machinery.objects.get(id=machinery_id)
+        # Get all fault cases for the machinery
+        fault_cases = MachineryFault.objects.filter(machinery=machinery)
+        context = {
+            'machinery': machinery,
+            'fault_cases': fault_cases,
+            'user': user,
+        }
+        return render(request, "../templates/DynamicPages/FaultCase.html", context)
+    else:
+        context = {}
+        return render(request, "../templates/DynamicPages/Login.html", {
+            'error_message': 'You must be logged in to view this page'
+        })
+
