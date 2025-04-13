@@ -211,10 +211,56 @@ Thomas viard
 
                     </div>
 
-                {% else %}
+                {% elif is_technician or is_repair %}
                     <div class="col-4">
-                        <h2>Assigned Machines STATUS:</h2>
-                        {# Container Scrollable for machinery summary #}
+                        <h2>My Assigned Machines ({{ ok_count }}/{{ total_count }} OK)</h2>
+                            {% if assigned_machinery %}
+                                <div class="row">
+                                    {% for machine in assigned_machinery %}
+                                        <div class="col-md-6">
+                                            <div class="card mb-3 shadow-sm">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ machine.name }}</h5>
+                                                    <p class="card-text">
+                                                        <strong>Status:</strong>
+                                                        <span class="badge
+                                                            {% if machine.status == 'OK' %} bg-success
+                                                            {% elif machine.status == 'Warning' %} bg-warning text-dark
+                                                            {% elif machine.status == 'Fault' %} bg-danger
+                                                            {% else %} bg-secondary {% endif %}">
+                                                            {{ machine.status }}
+                                                        </span>
+                                                    </p>
+
+                                                    {% if machine.last_issue %}
+                                                        <p><strong>Last Issue:</strong> {{ machine.last_issue.type }}</p>
+                                                        <p><strong>Comment:</strong> {{ machine.last_issue.comment }}</p>
+                                                        {% if machine.last_issue.image %}
+                                                            <img src="{{ machine.last_issue.image.url }}" alt="Issue image" class="img-fluid rounded mb-2"/>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <p class="text-muted">No issues reported.</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>No machines assigned to you.</p>
+                            {% endif %}
+
+                        <hr>
+                        <h4>Other Machines:</h4>
+                            <ul class="list-group">
+                                {% for machine in machinery %}
+                                    {% if machine not in assigned_machinery %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ machine.name }} - <strong>{{ machine.status }}</strong>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                     </div>
                 {% endif %}
             </div>

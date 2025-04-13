@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 set -ex
 
 # Move to application directory
@@ -8,8 +8,8 @@ cd /app
 python manage.py makemigrations App
 python manage.py migrate
 
+# Load sample data
 python manage.py setup_groups
-
 python manage.py loaddata App/fixtures/collections.json
 python manage.py loaddata App/fixtures/users.json
 python manage.py loaddata App/fixtures/machineries.json
