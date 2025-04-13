@@ -1,20 +1,34 @@
+/* author omkar joshi
+   Grid layout for the machinery list 
+   Displays machinery cards in a 4-column grid with spacing
+*/
 #machinery-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
-    margin: 20px;
+    grid-template-columns: repeat(4, 1fr); /* Four equal-width columns */
+    grid-gap: 20px;                        /* Space between grid items */
+    margin: 20px;                          /* Outer margin around the grid */
 }
 
+/* 
+   Styling for individual machine form/card 
+   Adds border, padding, rounded corners, and subtle shadow 
+*/
 .machine-form {
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;                /* Light gray border */
+    padding: 15px;                         /* Inner spacing */
+    border-radius: 10px;                   /* Rounded corners */
+    background-color: #f9f9f9;             /* Light background color */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
+
+/* 
+   Transition effect for card hover 
+   Makes the card grow slightly when hovered 
+*/
 .card {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out; /* Smooth animation for hover */
 }
+
 .card:hover {
-    transform: scale(1.03);
+    transform: scale(1.03); /* Slightly enlarges the card */
 }
