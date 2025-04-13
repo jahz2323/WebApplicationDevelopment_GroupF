@@ -6,31 +6,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic meta configuration -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Factory Machinery Tracking System</title>
+
+    <!-- Link to the custom CSS file for the about page -->
     <link rel="stylesheet" href="{% static 'css/about.css' %}">
 </head>
 <body>
+
+<!-- Include common navigation bar shared across pages -->
 {% include 'common/navbar.html' %}
 
 <!-- Hero Section -->
 <section class="hero dark-bg text-center">
     <div class="container">
+        <!-- Page Title and Introduction -->
         <h1>About Our Factory Machinery Tracking System</h1>
-        <p class="lead">Empowering your industrial operations to run smoothly and efficiently with precision and automation.Our Factory Machinery Tracking System is a robust digital solution designed to help manufacturers monitor, maintain, and optimize their machinery operations in real time. 
-            From preventive maintenance scheduling to performance analytics, our platform empowers teams to reduce downtime, increase productivity, and make data-driven decisions. 
-            With a commitment to innovation and user-centric design, our system supports over 50,000 employees worldwide and has tracked over 5 million machines since inception.</p>
+        <p class="lead">
+            Empowers industrial operations with automation and real-time monitoring. 
+            Offers maintenance tracking, performance analytics, and supports over 50,000 employees globally.
+        </p>
+
+        <!-- Featured image for the hero section -->
         <div class="hero-image">
             <img src="{% static 'media/manuERPneeds.jpg' %}" alt="Team Collaboration">
         </div>
     </div>
 </section>
 
-<!-- System Information -->
+<!-- System Information Section -->
 <section class="system-info section-dark">
     <div class="container">
         <h2 class="section-title">System Information</h2>
+
+        <!-- Three-column layout with version, contact, and location details -->
         <div class="info-cards">
             <div class="info-card">
                 <h3>Version Details</h3>
@@ -66,11 +77,13 @@
     </div>
 </section>
 
-<!-- Meet Our Experts -->
+<!-- Expert Team Section -->
 <section class="experts-section">
     <div class="container text-center">
         <h2>Meet Our Experts</h2>
-        <p class="subtitle">Passionate engineers, developers, and success managers leading innovation.</p>
+        <p class="subtitle">Introduces technical team members with images and roles</p>
+
+        <!-- Expert card layout for showcasing the team -->
         <div class="expert-cards">
             <div class="expert-card">
                 <img src="{% static 'media/portrait-male-engineer-operating-cnc-machinery-factory-119421282.webp' %}" alt="Michael Carter">
@@ -100,33 +113,40 @@
     </div>
 </section>
 
-<!-- Testimonials -->
+<!-- Testimonials Carousel Section -->
 <section class="testimonials section-dark">
     <div class="container">
         <h2 class="section-title">What Our Customers Say</h2>
+
+        <!-- Simple carousel for testimonials -->
         <div class="testimonial-carousel">
             <div class="testimonial active">
                 <p>This system revolutionized our maintenance tracking. Automation saved us hours every week!</p>
                 <div class="testimonial-author">Michael Carter</div>
                 <div class="testimonial-role">Production Manager</div>
             </div>
+            <!-- Navigation arrows for switching testimonials -->
             <div class="testimonial-nav prev">❮</div>
             <div class="testimonial-nav next">❯</div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
+<!-- Call-To-Action Section -->
 <section class="cta-section">
     <div class="container text-center">
         <h2>Maximize Efficiency, Minimize Downtime</h2>
-        <p>Smart tracking and insights designed for scalable industrial growth.</p>
+        <p>Encourages users to engage and explore the product further.</p>
         <button class="cta-button" id="getStartedBtn" data-url="{% url 'App' %}">Get Started</button>
     </div>
 </section>
 
+<!-- Include common footer shared across pages -->
 {% include 'common/footer.html' %}
+
+<!-- External JS files -->
 <script src="{% static 'js/about.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
