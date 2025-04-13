@@ -68,6 +68,25 @@ class Machinery(models.Model):
             self.status = 'OK'
         self.save()
 
+    @property
+    def last_issue(self):
+        latest_fault = self.faults.filter(resolved=False).order_by('-created_at').first()
+        latest_warning = self.warnings.order_by('-created_at').first()
+
+        if latest_fault:
+            return {
+                'type': 'Fault',
+                'comment': latest_fault.details,
+                'image': latest_fault.images.first().image.url if latest_fault.images.exists() else None
+            }
+        elif latest_warning:
+            return {
+                'type': 'Warning',
+                'comment': latest_warning.text,
+                'image': None
+            }
+        return None
+
     def __str__(self):
         return self.name
 
