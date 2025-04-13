@@ -1,4 +1,5 @@
-!/bin/sh
+#!/bin/sh
+
 set -ex
 
 # Move to application directory

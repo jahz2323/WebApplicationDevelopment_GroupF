@@ -1,0 +1,110 @@
+/* Contact Form Styling */
+
+/* Form container styling */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 20px 0;
+  }
+  
+  /* Form label text color */
+  form label,
+  .form-label,
+  .form-group label,
+  .input-label {
+    color: white !important;
+    margin-bottom: 5px;
+    font-weight: 500;
+    display: block;
+  }
+  
+  /* Directly target the Name, Email, Message text */
+  form:has([name="name"]) label,
+  form:has([name="email"]) label,
+  form:has([name="message"]) label,
+  label[for="name"],
+  label[for="email"],
+  label[for="message"] {
+    color: white !important;
+  }
+  
+  /* If the labels are not in standard elements but are text nodes */
+  .contact-form-field:before,
+  .form-field:before {
+    color: white !important;
+  }
+  
+  /* For cases where the text might be directly in the form */
+  form {
+    color: white;
+  }
+  
+  /* Input field styling */
+  form input,
+  form textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: white;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Input focus state */
+  form input:focus,
+  form textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  }
+  
+  /* Textarea specific styling */
+  form textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  /* Submit button styling */
+  form button,
+  form input[type="submit"],
+  .submit-btn {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  /* Submit button hover state */
+  form button:hover,
+  form input[type="submit"]:hover,
+  .submit-btn:hover {
+    background-color: #357ac7;
+  }
+  
+  /* For handling specific layout in your form */
+  form .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    form .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    form {
+      width: 90%;
+    }
+  }
