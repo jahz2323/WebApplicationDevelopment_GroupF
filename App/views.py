@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader, Context
 from App.models import *
@@ -286,3 +286,30 @@ def FaultCaseDetails(request, machinery_id):
             'error_message': 'You must be logged in to view this page'
         })
 
+# Fault page views ------------------------------------------------------------------
+
+# View to list all fault cases related to a specific machinery
+def machinery_fault_list(request, machinery_id):
+    # Retrieve the machinery object or return 404 if not found
+    machinery = get_object_or_404(Machinery, id=machinery_id)
+
+    # Get all fault cases associated with this machinery
+    faults = MachineryFault.objects.filter(machinery=machinery)
+
+    # Pass the machinery and faults to the template
+    context = {
+        'machinery': machinery,
+        'faults': faults,
+    }
+
+    # Render the machinery_fault_list template with the context
+    return render(request, '../templates/DynamicPages/machinery_fault_list.html', context)
+
+
+# View to show detailed information about a specific fault case
+def fault_detail(request, pk):
+    # Retrieve the fault object using its primary key or return 404
+    fault = get_object_or_404(MachineryFault, pk=pk)
+
+    # Render the fault_detail template with the fault data
+    return render(request, '../templates/DynamicPages/fault_detail.html', {'fault': fault})

@@ -56,11 +56,9 @@
                             <p class="card-text"><strong>Created:</strong> {{ machine.created_at }}</p>
                             <p class="card-text"><strong>Updated:</strong> {{ machine.updated_at }}</p>
 
-                            <form method="post" action="{% url 'FaultCaseDetails' machine.id %}" class="mt-auto">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-light w-100 mt-3">View More</button>
-
-                            </form>
+                            <a href="{% url 'machinery_fault_list' machine.id %}" class="btn btn-outline-light w-100 mt-3">
+                                View More
+                            </a>
                         </div>
                     </div>
                     {% endfor %}

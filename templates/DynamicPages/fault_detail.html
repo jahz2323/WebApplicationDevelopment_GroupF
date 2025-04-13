@@ -1,0 +1,43 @@
+{% extends "DynamicPages/base.html" %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">🛠️ Fault Case Detail</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">{{ fault.title }}</h4>
+        </div>
+        <div class="card-body">
+            <p class="mb-3"><strong class="text-secondary">Details:</strong><br>{{ fault.details }}</p>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong class="text-secondary">Machinery:</strong> {{ fault.machinery.name }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong class="text-secondary">Created by:</strong> {{ fault.created_by.username }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong class="text-secondary">Created at:</strong> {{ fault.created_at|date:"D, d M Y H:i" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong class="text-secondary">Updated at:</strong> {{ fault.updated_at|date:"D, d M Y H:i" }}</p>
+                </div>
+            </div>
+
+            <p>
+                <strong class="text-secondary">Resolved:</strong>
+                {% if fault.resolved %}
+                    <span class="badge bg-success">Yes</span>
+                {% else %}
+                    <span class="badge bg-danger">No</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -17,9 +17,11 @@ urlpatterns = [
     path("Dashboard/delete_Machinery/", views.delete_Machinery, name="delete_Machinery"),
     path("Dashboard/update_Machinery/", views.update_Machinery, name="update_Machinery"),
     path("MachineryList/", views.MachineryList, name="MachineryList"),
+    path('machinery/<int:machinery_id>/faults/', views.machinery_fault_list, name='machinery_fault_list'),
+    path('fault/<int:pk>/', views.fault_detail, name='fault_detail'),
     # User registration
     path("register/", views.user_registration, name="user_registration"),
     path("submit-registration/", views.register_user, name="register_user"),
     path("register/success/", views.registration_success, name="registration_success"),
-    path("FaultCaseDetails <int:machinery_id>/", views.FaultCaseDetails, name="FaultCaseDetails"),
+    # path("FaultCaseDetails <int:machinery_id>/", views.FaultCaseDetails, name="FaultCaseDetails"),
 ]
