@@ -8,8 +8,13 @@ Factory Machinery Status & Repair Tracking
 System
 
 # Documentation
-## Requirements
+video screencast available on google drive: 
+[https://drive.google.com/file/d/1J1SfhxfPSH9s6L5m172eVjWqnL8NcSJ7/view?usp=sharing]
+Meeting notes in [/Documentation/MeetingMinutes]
+User Mangual in [User_Guide.md] 
 
+## Requirements
+Docker installed 
 
 ## Deployment
 
@@ -31,7 +36,6 @@ Install [DockerDesktop](https://docs.docker.com/desktop/), then run
 ```bash
     docker-compose up -d --build
 ```
-
 It installs for you everything you need, in order, which you would
 had done manually [Without Docker](#without-docker)
 
@@ -39,6 +43,26 @@ had done manually [Without Docker](#without-docker)
 2. It creates all group roles and assign their permissions.
 3. It loads the sample data in the folder [fixtures](App/fixtures).
 NB. **_"admin"_** user password is **_"admin"_**, every other sample users has **_"project123"_**
+
+
+###Common errors: Guide to fix
+#Directory already made 
+![image](https://github.com/user-attachments/assets/7e2a0f7e-bbc9-41f8-9029-4507beb46088)
+```bash
+remove /app to /app/media
+```
+![image](https://github.com/user-attachments/assets/dad02b7b-50b7-43f6-bf2a-7101d86fb019)
+# Illegal option error 
+![image](https://github.com/user-attachments/assets/e1c39256-2f93-4776-b5d4-3e43fdd2c57f)
+Fix: 
+```bash
+#!/bin/sh`
+set to
+!/bin/sh`
+if another illegal option error change to bash
+!/bin/bash
+````
+after: ![image](https://github.com/user-attachments/assets/32ca1050-7345-4e0e-a435-79442b3ca99f)
 
 ### Without Docker
 
