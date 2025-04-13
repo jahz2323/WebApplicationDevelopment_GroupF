@@ -337,8 +337,7 @@ def fault_detail(request, pk):
 
         return redirect("fault_detail", pk=fault.pk)
 
-    return render(request, "../templates/DynamicPages/fault_detail.html", {
-        "fault": fault,
+    return render(request, "DynamicPages/fault_detail.html", {
     })
 
 @login_required
