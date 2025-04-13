@@ -117,39 +117,59 @@ body {
     padding-left: 15px;
 }
 
-@media only screen and (max-width: 992px) {
-    #left-menu,
-    #logo {
-        width: 60px;
-    }
-
-    #page-container,
-    #header .header-left {
-        padding-left: 0px;
-    }
-
-    #toggle-left-menu, .big-logo {
-        display: none;
-    }
+.card.shadow-sm {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  border: none;
 }
 
-@media only screen and (min-width: 992px) {
-    #left-menu li.has-sub::after {
-        position: absolute;
-        top: 10px;
-        right: 2px;
-        cursor: pointer;
-        transform: rotate(0deg);
-        -webkit-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-    }
+.card.shadow-sm:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+}
 
-    #left-menu li.has-sub.rotate:after {
-        -webkit-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
-    }
+.card-title {
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
 
+.badge {
+  padding: 6px 10px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.img-fluid.rounded {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h2.mb-4 {
+  position: relative;
+  padding-bottom: 12px;
+}
+
+h2.mb-4:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff;
 }

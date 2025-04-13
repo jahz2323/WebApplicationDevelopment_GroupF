@@ -55,6 +55,16 @@ def Dashboard(request):
     is_repair = user.groups.filter(name="Repair").exists()
     importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
 
+    assigned_machinery = Machinery.objects.none()
+
+    if is_technician:
+        assigned_machinery = Machinery.objects.filter(assigned_technicians=user)
+    elif is_repair:
+        assigned_machinery = Machinery.objects.filter(assigned_repair=user)
+
+    ok_count = assigned_machinery.filter(status='OK').count()
+    total_count = assigned_machinery.count()
+
     print("is_manager:", is_manager)
     print("is_technician:", is_technician)
     print("is_repair:", is_repair)
@@ -79,10 +89,24 @@ def Dashboard(request):
     elif is_technician:
         print("User is a technician:", user.username)
         # Add logic for technician dashboard
-        context = {}
+        context = {
+            'is_technician': is_technician,
+            'assigned_machinery': assigned_machinery,
+            "machinery": Machinery.objects.all(),
+            'ok_count': ok_count,
+            'total_count': total_count,
+        }
         return render(request, "../templates/DynamicPages/Dashboard.html", context)
     elif is_repair:
         print("User is a repair:", user.username)
+        context = {
+            'is_repair': is_repair,
+            'assigned_machinery': assigned_machinery,
+            "machinery": Machinery.objects.all(),
+            'ok_count': ok_count,
+            'total_count': total_count,
+        }
+        return render(request, "../templates/DynamicPages/Dashboard.html", context)
         # Add logic for repair dashboard
     else:
         # User is employee
@@ -94,7 +118,29 @@ def Dashboard(request):
 
 
 def Services(request):
-    return render(request, "../templates/StaticPages/Services.html")
+    services_data = [
+        {
+            'image': 'media/ServicePage/Mchn.jpg',
+            'title': 'Machine Status Monitoring',
+            'description': 'Stay updated on machine health with real-time data and alerts.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn1.jpg',
+            'title': 'Fault Reporting',
+            'description': 'Technicians can report and log faults instantly for quicker resolution.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn2.jpg',
+            'title': 'Repair Management',
+            'description': 'Repair personnel can view, update, and resolve reported issues.'
+        },
+        {
+            'image': 'media/ServicePage/Mchn3.jpg',
+            'title': 'Manager Dashboard',
+            'description': 'Managers can assign tasks, monitor operations, and view reports.'
+        }
+    ]
+    return render(request, "../templates/StaticPages/Services.html", {'services': services_data})
 
 
 def Contact(request):
@@ -130,26 +176,26 @@ def Logout(request):
 
 
 # Dashboard logic
-def Dashboard(request):
-    user = request.user
-    is_manager = user.groups.filter(name="Managers").exists()
-    is_technician = user.groups.filter(name="Technicians").exists()
-    is_repair = user.groups.filter(name="Repair").exists()
-    importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
-
-    context = {
-        "user": user,
-        "is_manager": is_manager,
-        "technicians": User.objects.filter(groups__name="Technicians"),
-        "repairs": User.objects.filter(groups__name="Repair"),
-        "importance": importance_levels,
-        "machinery": Machinery.objects.all(),
-        "machinery_faults": MachineryFault.objects.all(),
-        "machinery_warnings": MachineryWarning.objects.all(),
-        "collections": Collection.objects.all(),
-    }
-
-    return render(request, "../templates/DynamicPages/Dashboard.html", context)
+# def Dashboard(request):
+#     user = request.user
+#     is_manager = user.groups.filter(name="Managers").exists()
+#     is_technician = user.groups.filter(name="Technicians").exists()
+#     is_repair = user.groups.filter(name="Repair").exists()
+#     importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
+#
+#     context = {
+#         "user": user,
+#         "is_manager": is_manager,
+#         "technicians": User.objects.filter(groups__name="Technicians"),
+#         "repairs": User.objects.filter(groups__name="Repair"),
+#         "importance": importance_levels,
+#         "machinery": Machinery.objects.all(),
+#         "machinery_faults": MachineryFault.objects.all(),
+#         "machinery_warnings": MachineryWarning.objects.all(),
+#         "collections": Collection.objects.all(),
+#     }
+#
+#     return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
 
 # Authors Omkar
@@ -229,6 +275,7 @@ def MachineryList(request):
         'error_message': 'You must be logged in to view this page'
     })
 
+
 def FaultCaseDetails(request, machinery_id):
     print("Fault case details view accessed")
     # Check if the user is authenticated
@@ -251,3 +298,4 @@ def FaultCaseDetails(request, machinery_id):
         return render(request, "../templates/DynamicPages/Login.html", {
             'error_message': 'You must be logged in to view this page'
         })
+
