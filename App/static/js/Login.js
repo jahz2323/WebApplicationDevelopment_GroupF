@@ -1,15 +1,23 @@
 // Author Jahziel Belmonte
-
+// NOTE THIS IS CODE I USED FOR ASSIGNMENT 3 FOR INDIVIDUAL ASSIGNMENT
+// THIS CODE IS NOT FOR DISTRIBUTION FOR OTHER MEMBERS
+// Copying or modifying this code is plagiarism and will be reported to the course coordinator
 /*
     Login form code -
  */
+// This code is used to validate the login form and send the data to the server
+
+// Get the CSRF token from the cookie to use in the AJAX request
+// reference https://stackoverflow.com/questions/10730362/get-cookie-by-name
 function getCookie(name) {
     let cookieValue = null;
+    // If the cookie is not set, return null
     if (document.cookie && document.cookie !== '') {
+        // Split the cookie string into an array of cookies
         const cookies = document.cookie.split(';');
+        // Loop through the cookies and find the one we want
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue =  decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -25,7 +33,6 @@ $(document).ready(function () {
     validateForm();
 });
 
-
 function ReservedCharacters(obj) {
     if (obj.includes("root") || obj.includes("Root") || obj.includes("ROOT")
         || obj.includes("\\") || obj.includes("/") || obj.includes(":")
@@ -37,7 +44,6 @@ function ReservedCharacters(obj) {
         return;
     }
 }
-
 
 function validateForm() {
     //check if form is present

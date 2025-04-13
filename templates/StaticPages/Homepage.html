@@ -107,7 +107,7 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
 import {OBJLoader} from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/loaders/OBJLoader.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Get the container and canvas
+
     const container = document.getElementById('threejs-container');
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
@@ -124,19 +124,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     camera.position.z = 0;
     camera.lookAt(1, 0, -2);
-    // 4. Initialize renderer
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
         canvas: canvas,
         alpha: true
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setClearColor(0x444444);
-
+    renderer.setClearColor(0x444444); // Set the background color
+    //create floor element
     const floorplane = new THREE.PlaneGeometry(100, 100);
+    // Create a texture loader and load the texture
     const floorTexture = new THREE.TextureLoader().load(
         "{% static 'media/objFiles/textures/Metal055A_1K-JPG_Color.jpg' %}"
     );
+    //specify Object3d material attributes - set as Phong for lighting
     const floorMaterial = new THREE.MeshPhongMaterial({
         color: 0x222222,
         map: floorTexture,
@@ -149,28 +150,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     try {
+        // Load the models with textures
         const engine1 = await loadOBJModel("{% static 'media/objFiles/B8300.obj' %}");
         const engine2 = await loadOBJModel("{% static 'media/objFiles/C3160.obj' %}");
         const engine3 = await loadOBJModel("{% static 'media/objFiles/B8300mk2.obj' %}");
 
         //Center and scale models
         [engine1, engine2, engine3].forEach(engine => {
-            const box = new THREE.Box3().setFromObject(engine);
+            const box = new THREE.Box3().setFromObject(engine); // Get the bounding box of the object se
             const center = box.getCenter(new THREE.Vector3());
+            // Get the center of the bounding box and centre to the object
             engine.position.sub(center);
             engine.scale.set(3, 3, 3); // Start with smaller scale
             engine.rotateY(Math.PI / 2);
         });
 
+        // Create a carousel group to store obj, easier to rotate elements by calling
+        // calling the group element carousel.y += rotation
         const carousel = new THREE.Group();
         engine1.position.set(-4, 0, -1);
         engine2.position.set(5 * Math.cos(Math.PI/3), -0.5, 5 * Math.sin(Math.PI/3));
         engine3.position.set(-4 * Math.cos(2*Math.PI/3), -0.5, -4 * Math.sin(2*Math.PI/3));
 
+        //obj transofrmation nodes - had to adjust rotation manually aswell as scale to match the homepage view
         engine1.rotation.y = (Math.PI / 2);
         engine2.scale.set(0.001, 0.001, 0.001);
         engine3.scale.set(0.002, 0.002, 0.002);
 
+        // Add obj nodes to carousel group
         carousel.add(engine1);
         carousel.add(engine2);
         carousel.add(engine3);
@@ -181,16 +188,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         let targetScrollPosition = 10;
         let currentScrollPosition = 100;
         const scrollSections = 3; // Number of objects
-        const canvasHeight = container.clientHeight;
-        const sectionHeight = canvasHeight/3;
+        const canvasHeight = container.clientHeight; // Height of the canvas set to 5000 px to match the headings (Pain)
+        const sectionHeight = canvasHeight/3; // divide canvas height by number of sections (properly section for the 3 headings)
 
-
-        const contentPanels = [
-            document.getElementById('content-panel-1'),
-            document.getElementById('content-panel-2'),
-            document.getElementById('content-panel-3')
-        ];
-
+        // Animate the carousel rotation based on scroll position
         function animate() {
             requestAnimationFrame(animate);
             carousel.rotation.y = window.scrollY / 1000;
@@ -198,7 +199,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         animate();
-
+        // Set up scroll event listener so that the carousel rotates around y axis when the user scrolls
+        // light node is rotated around the z and x axis to hit the objects in view (try to simulate a light source from camera )
         window.addEventListener('scroll', () => {
             targetScrollPosition = window.scrollY;
             //check if at content panel
@@ -209,15 +211,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('Error loading model:', error);
     }
+    // Responsive design - resize canvas and camera when window is resized
     window.addEventListener('resize', () => {
         camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
+        camera.updateProjectionMatrix(); // re calculate the projection matrix ensure proper render
         renderer.setSize(container.clientWidth, container.clientHeight);
     });
 });
 
-
+// Helper function to load obj files from static directory
 function loadOBJModel(path) {
+    // Asynchronous function to load the OBJ model, prevent blocking
     return new Promise((resolve, reject) => {
         const loader = new OBJLoader();
         const textureLoader = new THREE.TextureLoader();
@@ -232,6 +236,7 @@ function loadOBJModel(path) {
         loader.load(
             path,
             (object) => {
+                // set material properties - use phong for diffuse and specular lighting
                 const material = new THREE.MeshPhongMaterial({
                     color: 0x262626,
                     shininess: 500,
@@ -240,16 +245,17 @@ function loadOBJModel(path) {
                     specular: 0x111111,
                     emissive: 0x000000,
                 });
-
+                // Apply the material to all meshes in the loaded object
                 object.traverse((child) => {
                     if (child.isMesh) {
                         child.material = material;
                         child.material.wireframe = false;
                     }
                 });
-                resolve(object);
+                resolve(object); // Return the loaded object
             },
-            undefined,
+            //section handles any error during loading, rejects the promise returning to the calling function
+            undefined, // onProgress callback ,if error loading obj this is (error) used passing error obj
             (error) => {
                 reject(error);
             }

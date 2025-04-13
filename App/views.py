@@ -110,12 +110,15 @@ def Login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        print("Checking credentials for user:", username)
         user = authenticate(request, username=username, password=password)
         if user:
+            print("User authenticated successfully:", username)
             login(request, user)
             return render(request, "../templates/DynamicPages/Login.html",
                           {'success_message': 'Login successful', 'user': user.username})
         else:
+            print("Invalid credentials for user:", username)
             return render(request, "../templates/DynamicPages/Login.html",
                           {'error_message': 'Invalid username or password'})
     return render(request, "../templates/DynamicPages/Login.html")
