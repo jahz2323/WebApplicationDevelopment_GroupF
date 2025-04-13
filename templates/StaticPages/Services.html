@@ -1,237 +1,116 @@
 {% load static %}
-
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Basic Page Setup -->
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Our Services</title>
-
-    <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/Services.css' %}"/>
-
-    <!-- Inline CSS for page styling -->
     <style>
-        /* General page styles */
-
-
-
-        /* Main content area */
-        main {
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        {% comment %} custom css for the contact us button {% endcomment %}
+        {% comment %} !important so that my style works no other css should disturb it {% endcomment %}
+        .contact-us-btn {
+            color: #fff !important;
+            border-color: #000 !important;
+            background-color: #000 !important;
+            transition: all 0.3s ease;
         }
 
-        /* Slideshow container styling */
-        .slideshow-container {
-            position: relative;
-            max-width: 900px;
-            width: 90%;
-            margin: auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Individual slide styling */
-        .slide {
-            display: none;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            text-align: center;
-        }
-
-        .slide img {
-            width: 250px;
-            height: auto;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .slide h2 {
-            font-size: 24px;
-            margin: 10px 0;
-        }
-
-        .slide p {
-            font-size: 16px;
-        }
-
-        /* Fade animation */
-        .fade {
-            animation: fade 1s ease-in-out;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0.3
-            }
-            to {
-                opacity: 1
-            }
-        }
-
-        /* Navigation arrows */
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 10px;
-            border-radius: 50%;
-            user-select: none;
-            transition: background 0.3s;
-        }
-
-        .prev:hover, .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .prev {
-            left: 20px;
-        }
-
-        .next {
-            right: 20px;
-        }
-
-        /* Dot indicators */
-        .dots {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .dot {
-            height: 15px;
-            width: 15px;
-            margin: 0 4px;
-            background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-        }
-
-        .dot.active {
-            background-color: white;
+        .contact-us-btn:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+            color: #fff !important;
         }
     </style>
 </head>
 <body>
-<!-- Header section with navigation -->
+
+{% comment %} Navbar Template {% endcomment %}
 {% include 'common/navbar.html' %}
 
-<!-- Main content with slideshow -->
-<main>
-    <div class="slideshow-container">
-        <!-- Slide 1 -->
-        <div class="slide fade">
-            <img src="/static/media/ServicePage/Mchn.jpg" alt="Machine Status Monitoring">
-            <h2>Machine Status Monitoring</h2>
-            <p>Keep track of your machines' operational status with real-time updates.</p>
-        </div>
-
-        <!-- Slide 2 -->
-        <div class="slide fade">
-            <img src="/static/media/ServicePage/Mchn1.jpg" alt="Fault Reporting">
-            <h2>Fault Reporting</h2>
-            <p>Technicians can report faults and log issues for repair personnel to address.</p>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="slide fade">
-            <img src="/static/media/ServicePage/Mchn2.jpg" alt="Repair Management">
-            <h2>Repair Management</h2>
-            <p>Repair teams can update fault reports, log repairs, and resolve issues efficiently.</p>
-        </div>
-
-        <!-- Slide 4 -->
-        <div class="slide fade">
-            <img src="/static/media/ServicePage/Mchn3.jpg" alt="Manager Dashboard">
-            <h2>Manager Dashboard</h2>
-            <p>Managers can oversee machine statuses, assign technicians, and generate reports.</p>
-        </div>
-
-        <!-- Navigation arrows -->
-        <a class="prev" onclick="plusSlides(-1)">❮</a>
-        <a class="next" onclick="plusSlides(1)">❯</a>
+{% comment %} Hero Banner {% endcomment %}
+<section class="bg-black text-white py-5 text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Our Services</h1>
+        <p class="lead">Empowering technicians and managers through smart monitoring and fault management systems.</p>
     </div>
+</section>
 
-    <!-- Dot indicators for slide navigation -->
-    <div class="dots">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
-        <span class="dot" onclick="currentSlide(4)"></span>
+{% comment %} Services Cards Section {% endcomment %}
+<section class="py-5 bg-dark">
+    <div class="container">
+        <div class="row g-4">
+            {% for service in services %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm bg-secondary text-light">
+                        <img src="{% static service.image %}" class="card-img-top" alt="{{ service.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.title }}</h5>
+                            <p class="card-text">{{ service.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</main>
+</section>
 
-<!-- Footer section -->
+{% comment %} Features Section {% endcomment %}
+<section class="py-5 bg-black text-white text-center">
+    <div class="container">
+        <h2 class="mb-4">Why Choose Our System?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded bg-dark shadow-sm h-100">
+                    {% comment %} Inline SVG for Real-time Monitoring : Clock {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-clock mb-3" viewBox="0 0 16 16">
+                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                    </svg>
+                    <h4>Real-time Monitoring</h4>
+                    <p class="text-light">Instant visibility into your machines, anytime and anywhere.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded bg-dark shadow-sm h-100">
+                    {% comment %} Inline SVG for Automated Alerts :  Bell {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bell mb-3" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                    </svg>
+                    <h4>Automated Alerts</h4>
+                    <p class="text-light">Get notified immediately when issues arise, minimizing downtime.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border border-secondary rounded bg-dark shadow-sm h-100">
+                    {% comment %} Inline SVG for Efficient Reporting : checklist {% endcomment %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-card-checklist mb-3" viewBox="0 0 16 16">
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+                    </svg>
+                    <h4>Efficient Reporting</h4>
+                    <p class="text-light">Easily generate fault, repair, and management reports.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% comment %} Call to Action : Contact us {% endcomment %}
+<section class="py-5 bg-secondary text-white text-center">
+    <div class="container">
+        <h2>Ready to Streamline Your Maintenance Process?</h2>
+        <p class="lead">Get started with our smart industrial monitoring solution today.</p>
+        <a href="/Contact/" class="btn contact-us-btn btn-lg mt-3">Contact Us</a>
+    </div>
+</section>
+
+{% comment %} Footer template {% endcomment %}
 {% include 'common/footer.html' %}
 
-<!-- Slideshow JavaScript -->
-<script>
-    let slideIndex = 1; // Current slide index
-    let slideTimer = 20;     // Timer for auto sliding
-
-    // Function to display the current slide
-    function showSlides(n) {
-        const slides = document.getElementsByClassName("slide");
-        const dots = document.getElementsByClassName("dot");
-
-        // Wrap around if out of bounds
-        if (n > slides.length) slideIndex = 1;
-        if (n < 1) slideIndex = slides.length;
-
-        // Hide all slides
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-
-        // Remove 'active' class from all dots
-        for (let i = 0; i < dots.length; i++) {
-            dots[i].classList.remove("active");
-        }
-
-        // Show the current slide and activate its dot
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].classList.add("active");
-    }
-
-    // Move forward/backward in slideshow
-    function plusSlides(n) {
-        clearTimeout(slideTimer); // Stop auto slide when user interacts
-        showSlides(slideIndex += n);
-        autoSlide(); // Restart auto slide
-    }
-
-    // Jump to a specific slide
-    function currentSlide(n) {
-        clearTimeout(slideTimer);
-        showSlides(slideIndex = n);
-        autoSlide();
-    }
-
-    // Automatically switch slides every 4 seconds
-    function autoSlide() {
-        slideTimer = setTimeout(() => {
-            plusSlides(1);
-        }, 4000);
-    }
-
-    // Initialize slideshow on page load
-    window.onload = () => {
-        showSlides(slideIndex);
-        autoSlide();
-    };
-</script>
-
+{% comment %} Bootstrap JS {% endcomment %}
+{% bootstrap_javascript %}
 </body>
 </html>
