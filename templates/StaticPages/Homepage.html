@@ -157,11 +157,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         //Center and scale models
         [engine1, engine2, engine3].forEach(engine => {
-            const box = new THREE.Box3().setFromObject(engine); // Get the bounding box of the object se
+            const box = new THREE.Box3().setFromObject(engine); // Use Box3 to align models
             const center = box.getCenter(new THREE.Vector3());
             // Get the center of the bounding box and centre to the object
             engine.position.sub(center);
-            engine.scale.set(3, 3, 3); // Start with smaller scale
+            engine.scale.set(3, 3, 3); // Start with smaller scale, 3D models are different scales, had to adjust manually
             engine.rotateY(Math.PI / 2);
         });
 
@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         carousel.add(engine2);
         carousel.add(engine3);
 
+        // Add nodes to root scene
         scene.add(carousel);
 
         //offset 100 since navbar

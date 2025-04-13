@@ -26,13 +26,16 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+// Get the CSRF token from the cookie for AJAX LOGIN, prevent CSRF error
 const csrftoken = getCookie('csrftoken');
 
+// Call the validateForm function when the document is ready - listen for the submit event
 $(document).ready(function () {
     console.log("Form.js loaded");
     validateForm();
 });
 
+// Check if either the user or pass input contains defined characters , if so alert and reject the auth
 function ReservedCharacters(obj) {
     if (obj.includes("root") || obj.includes("Root") || obj.includes("ROOT")
         || obj.includes("\\") || obj.includes("/") || obj.includes(":")
@@ -49,6 +52,7 @@ function validateForm() {
     //check if form is present
     let form = document.getElementById("login-form");
 
+    //When submit button is clicked validate the form and then run the submit handler for AJAX POST
     form.addEventListener("submit", function (event) {
         //prevent form from submitting
         event.preventDefault();
@@ -70,6 +74,7 @@ function validateForm() {
 
     //validate form
     $("#login-form").validate({
+        // Define the rules for validation
         rules: {
             username: {
                 required: true,
@@ -80,6 +85,7 @@ function validateForm() {
                 minlength: 4
             },
         },
+        // Define the error messages
         messages: {
             username: {
                 required: "Please enter your username",
@@ -91,15 +97,24 @@ function validateForm() {
             },
         },
         submitHandler: function (form) {
-            //submit the form
+            /* submit the form POST to serverside for authentication at /Login/, response.POST.data {
+                username,
+                password
+            } */
+
             $.ajax({
+                // Set the type of request to POST
+                // Set the URL to send the request to
+                // Set the headers to include the CSRF token
+                // Set the mode to same-origin to prevent CORS errors
+                // Set the data to send to the server
+                // Set the success and error functions to handle the response
                 type: "POST",
                 url: "/Login/",
                 headers: {
-                    "X-CSRFToken": csrftoken
+                    "X-CSRFToken": csrftoken // Prevent restricted error
                 },
                 mode: "same-origin",
-
                 data: {
                     username: $("#username").val(),
                     password: $("#password").val(),

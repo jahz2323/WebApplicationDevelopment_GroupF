@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import loader, Context
 from App.models import *
 from .models import UserProfile, Machinery, MachineryFault, MachineryWarning, Collection
-from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery
+from .APIs import PerformanceChart, Add_Machinery, delete_Machinery, update_Machinery, StatusChart
 from .forms import CustomUserForm
 
 from django.contrib.auth.forms import UserCreationForm
@@ -41,7 +41,13 @@ Export file, txt for groups of machinery or for individual
 """
 
 
-# Authors Jahziel Belmonte
+# Authors Jahziel Belmonte and Thomas
+# Dashboard
+# The dashboard is a dynamic page that displays different information based on the user's role
+# Manager, Technician, Repair
+# Managers can add, delete, and assign machinery to technicians, repair
+# Technicians and repair can see the machinery assigned to them
+
 def Dashboard(request):
     print("all groups that are present in the system", request.user.groups.all())
     print("user is authenticated", request.user.is_authenticated)
@@ -69,6 +75,7 @@ def Dashboard(request):
     print("is_technician:", is_technician)
     print("is_repair:", is_repair)
 
+    #Jahz
     if is_manager:
         print("User is a manager:", user.username)
         # Add logic for manager dashboard
@@ -86,6 +93,7 @@ def Dashboard(request):
         }
         return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
+    #Thomas
     elif is_technician:
         print("User is a technician:", user.username)
         # Add logic for technician dashboard
@@ -97,6 +105,7 @@ def Dashboard(request):
             'total_count': total_count,
         }
         return render(request, "../templates/DynamicPages/Dashboard.html", context)
+    #Thomas
     elif is_repair:
         print("User is a repair:", user.username)
         context = {
@@ -111,10 +120,8 @@ def Dashboard(request):
     else:
         # User is employee
         print("User has no group assigned")
-
     context = {}
-
-    return render(request, "../templates/StaticPages/About.html")
+    return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
 
 def Services(request):
@@ -152,6 +159,7 @@ def ProductCatalogue(request):
 
 
 # Login & Logout
+# Authors Jahziel Belmonte
 def Login(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -169,33 +177,11 @@ def Login(request):
                           {'error_message': 'Invalid username or password'})
     return render(request, "../templates/DynamicPages/Login.html")
 
-
+# Authors Jahziel Belmonte
+# Logout Function
 def Logout(request):
     logout(request)
     return render(request, "../templates/StaticPages/Homepage.html", {'success_message': 'Logout successful'})
-
-
-# Dashboard logic
-# def Dashboard(request):
-#     user = request.user
-#     is_manager = user.groups.filter(name="Managers").exists()
-#     is_technician = user.groups.filter(name="Technicians").exists()
-#     is_repair = user.groups.filter(name="Repair").exists()
-#     importance_levels = Machinery.objects.values_list('importance', flat=True).distinct().order_by('importance')
-#
-#     context = {
-#         "user": user,
-#         "is_manager": is_manager,
-#         "technicians": User.objects.filter(groups__name="Technicians"),
-#         "repairs": User.objects.filter(groups__name="Repair"),
-#         "importance": importance_levels,
-#         "machinery": Machinery.objects.all(),
-#         "machinery_faults": MachineryFault.objects.all(),
-#         "machinery_warnings": MachineryWarning.objects.all(),
-#         "collections": Collection.objects.all(),
-#     }
-#
-#     return render(request, "../templates/DynamicPages/Dashboard.html", context)
 
 
 # Authors Omkar
@@ -269,6 +255,7 @@ def MachineryList(request):
                 }
                 return render(request, "../templates/DynamicPages/MachineryList.html", context)
         else:
+            context = {}
             return render(request, "../templates/DynamicPages/MachineryList.html", context)
         # If the user is not authenticated, redirect to the login page
     return render(request, "../templates/DynamicPages/Login.html", {

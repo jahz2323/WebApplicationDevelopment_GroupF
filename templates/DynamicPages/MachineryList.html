@@ -39,9 +39,7 @@
                 </div>
             </div>
 
-            <!-- Machinery Cards -->
-            <div id="machinery-list">
-                {% if user.is_authenticated %}
+
                 <!-- Full-width horizontal scrolling wrapper -->
 <div class="container-fluid px-4">
     <div class="d-flex flex-row flex-nowrap overflow-auto gap-4 py-3" style="min-height: 380px;">
@@ -62,6 +60,7 @@
                 <form method="post" action="{% url 'FaultCaseDetails' machine.id %}" class="mt-auto">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-light w-100 mt-3">View More</button>
+
                 </form>
             </div>
         </div>

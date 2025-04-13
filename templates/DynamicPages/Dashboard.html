@@ -19,7 +19,10 @@ Thomas viard
     <script src="{% static 'js/jquery.validate.js' %}"></script>
 </head>
 <body>
+<!-- Needed a deduplicated navbar for the dashboard
+    Issues when left-menu z-index as it covers common nav
 
+-->
 <div class="nav sticky-top shadow gap-3">
     <nav class="navbar navbar-expand-md ">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNav"
@@ -32,45 +35,38 @@ Thomas viard
                 <li class="nav-item">
                     <img class="nav-img" src="{% static 'media/ACMELogo.png' %}" alt="Factory Tracking System"
                          style="height: 50px;">
-                    {# search form  #}
-                <li class="nav-item">
-                    <form class="d-flex" id="search-container" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                               name="q">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </li>
             </ul>
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                {# user profile  #}
+                {# user profile #}
                 <li class="nav-item">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-item-btn" type="button" id="userDropdown"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
                             {% if user.is_authenticated %}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FFFFFF"
-                                     class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                    <path fill-rule="evenodd"
-                                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                                </svg>
-                                {{ user.username }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FFFFFF"
+                                 class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            </svg>
+                            {{ user.username }}
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item" href="{% url "App" %}">Homepage</a>
+                                <a class="dropdown-item" href="{% url 'App' %}">Homepage</a>
                             </li>
                             <hr class="dropdown-divider">
                             {% if user.is_authenticated %}
-                                <li><a class="dropdown-item" href="{% url 'Dashboard' %}">My Dashboard</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="{% url 'Logout' %}">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Dashboard' %}">My Dashboard</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'Logout' %}">Logout</a></li>
                             {% else %}
-                                <li><a class="dropdown-item" href="{% url 'Login' %}">Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'Login' %}">Login</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -85,11 +81,11 @@ Thomas viard
 
 <div id="main-content">
     <div id="container">
-        <div class="row mx-auto border-bottom d-flex ">
+        <div class="row mx-auto border-bottom p-10 mt-5 d-flex ">
             <div class="col-8">
                 {# Container for ChartJS #}
                 <div class="container bg-white text-dark" id="chartjs-canvas">
-                    <h2>Machine Performance</h2>
+                    <h2>Machine Downtime for status : FAULT</h2>
                     <canvas id="downtimechart" width="1000" height="400">
 
                     </canvas>
@@ -106,6 +102,26 @@ Thomas viard
                     </ul>
                 </div>
             </div>
+            <div class="col-8  p-10 mt-5 d-flex ">
+                {# Container for ChartJS #}
+                <div class="container bg-white text-dark" id="status-canvas">
+                    <h2>Status chart : </h2>
+                    <canvas id="status-chart" width="1000" height="400">
+
+                    </canvas>
+                </div>
+            </div>
+            <div class="col">
+                {# Container Legend for ChartJs #}
+                <div class="dropdown" id="status-legend">
+                    <h2>Legend</h2>
+                    {# for items in machinery_fault objects #}
+                    {# display id in items as label, list, different color for each #}
+                    <ul id="status-list">
+
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="row mx-auto">
             <div class="col-2">
@@ -114,103 +130,107 @@ Thomas viard
             <div class="col-4">
                 <!-- Manager based view, just using admin atm change to is_manager -->
                 {% if is_manager %}
-                    <h2>Manager view</h2>
-                    {# Container for most common fault Machinery #}
-                    <div class="container mx-auto flex-end column left-20px " style="width: 500px;">
-                        <h3>Add machinery</h3>
-                        <!-- form to add machines -->
-                        <form id="add-machine-form" method="post"
-                              action="{% url 'Add_Machinery' %}">
-                            {% csrf_token %}
-                            <label for="machine_name">Machine Name:</label>
-                            <input type="text" id="machine_name" name="machine_name" required>
-                            <br>
-                            <label for="description">Description:</label>
-                            <input type="text" id="description" name="description" required>
-                            <br>
-                            <label for="status">status:</label>
-                            <select id="status" name="status">
-                                <option value="OK">OK</option>
-                                <option value="WARNING">WARNING</option>
-                                <option value="FAULT">FAULT</option>
-                            </select>
-                            <br>
-                            <label for="Importance">Importance:</label>
-                            {% for imp in importance %}
-                                <input type="radio" id="Importance" name="Importance"
-                                       value="{{ imp }}">
-                                <label for="Importance">{{ imp }}</label>
-                            {% endfor %}
-                            <br>
-                            <label for="assigned-technicians"> assigned-technicians: </label>
-                            <br>
-                            {% for tech in technicians %}
-                                <input type="checkbox" id="assigned-technicians" name="assigned-technicians"
-                                       value="{{ tech.id }}">
-                                <label for="assigned-technicians">{{ tech.username }}</label> <br>
-                            {% endfor %}
-                            <br>
-                            <label for="assigned-repair"> assigned-repair: </label>
-                            <br>
-                            {% for rep in repairs %}
-                                <input type="checkbox" id="assigned-repair" name="assigned-repair"
-                                       value="{{ rep.id }}">
-                                <label for="assigned-repair">{{ rep.username }}</label> <br>
-                            {% endfor %}
-                            <br>
-                            <label for="collections-{{ col.id }}">Collections:</label>
-                            <br>
-                            {% for col in collections %}
-                                <input type="checkbox" id="collections-{{ col.id }}" name="collections"
-                                       value="{{ col.id }}">
-                                <label for="collections-{{ col.id }}">{{ col.name }}</label><br>
-                            {% endfor %}
-                            <br>
-                             <hr>
-                            <button type="submit" class="btn btn-primary">Add Machine</button>
-                        </form>
-                    </div>
-                    <div class="container border-top border-bottom mx-auto flex-end column left-20px "
-                         style="width: 500px;">
-                        <h2>Delete Machinery</h2>
-                        <form id="delete-machine-form" method="post">
-                            {% csrf_token %}
-                            {% for machine in machinery %}
-                                <input type="checkbox" id="delete-machine-{{ machine.id }}" name="delete-machine"
-                                       value="{{ machine.id }}">
-                                <label for="delete-machine-{{ machine.id }}">{{ machine.name }}</label><br>
-                            {% endfor %}
-                             <hr>
-                            <button type="submit" class="btn btn-danger">Delete Machine</button>
-                        </form>
+                <h2>Manager view</h2>
+                {# Container for most common fault Machinery #}
+                <div class="container mx-auto flex-end column left-20px " style="width: 500px;">
+                    <h3>Add machinery</h3>
+                    <!-- form to add machines -->
+                    <form id="add-machine-form" method="post"
+                          action="{% url 'Add_Machinery' %}">
+                        {% csrf_token %}
+                        <label for="machine_name">Machine Name:</label>
+                        <input type="text" id="machine_name" name="machine_name" required>
                         <br>
-
-                    </div>
-                    <div class="container border-top border-bottom mx-auto flex-end column left-20px"
-                         style="width: 500px;">
-                        <h2>File Reports: Machinery</h2>
-                        <form id="update-machine-form" method="post">
-                            {% csrf_token %}
-                            {% for machine in machinery %}
-                                <input type="checkbox" id="update-machine-{{ machine.id }}" name="update-machine"
-                                       value="{{ machine.id }}">
-                                <label for="update-machine-{{ machine.id }}">{{ machine.name }}</label> <br>
-                            {% endfor %}
-                            <br>
-                            <label for="file-report"> File Report: </label>
-                            <input type="text" id="text-box" name="text-box"
-                                   placeholder="Type report here">
+                        <label for="description">Description:</label>
+                        <input type="text" id="description" name="description" required>
+                        <br>
+                        <label for="status">status:</label>
+                        <select id="status" name="status">
+                            <option value="OK">OK</option>
+                            <option value="WARNING">WARNING</option>
+                            <option value="FAULT">FAULT</option>
+                        </select>
+                        <br>
+                        <label for="Importance">Importance:</label>
+                        {% for imp in importance %}
+                        <input type="radio" id="Importance" name="Importance"
+                               value="{{ imp }}">
+                        <label for="Importance">{{ imp }}</label>
+                        {% endfor %}
+                        <br>
+                        <label for="assigned-technicians"> assigned-technicians: </label>
+                        <br>
+                        {% for tech in technicians %}
+                        <input type="checkbox" id="assigned-technicians" name="assigned-technicians"
+                               value="{{ tech.id }}">
+                        <label for="assigned-technicians">{{ tech.username }}</label> <br>
+                        {% endfor %}
+                        <br>
+                        <label for="assigned-repair"> assigned-repair: </label>
+                        <br>
+                        {% for rep in repairs %}
+                        <input type="checkbox" id="assigned-repair" name="assigned-repair"
+                               value="{{ rep.id }}">
+                        <label for="assigned-repair">{{ rep.username }}</label> <br>
+                        {% endfor %}
+                        <br>
+                        <label for="collections-{{ col.id }}">Collections:</label>
+                        <br>
+                        {% for col in collections %}
+                        <input type="checkbox" id="collections-{{ col.id }}" name="collections"
+                               value="{{ col.id }}">
+                        <label for="collections-{{ col.id }}">{{ col.name }}</label><br>
+                        {% endfor %}
                         <br>
                         <hr>
-                            <button type="submit" class="btn btn-warning">Update Machine</button>
-                        </form>
+                        <button type="submit" class="btn btn-primary">Add Machine</button>
+                    </form>
+                </div>
+                <div class="container border-top border-bottom mx-auto flex-end column left-20px "
+                     style="width: 500px;">
+                    <h2>Delete Machinery</h2>
+                    <form id="delete-machine-form" method="post">
+                        {% csrf_token %}
+                        {% for machine in machinery %}
+                        <input type="checkbox" id="delete-machine-{{ machine.id }}" name="delete-machine"
+                               value="{{ machine.id }}">
+                        <label for="delete-machine-{{ machine.id }}">{{ machine.name }}</label><br>
+                        {% endfor %}
+                        <hr>
+                        <button type="submit" class="btn btn-danger">Delete Machine</button>
+                    </form>
+                    <br>
+
+                </div>
+                <div class="container border-top border-bottom mx-auto flex-end column left-20px"
+                     style="width: 500px;">
+                    <h2>File Reports: Machinery</h2>
+                    <form id="update-machine-form" method="post">
+                        {% csrf_token %}
+                        {% for machine in machinery %}
+                        <input type="checkbox" id="update-machine-{{ machine.id }}" name="update-machine"
+                               value="{{ machine.id }}">
+                        <label for="update-machine-{{ machine.id }}">{{ machine.name }}</label> <br>
+                        {% endfor %}
                         <br>
-                    </div>
-                    <div class="container ">
-                        {# Manager dashboard summary of current status #}
+                        <label for="file-report"> File Report: </label>
+                        <input type="text" id="text-box" name="text-box"
+                               placeholder="Type report here">
+                        <br>
+                        <hr>
+                        <button type="submit" class="btn btn-warning">Update Machine</button>
+                    </form>
+                    <br>
+                </div>
+                <div class="container ">
+                    {# Manager dashboard summary of current status #}
 
-                    </div>
-
+                </div>
+                {% else %}
+                <div class="col-4">
+                    <h2>Assigned Machines STATUS:</h2>
+                    {# Container Scrollable for machinery summary #}
+                </div>
                 {% elif is_technician or is_repair %}
                     <div class="col-12">
                         <h2 class="mb-16">My Assigned Machines ({{ ok_count }}/{{ total_count }} OK)</h2>
@@ -267,8 +287,9 @@ Thomas viard
                 {% endif %}
             </div>
         </div>
+    </div>
+</div>
 
-
-        {% include 'common/footer.html' %}
+{% include 'common/footer.html' %}
 </body>
 </html>

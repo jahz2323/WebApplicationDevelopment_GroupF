@@ -11,6 +11,7 @@ urlpatterns = [
     path("ProductCatalogue", views.ProductCatalogue, name="ProductCatalogue"),
     path("Login/", views.Login, name="Login"),
     path("Logout/", views.Logout, name="Logout"),
+    path("Dashboard/StatusChart/", views.StatusChart, name="StatusChart"),
     path("Dashboard/PerformanceChart/", views.PerformanceChart, name="PerformanceChart"),
     path("Dashboard/Add_Machinery/", views.Add_Machinery, name="Add_Machinery"),
     path("Dashboard/delete_Machinery/", views.delete_Machinery, name="delete_Machinery"),

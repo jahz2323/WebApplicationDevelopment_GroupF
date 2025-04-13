@@ -1,11 +1,14 @@
 {% load static %}
 
 <!-- reference to bootstrap css footer template-->
+<!--
+    https://getbootstrap.com/docs/5.1/examples/footers/
+-->
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 <footer>
-    <div class="container">
+    <div class="container border-top">
         <div class="footer-content">
-            <div class="footer-logo">
+            <div class="footer-logo text-center pd-3 pt-3">
                 <img src="{% static 'media/ACMELogo.png' %}" alt="Factory Tracking System" style="height: 100px;">
                 <div class="social-icons">
                     <a href="#">f</a>
@@ -13,14 +16,16 @@
                     <a href="#">tw</a>
                 </div>
             </div>
-            <div class="footer-links">
+            <div class="footer-links pt-3">
                 <ul>
                     <li><a href="{% url 'Contact' %}" class="nav-link px-2">Contact</a></li>
                 </ul>
+
             </div>
         </div>
         <div class="footer-bottom">
             <p>© 2025 Factory Machinery Tracking System. All Rights Reserved.</p>
+
         </div>
     </div>
 </footer>
