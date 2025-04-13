@@ -1,8 +1,19 @@
+# Authors
+# Thomas viard
+
+# This custom management command sets up the user groups and permissions for the application.
+# It creates three main user groups (Technicians, Repair, Managers) and assigns specific
+# permissions to each group. These permissions control what actions users in each group
+# can perform within the application, such as viewing machinery, creating fault reports,
+# resolving issues, or managing users.
+#
+# The command can be run manually with: python manage.py setup_groups
+# It's also automatically executed during container initialization in docker_entrypoint.sh
+
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from App.models import Machinery, MachineryFault
-
 
 class Command(BaseCommand):
     help = 'Create necessary groups and permissions for the system'

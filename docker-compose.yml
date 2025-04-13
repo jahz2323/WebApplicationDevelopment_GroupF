@@ -1,3 +1,11 @@
+# Authors
+# Thomas viard
+
+# This docker-compose file defines the containerized environment for the application.
+# It sets up a Django container with appropriate volumes for persistent storage,
+# port mapping (8000:8000), and environment variables.
+# The container uses the docker_entrypoint.sh script to initialize the database
+# and start the development server.
 services:
   django:
     image: webapp-image:latest

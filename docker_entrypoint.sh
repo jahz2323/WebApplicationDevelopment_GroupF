@@ -1,5 +1,16 @@
 #!/bin/sh
 
+# Authors
+# Thomas viard
+
+# This entrypoint script is executed when the Docker container starts.
+# It handles database initialization, migrations, and loading sample data.
+# The script performs the following operations:
+# 1. Runs database migrations
+# 2. Sets up user groups and permissions
+# 3. Loads fixture data if the database doesn't exist
+# 4. Starts the Django development server
+
 set -ex
 
 # Move to application directory

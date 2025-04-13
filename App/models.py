@@ -5,6 +5,9 @@ from django.utils.text import slugify
 from django.db import models
 from django.contrib.auth.models import User
 
+# Authors
+# Jahziel Belmonte,
+# Thomas viard
 
 User = get_user_model()
 
