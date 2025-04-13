@@ -45,8 +45,8 @@ had done manually [Without Docker](#without-docker)
 NB. **_"admin"_** user password is **_"admin"_**, every other sample users has **_"project123"_**
 
 
-#Common errors: Guide to fix
-Directory already made 
+## Common errors: Guide to fix
+# Directory already made 
 
 ![image](https://github.com/user-attachments/assets/7e2a0f7e-bbc9-41f8-9029-4507beb46088)
 
