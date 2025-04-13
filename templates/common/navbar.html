@@ -15,7 +15,11 @@
     <div class="container-fluid custom-container bg-dark text-bg-light">
         <nav class=" navbar navbar-expand-lg d-flex justify-content-between align-items-center border-bottom border-light">
             <div class="d-flex align-items-center gap-3">
-                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse"
+                <!-- Set as bg-light as style conflict with other buttons-->
+                <!-- navbar toggler button for mobile view / smaller viewports will hide the list nav items and instead
+                show a hamburger icon to toggle the menu -->
+
+                <button class="navbar-toggler me-2 bg-light" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarContent"
                         aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -77,6 +81,7 @@
                     </svg>
                 </div>
 
+                <!-- Navigation links for the general user -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
                     <ul class="navbar-nav">
                             <li><a href="{% url 'App' %}" class="nav-link px-2">Home</a></li>
@@ -87,23 +92,16 @@
                     </ul>
                 </div>
 
+                <!-- container for the search bar and user login dropdown -->
                 <div class="d-flex justify-content-end align-items-center gap-3">
-                    <!-- Search Form -->
-                    <form class="d-flex">
-                        <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Search for Products"
-                                   aria-label="Search">
-                            <button type="button" class="btn search-btn px-3 ">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
+
 
                     <!-- Icon for User login -->
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-item-btn" type="button" id="userDropdown"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
+                            <!-- if the user is authenticated, show their username and icon -->
                             {% if user.is_authenticated %}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FFFFFF"
                                      class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -116,6 +114,9 @@
                             <span> Login here!</span>
                             {% endif %}
                         </button>
+                        <!-- Dropdown menu for user login -->
+                        <!-- if the user is authenticated, show the dashboard and logout -->
+                        <!-- else show login button -->
                         <ul class="dropdown-menu dropdown-menu-end bg-dark color-light justify-centre" aria-labelledby="userDropdown">
                             {% if user.is_authenticated %}
                                 <span class="username" style="color: var(--text-color)">{{ user.username }}</span>

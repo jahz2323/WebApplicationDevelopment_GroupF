@@ -117,39 +117,5 @@ body {
     padding-left: 15px;
 }
 
-@media only screen and (max-width: 992px) {
-    #left-menu,
-    #logo {
-        width: 60px;
-    }
-
-    #page-container,
-    #header .header-left {
-        padding-left: 0px;
-    }
-
-    #toggle-left-menu, .big-logo {
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 992px) {
-    #left-menu li.has-sub::after {
-        position: absolute;
-        top: 10px;
-        right: 2px;
-        cursor: pointer;
-        transform: rotate(0deg);
-        -webkit-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-    }
-
-    #left-menu li.has-sub.rotate:after {
-        -webkit-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
-    }
 
 }
