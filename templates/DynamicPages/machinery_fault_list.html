@@ -1,5 +1,7 @@
 {% extends "DynamicPages/base.html" %}
 
+{% block title %}Faults for {{ machinery.name }}{% endblock %}
+
 {% block content %}
 <div class="container mt-5 mb-5">
     <h2 class="mb-3">⚙️ Fault Cases for <span class="text-primary">{{ machinery.name }}</span></h2>
