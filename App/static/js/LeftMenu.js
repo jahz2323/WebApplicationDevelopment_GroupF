@@ -40,7 +40,7 @@ $(document).ready(function () {
     //set boolean arg depending on the mouse position
     $(document).on('mousemove', function (e) {
         // Check if mouse is on the left side of the screen
-        console.log("PageX", e.pageX);
+        // console.log("PageX", e.pageX); //For debugging
         if (e.pageX < 170) {
             if (!isMenuVisible) {
 

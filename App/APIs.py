@@ -29,6 +29,46 @@ def get_machinery_status():
         status_list.append(machine.status, machine.name)
     return status_list
 
+#Author - Jahziel Belmonte
+"""
+get status of all machineries
+place in 3 arrays 
+OK
+WARNING 
+FAULT
+- get all objects from the database
+- check the status of each object
+- append to the array
+- return the array
+"""
+def StatusChart(request):
+    # get all objects from the database
+    Machinery_objects = Machinery.objects.all()
+    if request.method == "GET":
+        # create 3 arrays
+        OK = []
+        WARNING = []
+        FAULT = []
+
+        for machinery in Machinery_objects:
+            # check the status of each object
+            if machinery.status == "OK":
+                OK.append(machinery.name)
+            elif machinery.status == "WARNING":
+                WARNING.append(machinery.name)
+            elif machinery.status == "FAULT":
+                FAULT.append(machinery.name)
+
+        # return the array
+        response = {
+            'OK': OK,
+            'WARNING': WARNING,
+            'FAULT': FAULT
+        }
+        return JsonResponse(response, safe=True)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 # // Author Jahziel Belmonte
 def PerformanceChart(request):
@@ -83,7 +123,7 @@ def calculate_downtime(created_at, now_time):
     """
     return math.floor((now_time - created_at).total_seconds() / 3600)  # convert to hours
 
-
+# // Author Jahziel Belmonte
 def Add_Machinery(request):
     print("Add_Machinery view accessed")
     # Check if the name of object is already in the database
@@ -136,7 +176,7 @@ def Add_Machinery(request):
             print("Machinery added successfully")
             return JsonResponse({'success': 'Machinery added successfully'}, status=200)
 
-
+# // Author Jahziel Belmonte
 def delete_Machinery(request):
     print("delete_Machinery view accessed")
 
@@ -194,13 +234,13 @@ def update_Machinery(request):
         # Join the report list to create a single string
         report_content = "\n".join(report)
 
-        #Join to the media folder
+        #Join to the media folder docker: app/App/static/media
         media_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'media')
         os.makedirs(media_dir, exist_ok=True) #check if the directory exists, if not create it
         # Create a file nae and path to save the report
         # Export a new file containing the report data, save in static folder
         file_name = f"machinery_report_{now.strftime('%Y%m%d_%H%M%S')}.txt"
-        file_path = os.path.join(media_dir, file_name)
+        file_path = os.path.join(media_dir, file_name) # complete file path app/App/static/media/machinery_report_20231001_123456.txt
 
         with open(file_path, 'w') as file:
             file.write(report_content)

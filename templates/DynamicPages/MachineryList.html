@@ -48,10 +48,11 @@
                 <!-- Machinery list will be populated here -->
                 {% if user.is_authenticated %}
                 {% for machine in machinery_list %}
-                <form class="machine-form" method="post" action="">
+                <form class="machine-form" method="post" action="{% url 'FaultCaseDetails' machine.id %}">
                     {% csrf_token %}
                     <div class="machine-item">
                         <h2>{{ machine.name }}</h2>
+                        <p>{{ machine.id }} </p>
                         <p>Status: {{ machine.status }}</p>
                         <p>Importance: {{ machine.importance }}</p>
                         <p> Machine Collection :
