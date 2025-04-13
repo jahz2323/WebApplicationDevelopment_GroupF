@@ -1,5 +1,18 @@
 {% extends "DynamicPages/base.html" %}
 
+{#
+Authors
+Thomas viard
+
+This template provides a form for users to report new machinery faults.
+It allows technicians to submit fault details including:
+- Title of the fault
+- Detailed description of the issue
+- Optional image upload for visual documentation
+
+The form is only accessible to users with the 'create_fault' permission (Technicians).
+#}
+
 {% block title %}Faults for {{ machinery.name }}{% endblock %}
 
 {% block content %}
