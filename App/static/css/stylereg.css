@@ -1,90 +1,119 @@
-body {
-    background-color: #121212;
-    color: #e0e0e0;
+/* 
+ Global Dark Theme Styles
+    */
+   body {
+    background-color: #121212;  /* Dark background for the entire page */
+    color: #e0e0e0;              /* Light text for good contrast */
 }
 
+/* 
+ Common Text Elements Styling
+    */
 .form-label,
 .nav-link,
 .card,
 .form-check-label,
 .breadcrumb-item a {
-    color: #e0e0e0 !important;
+    color: #e0e0e0 !important;  /* Force light text color across forms, cards, navs, breadcrumbs */
 }
 
+/* 
+ Input Fields & Dropdowns
+    */
 .form-control,
 .form-select {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    color: #e0e0e0;
+    background-color: #1e1e1e;   /* Dark background inside input boxes */
+    border: 1px solid #333;      /* Subtle border */
+    color: #e0e0e0;              /* Light text inside input fields */
 }
 
+/* Placeholder text styling for better readability */
 .form-control::placeholder {
     color: #aaa;
 }
 
+/* Highlight inputs on focus with a blue outline */
 .form-control:focus,
 .form-select:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
+/* 
+ Button Styling
+    */
 .btn-primary {
-    background-color: #007bff;
+    background-color: #007bff;  /* Bright blue primary button */
     border: none;
 }
 
 .btn-secondary {
-    background-color: #6c757d;
+    background-color: #6c757d;  /* Gray secondary button */
     border: none;
 }
 
 .btn-success {
-    background-color: #28a745;
+    background-color: #28a745;  /* Green success button */
     border: none;
 }
 
+/* 
+    Card Styling
+    */
 .card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
+    background-color: #1e1e1e;  /* Slightly lighter dark background for cards */
+    border: 1px solid #333;     /* Subtle border */
 }
 
+/* Card header with distinct background and border */
 .card-header {
     background-color: #212529;
     border-bottom: 1px solid #333;
 }
 
+/* 
+ Nav Tabs Active State
+    */
 .nav-pills .nav-link.active {
-    background-color: #0d6efd;
+    background-color: #0d6efd; /* Blue tab when selected */
     color: white;
 }
 
+/* Breadcrumb arrow divider color */
 .breadcrumb-item + .breadcrumb-item::before {
     color: #ccc;
 }
 
-/* ✅ Role Cards Styling */
+/* 
+    Role Cards (used in registration page)
+    */
 .role-card {
     border: 1px solid #555;
     background-color: #2c2c2c;
     color: #ddd;
     transition: all 0.3s ease-in-out;
-    height: 100%;
-    cursor: pointer;
+    height: 100%;               /* Makes all cards equal height */
+    cursor: pointer;            /* Shows pointer cursor on hover */
 }
 
+/* Hover effect for role cards */
 .role-card:hover {
-    border-color: #007bff;
-    transform: translateY(-5px);
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    border-color: #007bff;      /* Blue border on hover */
+    transform: translateY(-5px); /* Slight pop effect */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);  /* Soft blue glow */
 }
 
+/* Visually highlight the selected role */
 .role-card.selected {
     border: 2px solid #0d6efd !important;
     background-color: #343a40;
     box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
 }
 
-input:invalid, select:invalid {
-    border-color: #dc3545 !important;
-  }
-  
+/* 
+    Red Border for Invalid Inputs
+    */
+input:invalid,
+select:invalid {
+    border-color: #dc3545 !important;  /* Red border for invalid fields */
+}
