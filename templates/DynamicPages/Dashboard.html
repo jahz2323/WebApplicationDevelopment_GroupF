@@ -226,11 +226,7 @@ Thomas viard
                     {# Manager dashboard summary of current status #}
 
                 </div>
-                {% else %}
-                <div class="col-4">
-                    <h2>Assigned Machines STATUS:</h2>
-                    {# Container Scrollable for machinery summary #}
-                </div>
+
                 {% elif is_technician or is_repair %}
                     <div class="col-12">
                         <h2 class="mb-16">My Assigned Machines ({{ ok_count }}/{{ total_count }} OK)</h2>
