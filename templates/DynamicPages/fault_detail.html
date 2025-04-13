@@ -93,7 +93,7 @@
         <hr class="mt-4 mb-3">
         <h5>📸 Uploaded Images</h5>
         <div class="row">
-            {% for image in fault.images.all.reverse %}
+            {% for image in fault.images.all|reverse %}
                 <div class="col-md-4 mb-3">
                     <img src="{{ image.image.url }}" alt="Fault Image" class="img-fluid rounded shadow-sm">
                     <p class="text-muted mt-1 small">Uploaded by {{ image.uploaded_by.username }}</p>
