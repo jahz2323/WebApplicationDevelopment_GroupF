@@ -280,7 +280,7 @@ def FaultCaseDetails(request, machinery_id):
             'fault_cases': fault_cases,
             'user': user,
         }
-        return render(request, "../templates/DynamicPages/FaultCase.html", context)
+        return render(request, "../templates/DynamicPages/fault_detail.html", context)
     else:
         context = {}
         return render(request, "../templates/DynamicPages/Login.html", {
